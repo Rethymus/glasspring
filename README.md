@@ -6,9 +6,9 @@
 
 > Public source preview; not ready for a stable release. See the [current evidence and release gates](docs/RELEASE-GATES.md).
 
-## Coffee storefront example
+## Standalone coffee storefront preview
 
-This fictional storefront demonstrates a local shopping-bag interaction; it does not place orders or take payments.
+This fictional storefront is an independently authored visual demo, separate from the try prompt below and the public pilot protocol. It demonstrates local shopping-bag state only; it does not place orders or take payments. It is not a Glasspring run or evaluation result.
 
 <p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page</p>
 

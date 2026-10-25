@@ -6,9 +6,9 @@
 
 > 当前为公开源码预览，尚未达到稳定版发布条件。详见[当前证据与发布门槛](docs/RELEASE-GATES.md)。
 
-## 咖啡售卖页示例
+## 独立咖啡售卖页预览
 
-这个虚构咖啡售卖页展示了本地购物袋交互，不会下单或收款。
+这个虚构页面是独立制作的视觉示例，与下方试用提示词和公开试点协议分开。它只展示本地购物袋状态，不会下单或收款；不是 Glasspring 运行产物或评测结果。
 
 <p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>桌面页面</p>
 
