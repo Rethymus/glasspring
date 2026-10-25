@@ -6,6 +6,27 @@ Glasspring 是用于设计和评审响应式网页界面的 Agent Skill。它会
 
 > **截至 2026-10-25 的状态：公开源码预览版；稳定发行门槛为 NO-GO。** 文件复制检查已通过；隐私审查仅覆盖部分范围；全新宿主中的发现行为、独立效果评测和第三方权利清查尚未完成。详见[发布门槛](docs/RELEASE-GATES.md)。
 
+## 咖啡售卖页预览
+
+仓库包含一个根据公开咖啡店试点 brief 制作、可在本地运行的示意页面。下方截图来自本地浏览器渲染，并非 Glasspring 评测运行的产物，也不能证明宿主发现了 skill、实际调用了 skill 或完成了任务。
+
+![Morrow Coffee 示意页面的完整桌面截图](examples/coffee-storefront/assets/preview-desktop.png)
+
+<details>
+<summary>手机布局与本地购物袋交互</summary>
+
+<p><img src="examples/coffee-storefront/assets/preview-mobile.png" width="320" alt="Morrow Coffee 示意页面的完整手机截图"></p>
+<p><img src="examples/coffee-storefront/assets/preview-bag-open.png" width="100%" alt="打开购物袋，显示一袋 House Blend 和 18 美元小计"></p>
+</details>
+
+品牌、商品、文案、价格和图片均为虚构内容。购物袋只更新页面本地状态，不会下单或收款。在仓库根目录运行：
+
+```sh
+python -m http.server 8000 --directory examples/coffee-storefront
+```
+
+然后打开 `http://127.0.0.1:8000/`。页面来源与证据边界见[示例说明](examples/coffee-storefront/README.md)。
+
 ## 工作方式
 
 1. 先选择任务类型：新预览、整体重设计、微改动或仅评审。
@@ -66,8 +87,8 @@ python skills/glasspring/scripts/probe_render.py http://127.0.0.1:8000/preview.h
 | 安装目录与文件复制检查 | 截至 2026-10-25，在 Windows、macOS、Linux CI 中为 `PASS`；未覆盖宿主行为 |
 | 最近一次有记录的完整样本套件 | `FAIL`：16 行中 12 项 `PASS`、1 项真实对比度 `FAIL`、1 项预期负向对照、2 项网络依赖导致的 `SKIP`；总退出码为 1。样本未包含在仓库中，无法从本仓库重现该次运行 |
 | 独立效果评测 | `NOT_RUN`；公开的 brief 是试点，不是隐藏留出集 |
-| 全新宿主中的发现行为与任务表现 | `NOT_RUN` |
-| 项目隐私审查 | `PARTIAL`：对 78 个受跟踪文本文件进行启发式扫描，未发现常见密钥或本地路径模式；未运行专用扫描器，也未完成二进制文件和 Git 历史的全面审查 |
+| 全新会话宿主检查 | `PARTIAL`：一个隔离的 Codex 会话列出了 skill 元数据（`PASS`）；本机执行策略阻止读取安装后的文件，因此文件读取与任务表现为 `UNKNOWN`；Claude Code 的发现与任务表现均为 `NOT_RUN` |
+| 项目隐私审查 | `PARTIAL`：对已发布快照的 78 个受跟踪文本文件进行启发式扫描，未发现常见密钥或本地路径模式；新增的虚构示例与截图另行人工检查。未运行专用扫描器，也未完成二进制文件和 Git 历史的全面审查 |
 | 来源与第三方权利审查 | `BLOCKED` |
 
 目前没有证据证明设计质量得到提升、支持所有智能体或完全符合 WCAG。根目录 MIT 许可证只适用于贡献者有权授权的内容，不能自动清除第三方文字、代码、截图或素材的授权问题。详见[评测说明](docs/EVALUATION.md)、[发布门槛](docs/RELEASE-GATES.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。
@@ -80,6 +101,7 @@ python skills/glasspring/scripts/probe_render.py http://127.0.0.1:8000/preview.h
 | `skills/glasspring/references/` | 静态领域、风格、平台、类型和令牌指导 |
 | `skills/glasspring/scripts/` | 安装器、定向检查、截图和浏览器探针 |
 | `skills/glasspring/assets/` | 说明模板、评审量表和视觉参考 |
+| `examples/coffee-storefront/` | 虚构的本地咖啡售卖页与桌面、手机预览截图 |
 | `tests/` | 针对部分失败边界的自动回归检查 |
 | `evals/protocol.json` | 尚未执行的比较协议 |
 | `docs/` | 架构、评测、来源和发布状态 |

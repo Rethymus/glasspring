@@ -6,6 +6,27 @@ Glasspring is an agent skill for designing and reviewing responsive web interfac
 
 > **Status as of 2026-10-25: public source preview; stable release is NO-GO.** File-copy checks pass; the privacy scan is partial; fresh-host discovery, an independent efficacy study, and third-party rights clearance are not complete. See [release gates](docs/RELEASE-GATES.md).
 
+## Coffee storefront preview
+
+The repository includes a runnable, illustrative storefront based on the public coffee-shop pilot brief. The screenshots below show the page as rendered locally; they are not output from a Glasspring evaluation run and do not prove host discovery, skill invocation, or task behavior.
+
+![Full-page desktop screenshot of the illustrative Morrow Coffee storefront](examples/coffee-storefront/assets/preview-desktop.png)
+
+<details>
+<summary>Mobile layout and local bag interaction</summary>
+
+<p><img src="examples/coffee-storefront/assets/preview-mobile.png" width="320" alt="Full-page mobile screenshot of the illustrative Morrow Coffee storefront"></p>
+<p><img src="examples/coffee-storefront/assets/preview-bag-open.png" width="100%" alt="The demo bag open with House Blend and an 18 dollar subtotal"></p>
+</details>
+
+The brand, products, copy, prices, and images are fictional. The bag only changes local page state; it does not place orders or collect payment. To run the example from the repository root:
+
+```sh
+python -m http.server 8000 --directory examples/coffee-storefront
+```
+
+Then open `http://127.0.0.1:8000/`. See the [example notes](examples/coffee-storefront/README.md) for its source and evidence boundaries.
+
 ## How it works
 
 1. Choose the task mode: new preview, full restyle, small edit, or review only.
@@ -68,8 +89,8 @@ python skills/glasspring/scripts/probe_render.py http://127.0.0.1:8000/preview.h
 | Installer layout and file copy checks | `PASS` in CI on Windows, macOS, and Linux as of 2026-10-25; host behavior is not covered |
 | Last recorded full sample suite | `FAIL`: 12 `PASS`, 1 real contrast `FAIL`, 1 expected negative control, and 2 network dependent `SKIP` across 16 rows; aggregate exit code 1. Sample payloads are not included, so this run is not reproducible from this repository |
 | Independent efficacy comparison | `NOT_RUN`; the public prompts are a pilot, not a hidden holdout |
-| Fresh-host discovery and task behavior | `NOT_RUN` |
-| First-party privacy scan | `PARTIAL`: a heuristic scan of 78 tracked text files found no common secret or local-path patterns; no dedicated scanner or complete binary/history review was run |
+| Fresh-session host check | `PARTIAL`: one isolated Codex session listed skill metadata (`PASS`); installed-file reading and task behavior are `UNKNOWN` because a local execution policy blocked the read; Claude Code discovery and task behavior are `NOT_RUN` |
+| First-party privacy scan | `PARTIAL`: a heuristic scan of the published snapshot's 78 tracked text files found no common secret or local-path patterns; the new fictional demo and captured screenshots were reviewed separately. No dedicated scanner or complete binary/history review was run |
 | Rights and attribution review | `BLOCKED` |
 
 No claim of improved design quality, support for every agent, or full WCAG conformance is established. The root MIT license applies only to material contributors may license; it does not clear third-party prose, code, screenshots, or assets. See [evaluation notes](docs/EVALUATION.md), [release gates](docs/RELEASE-GATES.md), and [third-party notices](THIRD_PARTY_NOTICES.md).
@@ -82,6 +103,7 @@ No claim of improved design quality, support for every agent, or full WCAG confo
 | `skills/glasspring/references/` | Static domain, style, platform, type, and token guidance |
 | `skills/glasspring/scripts/` | Installer, selected checks, screenshots, and browser probes |
 | `skills/glasspring/assets/` | Notes template, rubric, and visual references |
+| `examples/coffee-storefront/` | Fictional, locally runnable coffee storefront and captured desktop/mobile previews |
 | `tests/` | Automated regressions for selected failure boundaries |
 | `evals/protocol.json` | Unexecuted comparison protocol |
 | `docs/` | Architecture, evaluation, provenance, and release status |

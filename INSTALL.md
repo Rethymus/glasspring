@@ -17,13 +17,14 @@ After installing, start a new host session in the project. Confirm the skill is 
 
 | Host / environment | File-copy test | Fresh-session discovery | Task behavior |
 |---|---|---|---|
-| Codex and Claude Code directory layouts, Windows | Passed locally and in CI | Not run | Not run |
-| Codex and Claude Code directory layouts, macOS and Linux | Passed in CI on the current published snapshot | Not run | Not run |
-| Cursor, ZCode, and other hosts | Not run | Not run | Not run |
+| Codex project, Windows, one isolated fresh session | Passed | `PASS`: skill metadata appeared in the host list | `UNKNOWN`: a local execution policy blocked reading the installed skill file; no task output was produced |
+| Claude Code project, Windows | Passed locally and in CI | `NOT_RUN`: no authenticated fresh session | `NOT_RUN` |
+| Codex and Claude Code directory layouts, macOS and Linux | Passed in CI on the current published snapshot | `NOT_RUN` | `NOT_RUN` |
+| Cursor, ZCode, and other hosts | `NOT_RUN` | `NOT_RUN` | `NOT_RUN` |
 
 The CI matrix uses Windows, macOS, and Ubuntu runners with Python 3.12 and Node.js 22. The latest completed run for the published snapshot is [candidate checks](https://github.com/Rethymus/glasspring/actions/runs/40159018216). These checks cover the installer layout and file-copy integrity; they do not start a coding-agent host or verify discovery and model behavior.
 
-Installed CLI versions were inspected only: Codex CLI 0.153.4 and Claude Code 2.1.39. No new host model calls were made. Do not convert their presence into a compatibility claim.
+Installed CLI versions were inspected only: Codex CLI 0.153.4 and Claude Code 2.1.39. The single Codex fresh-session check established metadata visibility only; it did not run a model task. No Claude Code session was authenticated. Do not convert these limited observations into a general compatibility claim.
 
 Official location references, checked during the audit:
 
