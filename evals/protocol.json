@@ -1,6 +1,8 @@
 {
   "status": "DESIGNED_NOT_EXECUTED",
   "purpose": "Measure task outcomes and visual usefulness independently of glasspring's own rule compliance",
+  "task_set_status": "PUBLIC_PILOT_NOT_HOLDOUT",
+  "confirmatory_use": "These prompts are public. For a confirmatory held-out study, create a separate task set that was kept out of skill development until generation is complete; otherwise label results exploratory.",
   "conditions": ["no_skill", "glasspring"],
   "controls": ["same host and model revision", "same user brief and source assets", "fresh isolated project and session", "same time and tool budget", "no access to the other condition's outputs", "capture failures and total elapsed time"],
   "tasks": [
@@ -13,8 +15,9 @@
   ],
   "replicates_per_condition_per_task": 3,
   "blinding": "Randomize output labels and order after generation. Keep assignment key away from judges. Record screenshots at fixed sizes and test interactive outputs.",
-  "judges": "At least two people or separately operated reviewers, independent of generation and unaware of condition; do not call one agent's self-review independent human evidence",
+  "primary_visual_outcome": "Blinded pairwise preference between matched outputs, judged by independent people in randomized order",
+  "judges": "At least two independent human reviewers, unaware of condition and independent of generation. Automated or model-based scores may supplement but do not replace human review.",
   "scoring": {"task_success": "0-4", "information_hierarchy": "0-4", "readability_and_access": "0-4", "brief_and_brand_fit": "0-4", "visual_coherence": "0-4", "interaction_usability": "0-4"},
-  "analysis": "Predeclare endpoints before generation. Publish all 36 outputs, failures, paired task differences, judge disagreement, time cost and uncertainty. No points merely for using tokens, glass, or obeying a style ban. Do not claim a general improvement if results are task-dependent or inconclusive.",
+  "analysis": "Predeclare endpoints before generation. Publish all 36 outputs, failures, paired task differences with uncertainty intervals, judge disagreement, and elapsed time. Treat this small public set as a pilot. No points merely for using tokens, glass, or obeying a style ban. Do not claim a general improvement if results are task-dependent or inconclusive.",
   "results": null
 }

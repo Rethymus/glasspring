@@ -12,8 +12,8 @@ Status: **Public source preview published; NO-GO for a stable release**. The pub
 | Dependency reproducibility | PASS, bounded | Three existing sample lockfiles installed with scripts disabled and built; official npm advisory audit reported zero known advisories |
 | First-party privacy scan | PARTIAL | A follow-up scan removed internal sample identifiers and findings from the public skill tree; private screenshots and sample payloads are excluded. Comprehensive asset review remains needed. |
 | Rights and attribution | BLOCKED | Per-file origins, upstream license obligations and author authority unresolved |
-| Independent efficacy | BLOCKED | Historical scores are not blinded held-out results; execute evals/protocol.json with independent runs |
-| Actual host compatibility | BLOCKED | Codex and Claude directory layouts tested with temporary projects; fresh agent sessions and supported OS matrix not executed |
+| Independent efficacy | BLOCKED | No independent comparison has been run. The six prompts in evals/protocol.json are public pilot prompts, not a hidden holdout; a confirmatory study needs a separate task set, independent human judges, task outcomes, and uncertainty reporting. See docs/EVALUATION.md |
+| Actual host compatibility | BLOCKED | Automated Codex and Claude directory-layout and file-copy checks pass on Windows, macOS, and Linux in CI. Fresh agent sessions, skill discovery, and task behavior have not been tested. See INSTALL.md |
 | Runtime dependency integrity | OPEN | Browser and fetched axe source are external dependencies; checksum/pinning and offline coverage policy need a decision |
 | Public repository setup | PASS, bounded | Public `main` exists; GitHub private vulnerability reporting is enabled. This is repository setup only, not a stable-release approval. |
 
