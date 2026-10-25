@@ -2,23 +2,23 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-Glasspring is a frontend design skill for coding agents, distributed as a folder. It guides an agent from a web brief to a responsive HTML preview, semantic CSS tokens, and design notes. Companion scripts check selected code and browser behavior.
+Glasspring is an agent skill for designing and reviewing responsive web interfaces. It routes a brief through a focused set of product-type, domain, platform, and stack references, then guides a new preview or full restyle through semantic tokens, implementation, and selected local or browser checks. Those checks provide evidence about particular rules; they do not establish overall design quality.
 
-> **Status as of 2026-10-25: public source preview; stable release is NO-GO.** File-copy checks pass, but fresh-host discovery, an independent efficacy study, and third-party rights clearance are not complete. See [release gates](docs/RELEASE-GATES.md).
+> **Status as of 2026-10-25: public source preview; stable release is NO-GO.** File-copy checks pass; the privacy scan is partial; fresh-host discovery, an independent efficacy study, and third-party rights clearance are not complete. See [release gates](docs/RELEASE-GATES.md).
 
-## Product scope
+## How it works
 
-Use Glasspring to explore a new responsive web page or dashboard, deliberately restyle an existing web interface, or review a generated preview. Existing project tokens and components remain the starting point unless the brief calls for a redesign.
+1. Choose the task mode: new preview, full restyle, small edit, or review only.
+2. For a new preview or full restyle, select a small set of relevant craft references across product type, domain, platform, and stack. Keep the existing design system when the brief does not call for a redesign.
+3. Build or change the interface, inspect the relevant viewport, and run checks that fit the task. Report missing browser or interaction observations as gaps; do not count them as `PASS`.
 
-Glasspring produces previews. It is not a production component library, deployment system, or automated external-product research and capture system. Its domain and style cards are static guidance, not a complete source catalog or independently validated design findings. Requests for native apps, games, and mini-programs receive web previews unless those platforms are separately implemented and tested.
+## Scope and deliverables
 
-The skill has an Apple-inspired visual bias. Follow it only where the brief and the existing design system leave room; translucent glass is optional and excluded from areas where trust is critical or data is dense.
+- **New standalone preview:** `tokens.css`, `preview.html`, and `design-notes.md`.
+- **Full restyle:** change the existing app and token entrypoint, then provide before/after evidence and design notes. Do not add a parallel preview unless requested.
+- **Small edit or review only:** preserve the existing system and use checks proportional to the task. Review-only work reports findings without changing project files.
 
-## Expected output
-
-- `preview.html` — responsive web preview.
-- `tokens.css` — semantic tokens used by the preview.
-- `design-notes.md` — brief interpretation, design choices, observed checks, and limitations.
+The default visual guidance has an Apple-inspired material and motion sensibility. The user's brief, existing brand system, and selected style reference take precedence; glass effects are optional. Domain and style references are static guidance. The repository does not include a versioned live-product capture pipeline or independently validated design findings. Native app, game, and mini-program requests produce web previews unless that platform is separately implemented and tested.
 
 ## Install and try
 
@@ -69,6 +69,7 @@ python skills/glasspring/scripts/probe_render.py http://127.0.0.1:8000/preview.h
 | Last recorded full sample suite | `FAIL`: 12 `PASS`, 1 real contrast `FAIL`, 1 expected negative control, and 2 network dependent `SKIP` across 16 rows; aggregate exit code 1. Sample payloads are not included, so this run is not reproducible from this repository |
 | Independent efficacy comparison | `NOT_RUN`; the public prompts are a pilot, not a hidden holdout |
 | Fresh-host discovery and task behavior | `NOT_RUN` |
+| First-party privacy scan | `PARTIAL`: a heuristic scan of 78 tracked text files found no common secret or local-path patterns; no dedicated scanner or complete binary/history review was run |
 | Rights and attribution review | `BLOCKED` |
 
 No claim of improved design quality, support for every agent, or full WCAG conformance is established. The root MIT license applies only to material contributors may license; it does not clear third-party prose, code, screenshots, or assets. See [evaluation notes](docs/EVALUATION.md), [release gates](docs/RELEASE-GATES.md), and [third-party notices](THIRD_PARTY_NOTICES.md).

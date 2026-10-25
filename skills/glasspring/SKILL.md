@@ -1,6 +1,6 @@
 ---
 name: glasspring
-description: Design or restyle responsive web interfaces using domain and style references, semantic design tokens, measured contrast, and browser review. Use for a new page, dashboard, or a deliberate visual redesign. Small edits should follow the existing design system and use proportional checks. Native and mini-program outputs are design previews unless separately implemented and tested on their platform.
+description: Design, restyle, or review responsive web interfaces using routed design references and selected local or browser checks. Use for new pages, dashboards, deliberate redesigns, or review of an existing web preview. Small edits should follow the existing design system and use proportional checks. Native and mini-program outputs are web previews unless separately implemented and tested on their platform.
 license: MIT
 compatibility: Audited on Windows with Python 3.12 and Node.js 22.14. Core Python tools use stdlib and sibling modules; browser probes need Chromium and fetch axe-core from a CDN. Installer supports Codex and Claude Code directory layouts; live discovery and other OS versions require host testing.
 metadata:
@@ -15,14 +15,23 @@ Audit candidate: mechanical checks do not establish design quality or task succe
 
 You are a design lead who ships interfaces that look intentional, not generated. This skill encodes an Apple-inspired **design language** — frosted glass materials, spring physics, restrained hierarchy — adapted per industry domain, product type, platform, and stack. It teaches a **design language, never a UI replica** (legal posture, see §6). Every deliverable must have **one memorable design differentiator** (multi-screen: one per screen) — a signature interaction, typographic gesture, layout motif, or material treatment. If your output could pass as another brief's output, you haven't designed yet.
 
-## 0 · Hard gates (never skip, in order)
+## 0 · Scope and build gates
+
+Choose the narrowest task mode before applying the gates:
+
+- **New preview** — follow Steps 1–6 and deliver `tokens.css`, `preview.html`, and `design-notes.md`.
+- **Full restyle of an existing app** — work in its existing source and token entrypoint; capture before/after views and record the decisions. Do not create a parallel preview or token file unless requested.
+- **Small edit** — preserve the existing system and use checks proportional to the changed surface. Do not require the full router, three design directions, or the new-preview deliverables.
+- **Review only** — inspect the requested files or preview without editing them. Report observed evidence and gaps; do not present missing browser or interaction observations as passes.
+
+The gates below apply in full to new previews and full restyles. For small edits and review-only tasks, apply only the relevant checks.
 
 0. **作用域封锁（最高优先）** — 只在**当前项目目录**内读写文件。绝不扫描、读取或修改其他项目/目录，即使用户的话看似指向它们（如"我的仪表盘/我的后台"）：先在当前项目内查找目标，找不到就**询问用户路径**，得到明确路径前不得越出项目根目录。任何临时文件用完即清理。
-1. **Tokens first** — no component code before `tokens.css` exists. No hardcoded colors, ever.
-2. **Contrast measured** — run `scripts/check_contrast.py` on text/background pairs (glass: worst-case composites). Paste results into the report. A shipped guess is a defect.
-3. **Glass decision tree** — run all four checks in `references/glass.md` §0 before any translucent surface. If zero surfaces can be translucent, note this in design-notes and skip glass.md entirely.
-4. **Screenshot review** — after building, render the preview and look at it at mobile + desktop sizes. Default tool: `scripts/preview_shot.py` (CDP device emulation — gets TRUE 390px on Windows where plain headless clamps to ~500px). Fix up to 3 rounds, then deliver honestly.
-5. **Output contract** — deliver exactly: `tokens.css` + `preview.html` + `design-notes.md`（格式见 `assets/design-notes-template.md` §0-§8）.
+1. **Tokens first** — for a new preview, create the semantic tokens before component styling. In an existing app, use its established token entrypoint. Avoid new one-off color values when the system already provides a token.
+2. **Contrast measured** — measure changed or newly authored text/background pairs with `scripts/check_contrast.py`; for glass, test worst-case composites. Record the actual result and preserve failures or missing coverage.
+3. **Glass decision tree** — read and apply `references/glass.md` §0 before adding a translucent surface. If the design does not use translucent surfaces, skip this reference.
+4. **Visual review** — after a new preview or full restyle, inspect a mobile and desktop render. For a small visual edit, inspect the affected viewport and nearby layout. Use `scripts/preview_shot.py` where a local page URL and Chromium are available; report unavailable observations instead of implying they ran.
+5. **Deliverables** — use the three-file contract for a new standalone preview: `tokens.css` + `preview.html` + `design-notes.md`（格式见 `assets/design-notes-template.md` §0-§8）. A full restyle uses the existing app files and token entrypoint with before/after evidence and design notes. Review-only work returns findings without creating those files.
 
 ## 1 · Router — answer four questions, then read ONLY the files the table points to
 
@@ -74,7 +83,7 @@ Read ≤3 routed craft references per task (typically `tokens.md` + type + domai
 
 ## 2 · Workflow
 
-**Step 0 — Scope tier（深度跟改动走）**：微改动（点名元素+改法）→直接改，动了样式→视口看一眼相邻元素。仅评审→Step 5 清单出诊断+亮点+证据（发现须三证：契约出处+运行时路径+单一修正，宁缺毋滥），不改文件。restyle→见下段。续作（目录已有 notes+tokens）→先读沿用，改已定决策须显式声明。新界面→Step 1→6 全走
+**Step 0 — Scope tier（深度跟改动走）**：按本节顶部的四种模式选择工作深度。仅评审沿用现有材料给出诊断、亮点和证据，不改文件；微改动只检查受影响的代码与视口；restyle 先定位现有主题入口并拍 before；续作先读已有 notes 与 tokens。新界面按 Step 1→6 完成。
 
 **Step 1 — Brief & Design Read.** 先推断后提问：推断出判读声明写进 design-notes（*"Reading this as: <kind> for <audience>, <vibe> language, <aesthetic family>."*），自信则直接开工；分歧最多追问 1 问。essentials 真缺才至多 3 问补齐。分清借鉴/重设计/精准还原。
 **restyle**：指向既有应用→交付 theme/tokens 层 + 前后截图对比。流程：定位主题入口（grep 命中是线索不是发现，确认渲染再定）→ 圈定表面边界（webview/外链页也算）→ 拍 before → 重设计 → 拍 after → ≤3 轮自审。
@@ -94,7 +103,7 @@ python scripts/verify_output.py .
 ```
 Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被拒"；只看截图不回读代码；每图带验收意图逐项目验。每轮修 top-3，≤3 rounds。
 
-**Step 6 — Deliver.** design-notes 起稿可 `scripts/notes_draft.py <run_dir>`（自动预填 §4 实测/§6 首扫/§8 锚点，判断节留待填槽）。需长期契约时另出 `DESIGN.md`（TypeUI 格式）。交付 `tokens.css` + `preview.html` + `design-notes.md`。注明版本+日期。
+**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md`. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For new previews or restyles, `scripts/notes_draft.py <run_dir>` can prefill measured checks, initial scan and dated anchors; the judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
 
 ## 3 · Universal core rules
 
