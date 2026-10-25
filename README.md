@@ -2,15 +2,13 @@
 
 [English] · [简体中文](README.zh-CN.md)
 
-**An installable design workflow skill for coding agents working on responsive web interfaces.**
-
-Glasspring routes work through reference cards for product type, industry, platform, and stack. The repository also includes local helpers for contrast, output contracts, heuristic scans, screenshots, selected browser probes, and visual diffs; the agent chooses which checks apply. Its default design voice is Apple-inspired, but the user's brief and existing design system take priority, and glass is optional. References are static: the project does not automatically collect or reverse-engineer live products.
+**Glasspring is an installable Agent Skill for creating, restyling, and reviewing responsive web interfaces.** For a new page, it guides a coding agent to produce `tokens.css`, `preview.html`, and `design-notes.md`. It routes bundled reference cards by product type, industry, platform, and stack, and provides helpers for selected checks. The cards are static; the repository has no built-in pipeline that studies live products and turns observations into design guidance. Its default design voice is Apple-inspired; the user's brief and existing design system take priority, and glass is optional.
 
 > Public source preview; not ready for a stable release. See the [current evidence and release gates](docs/RELEASE-GATES.md).
 
 ## Coffee storefront example
 
-These screenshots show a fictional storefront and its local bag interaction. They are a visual example, not output from a Glasspring agent session or an evaluation. The public pilot's coffee task references a palette that is not included, so this page does not reproduce that task. The bag updates local state only; it does not place orders or take payments.
+This fictional page is a standalone visual example, not an output from a Glasspring session or an evaluation. Its bag interaction updates local state only; it does not place orders or take payments.
 
 <p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page</p>
 
@@ -73,10 +71,10 @@ The installer and checks have been run with Node.js 22 and Python 3.12. Browser 
 
 Start a new host session after installation. Check whether it lists Glasspring, ask it to use the skill for one small task, and record whether it reads the installed file and follows the instructions. A successful file copy alone does not prove discovery or task behavior.
 
-Suggested task (includes its own palette and is separate from the public evaluation protocol):
+Try Glasspring with this task:
 
 ~~~text
-Use Glasspring to create a responsive storefront for the fictional Morrow Coffee. Use warm cream (#f8f3eb), espresso text (#35221b), and terracotta actions (#93432d). Include a hero, three product cards, and a keyboard-operable local bag panel that adds and removes products and updates the subtotal; do not add checkout or payment. Use assets already in the target project or CSS placeholders; do not download external assets. Deliver tokens.css, preview.html, and design-notes.md. Check the page at 390px and 1440px, and report any checks you cannot run.
+Use Glasspring to create a responsive storefront for fictional Morrow Coffee. Use warm cream (#f8f3eb), espresso text (#35221b), and terracotta actions (#93432d). Include a hero, three product cards, and a keyboard-operable local bag panel that adds and removes products and updates the subtotal; do not add checkout or payment. Use only assets already in the target project. If it has no product imagery, create simple CSS or inline SVG illustrations; do not download external assets. Deliver tokens.css, preview.html, and design-notes.md. Check the page at 390px and 1440px, and report any checks you cannot run.
 ~~~
 
 ## Checks and current evidence
