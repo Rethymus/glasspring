@@ -67,7 +67,7 @@ When a light-default design needs dark mode (or the brief is dark-first), re-der
 - **双色规调色练习**（meodai choosing-colors-with-confidence 深读 2026-10-24，Color Nerd 讲座）：和声重构为两滑杆「**色相数 × 对比量**」——"That's all harmony is"，预设名（单色/邻近/互补…）只是滑杆上的点。生成练习：定关键色 → 起草 4-5 个不同色数的版本 → **规则一：任两色不共享同一 chroma 档**（层级内建）→ **规则二：任两段色相间隔不等**（节奏内建）；心智模型：棕=暗橙（同色相角不同 L/C）
 - **发散色阶中点极值律**（color-buddy 38 条 palette lint 深读 2026-10-24）：diverging 色阶的**中点色必须是 L 的极值**（中点最浅或最深，两端单调走向对方）——中点不极值=发散读作两个断裂的顺序阶；同族律：顺序阶 L 单调、互补对 180°±5°、调色板 ≤10 色
 - **尺寸依赖的区分阈**（同源）：同一对颜色的区分要求随**承载物尺寸**变——细线（thin）需比大填充（wide）更大的 ΔE（color-buddy 按 thin/medium/wide 三档给 Lab 阈）；细描边/1px 分隔线的用色对按严档自查
-- **顺序/数据色阶的平坦导数测试**（meodai/skill.color-expert 617★ 竞品研读 2026-10-20）：数据编码用色阶（sequential/diverging）的**相邻步 OKLab ΔE 应接近平坦**——凸包 = 色阶夸大了数据中不存在的变差（jet 的本质失败），灰度视图须同检——**用相对亮度 Y 而非 OKLab L**（色重文件深读 2026-10-24：Y 才是人眼明度感知的代理；灰度下层级消失 = 色相在承载它撑不住的重量）。UI 强调色阶浅端锥形（50→100 步距收窄）是常规非缺陷；`python scripts/palette_from_oklch.py --seed <hex> --check-ramp` 机械检查（bump 退出 1、taper 提示）。
+- **顺序/数据色阶的平坦导数测试**（meodai/skill.color-expert 617★ 竞品研读 2026-10-20）：数据编码用色阶（sequential/diverging）的**相邻步 OKLab ΔE 应接近平坦**——凸包 = 色阶夸大了数据中不存在的变差（jet 的本质失败），灰度视图须同检——**用相对亮度 Y 而非 OKLab L**（色重文件深读 2026-10-24：Y 才是人眼明度感知的代理；灰度下层级消失 = 色相在承载它撑不住的重量）。UI 强调色阶浅端锥形（50→100 步距收窄）是常规非缺陷；从项目根目录运行 `python "<SKILL_ROOT>/scripts/palette_from_oklch.py" --seed "<hex>" --check-ramp` 机械检查（将 `<SKILL_ROOT>` 替换为 `SKILL.md` 中列出的宿主项目安装路径并替换样例色值；bump 退出 1、taper 提示）。
 - **Gate: every contrast pair re-measured in the dark theme** (typical 18–26 pairs). `light-dark()` covering both sides does not exempt either side from passing.
 
 ## 3. Typography scale
@@ -121,4 +121,4 @@ Modular scale, ratio 1.25 (major third) default; density-heavy products 1.2:
 
 Deliver `tokens.css` with a comment header: brand seed, ramp derivation params, date, and which pairs were contrast-verified. This makes later re-derivation and audits possible.
 
-- **多平台发射**：跨端项目（Web + 小程序/iOS/Android）用 `python scripts/token_emit.py tokens.json --out-dir dist`——DTCG JSON 一发 CSS/ WXSS/Swift/Kotlin（`--wxss` 小程序 rpx 档）；Web 单端直接手写 `tokens.css` 即可，不必过 JSON。
+- **多平台发射**：跨端项目（Web + 小程序/iOS/Android）从项目根目录运行 `python "<SKILL_ROOT>/scripts/token_emit.py" tokens.json --out-dir dist`（将 `<SKILL_ROOT>` 替换为 `SKILL.md` 中列出的宿主项目安装路径）——DTCG JSON 一发 CSS/ WXSS/Swift/Kotlin（`--wxss` 小程序 rpx 档）；Web 单端直接手写 `tokens.css` 即可，不必过 JSON。

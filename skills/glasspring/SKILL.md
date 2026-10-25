@@ -26,6 +26,8 @@ Choose the narrowest task mode before applying the gates:
 
 The gates below apply in full to new previews and full restyles. For small edits and review-only tasks, apply only the relevant checks.
 
+**Helper paths** — `scripts/`, `references/`, and `assets/` are relative to this skill's installed directory. For this repository's project install, use `.agents/skills/glasspring` for Codex/generic or `.claude/skills/glasspring` for Claude Code as `SKILL_ROOT`; from the project root, invoke `"<SKILL_ROOT>/scripts/<tool>"` and keep project inputs and `--target .` relative to the project. Never run bare `scripts/<tool>` from the project root: it can fail or execute an unrelated project script. Do not search outside the project for helpers.
+
 0. **作用域封锁（最高优先）** — 只在**当前项目目录**内读写文件。绝不扫描、读取或修改其他项目/目录，即使用户的话看似指向它们（如"我的仪表盘/我的后台"）：先在当前项目内查找目标，找不到就**询问用户路径**，得到明确路径前不得越出项目根目录。任何临时文件用完即清理。
 1. **Tokens first** — for a new preview, create the semantic tokens before component styling. In an existing app, use its established token entrypoint. Avoid new one-off color values when the system already provides a token.
 2. **Contrast measured** — measure changed or newly authored text/background pairs with `scripts/check_contrast.py`; for glass, test worst-case composites. Record the actual result and preserve failures or missing coverage.
@@ -96,14 +98,15 @@ Read ≤3 routed craft references per task (typically `tokens.md` + type + domai
 
 **Step 5 — Verify.**
 ```
-python scripts/doctor.py --target .
-python scripts/check_contrast.py --pairs pairs.json
-python scripts/preview_shot.py preview.html --out-dir shots --expect-title <标题>
-python scripts/verify_output.py .
+# Run from the project root; replace <SKILL_ROOT> with the host-specific project install path above.
+python "<SKILL_ROOT>/scripts/doctor.py" --target .
+python "<SKILL_ROOT>/scripts/check_contrast.py" --pairs pairs.json
+python "<SKILL_ROOT>/scripts/preview_shot.py" preview.html --out-dir shots --expect-title "My Preview"
+python "<SKILL_ROOT>/scripts/verify_output.py" .
 ```
 Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被拒"；只看截图不回读代码；每图带验收意图逐项目验。每轮修 top-3，≤3 rounds。
 
-**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md`. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For new previews or restyles, `scripts/notes_draft.py <run_dir>` can prefill measured checks, initial scan and dated anchors; the judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
+**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md`. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For new previews or restyles, run `python "<SKILL_ROOT>/scripts/notes_draft.py" "<RUN_DIR>"` from the project root to prefill measured checks, initial scan and dated anchors; the judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
 
 ## 3 · Universal core rules
 
@@ -128,7 +131,7 @@ Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被
 | bouncy | `Spring(0.5, bounce 0.3)` | sparse delight moments |
 | interactive | `response 0.15, ζ 0.86` | direct manipulation |
 
-Generate CSS: `python scripts/spring_convert.py --semantic snappy --css`. Gesture releases → JS spring integrator, never CSS.
+Generate CSS from the project root: `python "<SKILL_ROOT>/scripts/spring_convert.py" --semantic snappy --css`. Replace `<SKILL_ROOT>` with the host-specific project install path above. Gesture releases → JS spring integrator, never CSS.
 
 ## 5 · Trust-zone veto (overrides any aesthetic instruction)
 

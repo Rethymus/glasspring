@@ -18,7 +18,7 @@
 | bouncy | `Spring(duration: 0.5, bounce: 0.3)` | playful overshoot | appearing elements, delight moments (sparse!) |
 | interactive | `interactiveSpring(response: 0.15, dampingFraction: 0.86)` | very fast | direct-manipulation follow-ups |
 
-Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overdamping. Generate actual curves: `python scripts/spring_convert.py --semantic bouncy --css`.
+Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overdamping. From the project root, generate actual curves with `python "<SKILL_ROOT>/scripts/spring_convert.py" --semantic bouncy --css`; replace `<SKILL_ROOT>` with the host-specific project install path listed in `SKILL.md`.
 
 ## 2. The interruptibility rule (web-specific, critical)
 
