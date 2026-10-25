@@ -2,13 +2,11 @@
 
 [English] · [简体中文](README.zh-CN.md)
 
-**A design workflow skill for coding agents working on responsive web interfaces.**
+**An installable design workflow skill for coding agents working on responsive web interfaces.**
 
-Glasspring packages one skill entrypoint, static design-reference cards, and local helper tools. It guides an agent from a brief and an existing design system to a new web preview, a focused restyle, a small UI edit, or a review. The references are static: the project does not automatically collect or reverse-engineer live products.
+Glasspring routes work through reference cards for product type, industry, platform, and stack. The repository also includes local helpers for contrast, output contracts, heuristic scans, screenshots, selected browser probes, and visual diffs; the agent chooses which checks apply. Its default design voice is Apple-inspired, but the user's brief and existing design system take priority, and glass is optional. References are static: the project does not automatically collect or reverse-engineer live products.
 
-The user's brief and the existing design system take priority; glass is an optional style choice.
-
-> Public source preview only; a stable release has not cleared its gates. Live host behavior and independent efficacy are unverified, privacy review is partial, and third-party rights remain blocked. See [release gates](docs/RELEASE-GATES.md).
+> Public source preview; not ready for a stable release. See the [current evidence and release gates](docs/RELEASE-GATES.md).
 
 ## Coffee storefront example
 
@@ -38,7 +36,7 @@ python -m http.server 8000 --directory examples/coffee-storefront
 
 Then open http://127.0.0.1:8000/. See the [example notes](examples/coffee-storefront/README.md) for its fictional content and asset provenance.
 
-## What the skill guides
+## Task modes in the skill
 
 | Request | Intended work |
 |---|---|
