@@ -10,18 +10,11 @@ Glasspring 根据产品类型、行业领域、平台和技术栈路由设计参
 
 ## 咖啡售卖页示例
 
-下图是仓库中的虚构独立页面，供读者查看视觉和交互状态。它不是 Glasspring Agent 会话的输出，也不是评测结果。公开[评测协议](evals/protocol.json)中的计划咖啡任务引用了一份未随仓库提供的奶油色与陶土色配色输入，因此此页面不能复现为该任务的评测产物。购物袋只改变本地页面状态，不会下单或收款。
+这些截图展示的是虚构独立页面，不是 Glasspring Agent 会话产物或评测结果。公开[评测协议](evals/protocol.json)中的计划咖啡任务引用了一份未随仓库提供的配色文件，因此本页无法复现该任务。购物袋只改变本地页面状态，不会下单或收款。
 
-<table>
-  <tr>
-    <td align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'></td>
-    <td align='center'><img src='examples/coffee-storefront/assets/preview-bag-open.png' alt='页面打开了本地购物袋；仅显示小计，没有结账功能。' width='100%'></td>
-  </tr>
-  <tr>
-    <td align='center'>桌面页面</td>
-    <td align='center'>本地购物袋交互状态</td>
-  </tr>
-</table>
+<p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>桌面页面</p>
+
+<p align='center'><img src='examples/coffee-storefront/assets/preview-bag-open.png' alt='页面打开了本地购物袋；仅显示小计，没有结账功能。' width='100%'><br>本地购物袋交互状态</p>
 
 <details>
   <summary>查看移动端布局</summary>
@@ -76,6 +69,8 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 
 安装到 Claude Code 时使用 --host claude。将 PATH_TO_PROJECT 替换为本机项目目录。备份与恢复方式见[安装和宿主验证说明](INSTALL.md)。
 
+安装器和检查已在 Node.js 22、Python 3.12 环境运行过。浏览器探针还需要 Chromium 和网络连接，以便获取 axe-core。
+
 安装后启动新的 Agent 宿主会话，检查它是否列出 Glasspring，并让它执行一项小任务。记录它是否读取已安装文件并遵循说明。文件复制成功本身不能证明 Skill 已被发现或实际生效。
 
 示例任务：
@@ -108,7 +103,7 @@ python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
 | 范围 | 已记录状态 |
 |---|---|
 | 主分支 CI | 记录中的 Windows、macOS 和 Ubuntu 检查为 **PASS**；不包含 Agent 会话测试。[运行记录](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
-| 最近一次完整样本套件 | **FAIL**：12 项 PASS、1 项对比度 FAIL、1 条预期负向控制、2 项网络 SKIP。样本项目未公开，因此当前无法重放，标记为 **INSUFFICIENT_EVIDENCE**。 |
+| 最近一次完整样本套件 | **FAIL**：12 项 PASS、1 项对比度 FAIL、1 条预期负向控制、2 项网络 SKIP；退出码为 1。样本项目未公开，因此当前无法重放，标记为 **INSUFFICIENT_EVIDENCE**。 |
 | 宿主行为 | **PARTIAL**：一次 Codex 会话列出 Skill 元数据（**PASS**）；是否读取已安装文件及任务行为仍为 **UNKNOWN**；Claude 发现和任务行为为 **NOT_RUN**。 |
 | 独立效果评测 | **NOT_RUN**。公开[协议](evals/protocol.json)不完整，缺少提到的配色和组件库输入，也没有固定宿主、模型和预算值；重放为 **INSUFFICIENT_EVIDENCE**。 |
 | 隐私审查 | **PARTIAL**；详见[安全说明](SECURITY.md)。 |

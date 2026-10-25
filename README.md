@@ -10,18 +10,11 @@ Glasspring routes work through reference cards for product type, industry, platf
 
 ## Coffee storefront example
 
-The images show a fictional standalone page included in this repository. They are illustrative screenshots, not output from a Glasspring agent session or an evaluation result. The planned coffee task in the public [evaluation protocol](evals/protocol.json) refers to a supplied cream-and-terracotta palette that is absent from the repository, so this page is not a reproducible result for that task. The bag interaction is local only; it does not place orders or take payments.
+These screenshots show a fictional standalone page, not output from a Glasspring agent session or an evaluation. The planned coffee task in the public [evaluation protocol](evals/protocol.json) references a palette that is absent from the repository, so this page cannot reproduce it. The bag updates local state only; it does not place orders or take payments.
 
-<table>
-  <tr>
-    <td align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'></td>
-    <td align='center'><img src='examples/coffee-storefront/assets/preview-bag-open.png' alt='The storefront with its local shopping bag open; the subtotal is shown without checkout.' width='100%'></td>
-  </tr>
-  <tr>
-    <td align='center'>Desktop page</td>
-    <td align='center'>Local bag interaction</td>
-  </tr>
-</table>
+<p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page</p>
+
+<p align='center'><img src='examples/coffee-storefront/assets/preview-bag-open.png' alt='The storefront with its local shopping bag open; the subtotal is shown without checkout.' width='100%'><br>Local bag interaction</p>
 
 <details>
   <summary>View the mobile layout</summary>
@@ -76,6 +69,8 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 
 For Claude Code, use --host claude. Replace PATH_TO_PROJECT with a project directory on your machine. See [installation and host verification](INSTALL.md), including backup and restore behavior.
 
+The installer and checks have been run with Node.js 22 and Python 3.12. Browser probes also need Chromium and network access to fetch axe-core.
+
 Start a new host session after installation. Check whether it lists Glasspring, ask it to use the skill for one small task, and record whether it reads the installed file and follows the instructions. A successful file copy alone does not prove discovery or task behavior.
 
 Example task:
@@ -108,7 +103,7 @@ This check does not measure design quality or verify every interaction.
 | Area | Recorded status |
 |---|---|
 | Main CI | **PASS** for the recorded Windows, macOS, and Ubuntu checks; this does not test an agent session. [Run details](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
-| Last recorded sample suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP. Sample projects are absent from the public tree, so a fresh replay is **INSUFFICIENT_EVIDENCE**. |
+| Last recorded sample suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP; exit code 1. Sample projects are absent from the public tree, so a fresh replay is **INSUFFICIENT_EVIDENCE**. |
 | Host behavior | **PARTIAL**: one Codex session listed skill metadata (**PASS**); reading the installed skill and task behavior remain **UNKNOWN**; Claude discovery and task behavior are **NOT_RUN**. |
 | Independent efficacy | **NOT_RUN**. The public [protocol](evals/protocol.json) is incomplete and lacks referenced palette/component-library inputs and fixed host/model/budget values; replay is **INSUFFICIENT_EVIDENCE**. |
 | Privacy review | **PARTIAL**; see [security notes](SECURITY.md). |
