@@ -8,11 +8,11 @@
 
 ## 咖啡售卖页示例
 
-这个虚构页面是独立视觉示例，不是 Glasspring 会话产物或评测结果。购物袋交互只改变本地页面状态，不会下单或收款。
+这个虚构咖啡售卖页展示了本地购物袋交互，不会下单或收款。
 
 <p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>桌面页面</p>
 
-<p align='center'><img src='examples/coffee-storefront/assets/preview-bag-open.png' alt='页面打开了本地购物袋；仅显示小计，没有结账功能。' width='100%'><br>本地购物袋交互状态</p>
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='五帧本地交互：加入咖啡、打开购物袋、更新数量并移除商品。' width='100%'><br>独立示例的交互录制；不是 Glasspring 会话产物或评测结果。</p>
 
 <details>
   <summary>查看移动端布局</summary>

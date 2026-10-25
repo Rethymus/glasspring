@@ -8,11 +8,11 @@
 
 ## Coffee storefront example
 
-This fictional page is a standalone visual example, not an output from a Glasspring session or an evaluation. Its bag interaction updates local state only; it does not place orders or take payments.
+This fictional storefront demonstrates a local shopping-bag interaction; it does not place orders or take payments.
 
 <p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page</p>
 
-<p align='center'><img src='examples/coffee-storefront/assets/preview-bag-open.png' alt='The storefront with its local shopping bag open; the subtotal is shown without checkout.' width='100%'><br>Local bag interaction</p>
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: add coffee to the bag, open it, update quantity, and remove the item.' width='100%'><br>Standalone example interaction; this browser capture is not a Glasspring session or evaluation.</p>
 
 <details>
   <summary>View the mobile layout</summary>
