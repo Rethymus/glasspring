@@ -10,7 +10,7 @@ Glasspring routes work through reference cards for product type, industry, platf
 
 ## Coffee storefront example
 
-These screenshots show a fictional standalone page, not output from a Glasspring agent session or an evaluation. The planned coffee task in the public [evaluation protocol](evals/protocol.json) references a palette that is absent from the repository, so this page cannot reproduce it. The bag updates local state only; it does not place orders or take payments.
+These screenshots show a fictional storefront and its local bag interaction. They are a visual example, not output from a Glasspring agent session or an evaluation. The public pilot's coffee task references a palette that is not included, so this page does not reproduce that task. The bag updates local state only; it does not place orders or take payments.
 
 <p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page</p>
 
@@ -27,7 +27,7 @@ Run the example from the repository root:
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-Then open http://127.0.0.1:8000/. See the [example notes](examples/coffee-storefront/README.md) for its fictional content and asset provenance.
+Then open http://127.0.0.1:8000/. See the [page source](examples/coffee-storefront/index.html) and [example notes](examples/coffee-storefront/README.md) for its fictional content and asset provenance.
 
 ## Task modes in the skill
 
@@ -73,10 +73,10 @@ The installer and checks have been run with Node.js 22 and Python 3.12. Browser 
 
 Start a new host session after installation. Check whether it lists Glasspring, ask it to use the skill for one small task, and record whether it reads the installed file and follows the instructions. A successful file copy alone does not prove discovery or task behavior.
 
-Example task:
+Suggested task (includes its own palette and is separate from the public evaluation protocol):
 
 ~~~text
-Create a responsive incident dashboard for on-call engineers. Severity filters must change the visible logs, pause must stop updates, and loading and empty states must be clear. Keep primary controls usable by keyboard.
+Use Glasspring to create a responsive storefront for the fictional Morrow Coffee. Use warm cream (#f8f3eb), espresso text (#35221b), and terracotta actions (#93432d). Include a hero, three product cards, and a keyboard-operable local bag panel that adds and removes products and updates the subtotal; do not add checkout or payment. Use assets already in the target project or CSS placeholders; do not download external assets. Deliver tokens.css, preview.html, and design-notes.md. Check the page at 390px and 1440px, and report any checks you cannot run.
 ~~~
 
 ## Checks and current evidence

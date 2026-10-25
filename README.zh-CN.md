@@ -10,7 +10,7 @@ Glasspring 根据产品类型、行业领域、平台和技术栈路由设计参
 
 ## 咖啡售卖页示例
 
-这些截图展示的是虚构独立页面，不是 Glasspring Agent 会话产物或评测结果。公开[评测协议](evals/protocol.json)中的计划咖啡任务引用了一份未随仓库提供的配色文件，因此本页无法复现该任务。购物袋只改变本地页面状态，不会下单或收款。
+这些截图展示虚构售卖页及其本地购物袋交互。它们是视觉示例，不是 Glasspring Agent 会话产物或评测结果。公开试点中的咖啡任务引用了一份未随仓库提供的配色，因此本页不能复现该任务。购物袋只改变本地页面状态，不会下单或收款。
 
 <p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>桌面页面</p>
 
@@ -27,7 +27,7 @@ Glasspring 根据产品类型、行业领域、平台和技术栈路由设计参
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-然后访问 http://127.0.0.1:8000/。示例的虚构内容与素材来源见[说明](examples/coffee-storefront/README.md)。
+然后访问 http://127.0.0.1:8000/。页面源码见[index.html](examples/coffee-storefront/index.html)，虚构内容和素材来源见[示例说明](examples/coffee-storefront/README.md)。
 
 ## Skill 中的任务模式
 
@@ -73,10 +73,10 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 
 安装后启动新的 Agent 宿主会话，检查它是否列出 Glasspring，并让它执行一项小任务。记录它是否读取已安装文件并遵循说明。文件复制成功本身不能证明 Skill 已被发现或实际生效。
 
-示例任务：
+建议试用任务（自带配色，与公开评测协议分开）：
 
 ~~~text
-制作一个面向值班工程师的响应式事故仪表盘。严重级别筛选器必须能改变可见日志；暂停操作必须停止更新；加载中和无结果状态要清楚。主要控件应支持键盘操作。
+使用 Glasspring 为虚构品牌 Morrow Coffee 制作响应式咖啡售卖页。配色使用暖奶油色（#f8f3eb）、浓咖啡色文字（#35221b）和陶土色按钮（#93432d）。包含主视觉、三张商品卡，以及可用键盘操作的本地购物袋面板；加购和移除商品时更新数量与小计，不做下单或支付。只使用目标项目已有素材或 CSS 占位图，不下载外部素材。交付 tokens.css、preview.html 和 design-notes.md。检查 390px 与 1440px 布局，并报告无法执行的检查。
 ~~~
 
 ## 检查和当前证据
