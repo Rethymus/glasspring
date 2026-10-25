@@ -21,6 +21,7 @@ fail until real design work happens. That is the point.
 """
 from __future__ import annotations
 import argparse, os, shutil, sys
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SKILL = os.path.dirname(HERE)
@@ -106,9 +107,9 @@ def main() -> int:
             check("shots/ present", os.path.isdir(os.path.join(run, "shots")))
             rc2 = run_cmd(run)
             check("refuses non-empty without --force", rc2 != 0)
-            before = open(os.path.join(run, "preview.html"), encoding="utf-8").read()
+            before = Path(os.path.join(run, "preview.html")).read_text(encoding="utf-8")
             run_cmd(run, "--force")
-            after = open(os.path.join(run, "preview.html"), encoding="utf-8").read()
+            after = Path(os.path.join(run, "preview.html")).read_text(encoding="utf-8")
             check("--force never overwrites existing files", before == after)
         print("SELFTEST PASSED" if not fails else f"SELFTEST FAILED: {fails}")
         return 0 if not fails else 1
@@ -122,11 +123,11 @@ def main() -> int:
     wrote = []
     preview = os.path.join(a.target, "preview.html")
     if not os.path.exists(preview):
-        open(preview, "w", encoding="utf-8").write(PREVIEW_SKELETON.format(title=a.title))
+        Path(preview).write_text(PREVIEW_SKELETON.format(title=a.title), encoding="utf-8")
         wrote.append("preview.html")
     tokens = os.path.join(a.target, "tokens.css")
     if not os.path.exists(tokens):
-        open(tokens, "w", encoding="utf-8").write(TOKENS_PLACEHOLDER)
+        Path(tokens).write_text(TOKENS_PLACEHOLDER, encoding="utf-8")
         wrote.append("tokens.css")
     notes = os.path.join(a.target, "design-notes.md")
     if not os.path.exists(notes) and os.path.isfile(NOTES_TEMPLATE):

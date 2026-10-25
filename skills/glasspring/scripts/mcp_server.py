@@ -443,6 +443,10 @@ def selftest() -> int:
                 proc.stdin.close()
             except OSError:
                 pass
+            try:
+                proc.stdout.close()
+            except OSError:
+                pass
             proc.wait(timeout=10)
     print("mcp_server selftest:", "ALL PASS" if not fails else f"FAILED: {fails}")
     return 0 if not fails else 1

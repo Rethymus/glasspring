@@ -20,6 +20,7 @@ Usage:
 """
 from __future__ import annotations
 import argparse, struct, sys, zlib
+from pathlib import Path
 
 SIG = b"\x89PNG\r\n\x1a\n"
 
@@ -32,7 +33,7 @@ def _paeth(a: int, b: int, c: int) -> int:
 
 def decode_png(path: str) -> tuple[int, int, int, bytes]:
     """-> (width, height, channels, raw pixels row-major). 8-bit types only."""
-    blob = open(path, "rb").read()
+    blob = Path(path).read_bytes()
     if not blob.startswith(SIG):
         raise ValueError(f"not a PNG: {path}")
     pos = 8

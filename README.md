@@ -1,5 +1,7 @@
 # glasspring
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 A frontend design skill and local review tools for coding agents.
 
 glasspring guides an agent from a web brief to a responsive HTML preview, semantic CSS tokens, and design notes. Its local tools measure supplied color pairs, check output structure, capture screenshots, and inspect selected browser behavior.
@@ -21,7 +23,7 @@ The bundled `SKILL.md` has a strong visual point of view: it uses an Apple inspi
 ## What is not included
 
 - No automatic research, capture, indexing, or reverse engineering of external products. Domain and style cards are static project guidance; they do not contain complete source records or independently validated design findings.
-- No bundled analysis engine, backend, or deployment service. The project does not call REA or implement its analysis workflow.
+- No automated external-product research engine, backend, or deployment service. The project does not call REA or implement its analysis workflow.
 - No guarantee that a coding agent discovers or follows the skill. Copying files verifies the layout only.
 - No claim of full accessibility conformance or measurable design improvement. Mechanical checks cover selected conditions and cannot judge whether an interface is useful.
 
@@ -85,7 +87,7 @@ Missing browser, axe, or click observations remain unknown or fail the relevant 
 
 The public [evaluation protocol](evals/protocol.json) is designed but has not been run. Its prompts are already public, so treat it as a pilot plan, not a hidden holdout set. A confirmatory comparison needs a new task set that was kept out of skill development, blinded independent review, and both visual and task outcome evidence. See [evaluation notes](docs/EVALUATION.md).
 
-The last recorded full sample suite had one real contrast failure and two network dependent skips. Its sample payloads are not included here, so that run cannot be reproduced from this repository. The [release gates](docs/RELEASE-GATES.md) record the remaining status.
+The last recorded full sample suite reported 12 PASS, 1 real contrast FAIL, 1 expected-negative control, and 2 network-dependent SKIP results across 16 rows. Its sample payloads are not included here, so that run cannot be reproduced from this repository. The [release gates](docs/RELEASE-GATES.md) record the remaining status.
 
 The root MIT license applies only to material the contributors have the right to license. It does not clear third-party prose, code, screenshots, or assets. Source by source provenance review remains open; see [third-party notices](THIRD_PARTY_NOTICES.md).
 

@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 import argparse, os, re, sys
 from collections import Counter
+from pathlib import Path
 
 HARD, WARN, INFO = "hard", "warn", "info"
 SEV_ORDER = {INFO: 0, WARN: 1, HARD: 2}
@@ -193,7 +194,7 @@ def scan_path(path: str):
     findings = []
     for f in files:
         try:
-            text = open(f, encoding="utf-8", errors="ignore").read()
+            text = Path(f).read_text(encoding="utf-8", errors="ignore")
         except OSError as e:
             findings.append((HARD, "unreadable", f, str(e)))
             continue
@@ -319,12 +320,12 @@ def selftest() -> int:
     import tempfile
     with tempfile.TemporaryDirectory() as td:
         probe = os.path.join(td, "probe.html")
-        open(probe, "w", encoding="utf-8").write(
+        Path(probe).write_text(
             "<!DOCTYPE html>\n<html><head><style>\n"
             ".a{border-radius:16px}.b{border-radius:16px}.c{border-radius:16px}"  # radius ×3: below threshold
             "\nbody { background: #F4F1EA; }\n"                                     # line 4: cream_hex → expect L4
             ".m{z-index:9999}\n"                                                     # line 5: z_index_magic → expect L5
-            "</style></head><body><p>Design · Systems · Journal · More</p></body></html>\n")  # line 7: middle_dot_meta → expect L7
+            "</style></head><body><p>Design · Systems · Journal · More</p></body></html>\n", encoding="utf-8")  # line 7: middle_dot_meta → expect L7
         located = scan_path(probe)
         got = {rid: where for _, rid, where, _ in located}
         for rid, want in (("cream_hex", "L4"), ("z_index_magic", "L5"), ("middle_dot_meta", "L6")):

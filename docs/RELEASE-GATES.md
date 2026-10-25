@@ -1,6 +1,6 @@
 # Release gates
 
-Status: **Public source preview published; NO-GO for a stable release**. The public repository is [Rethymus/glasspring](https://github.com/Rethymus/glasspring), with `main` as its only branch. No pull request, release tag, package-registry publication, or stable-release claim has been made.
+Status: **Public source preview published; NO-GO for a stable release**. The public preview is on `main` in [Rethymus/glasspring](https://github.com/Rethymus/glasspring). Its initial sanitized snapshot was published directly, without a contemporaneous pull request or release tag. No stable-release claim has been made.
 
 | Gate | State | Evidence or closure requirement |
 |---|---|---|
