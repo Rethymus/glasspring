@@ -2,13 +2,13 @@
 
 ## Current status
 
-No independent comparison of glasspring against a no-skill baseline has been run. The repository's [protocol](../evals/protocol.json) describes a small pilot: six briefs, three attempts per condition, and two conditions, for 36 output attempts. It fixes the host, model revision, brief, project, and time budget; it also calls for blinded review and functional outcome checks.
+No independent comparison of glasspring against a no-skill baseline has been run. The repository's [protocol](../evals/protocol.json) describes a small pilot: six briefs, three attempts per condition, and two conditions, for 36 output attempts. It says to hold the host, model revision, brief, source assets, time, and tool budget constant, and calls for blinded review and functional outcome checks, but it does not specify concrete host/model versions or numeric time/tool budgets.
 
 The prompts are published in this repository. They are therefore a public pilot set, not a hidden holdout. A confirmatory study needs new briefs that were kept out of skill development until generation is complete. If a fresh task set cannot be kept separate, report the result as exploratory.
 
 The pilot is small. It can reveal large task specific effects and failure modes, but it cannot support broad claims across models, hosts, languages, or product domains. Publish all outputs and failures, report paired differences and uncertainty, and avoid collapsing visual preference, usability, and task completion into one score.
 
-The public protocol is also incomplete as a runnable task set: the coffee task refers to a supplied brand palette and the existing-project task refers to a supplied component library, but `evals/protocol.json` is the only tracked file under `evals/`. Those inputs are absent. Keep the current protocol unchanged; recover and record the intended inputs, or revise and version the briefs before any generation. Until then, reproducing those tasks is `INSUFFICIENT_EVIDENCE`.
+The public protocol is also incomplete as a runnable task set: the coffee task refers to a supplied brand palette and the existing-project task refers to a supplied component library, but `evals/protocol.json` is the only tracked file under `evals/`. Those inputs are absent, and the protocol has no asset manifest or hashes to identify them. Keep the current protocol unchanged; recover and record the intended inputs, or revise and version the briefs before any generation. Until the inputs and control values are specified, reproducing those tasks is `INSUFFICIENT_EVIDENCE`; the current document is a study outline, not a reproducible preregistered experiment.
 
 ## What recent benchmarks contribute
 

@@ -1,12 +1,12 @@
 ---
 name: glasspring
 description: Design, restyle, or review responsive web interfaces using routed design references and selected local or browser checks. Use for new pages, dashboards, deliberate redesigns, or review of an existing web preview. Small edits should follow the existing design system and use proportional checks. Native and mini-program outputs are web previews unless separately implemented and tested on their platform.
-license: MIT
+license: MIT for project-authored material only; see THIRD_PARTY_NOTICES.md
 compatibility: Audited on Windows with Python 3.12 and Node.js 22.14. Core Python tools use stdlib and sibling modules; browser probes need Chromium and fetch axe-core from a CDN. Installer supports Codex and Claude Code directory layouts; live discovery and other OS versions require host testing.
 metadata:
   version: "2.1"
   domain-packs: "14"
-  style-packs: "13"
+  style-packs: "12"
 ---
 
 # glasspring — frontend design skill
@@ -60,7 +60,7 @@ Read ≤3 routed craft references per task (typically `tokens.md` + type + domai
 | manufacturing / logistics / AEC / agtech / energy-telecom / legal / accounting | `references/domains/industrial-b2b.md` |
 | 学术 / 科研 / 期刊 / 课题组 / 生化环材 / 化工材料环境企业 | `references/domains/science-research.md` |
 | 企业介绍官网 / 产品演示页（Apple 语法主场） | `references/domains/corporate-demo.md` |
-| **风格包**（用户点名任一风格参照） | `references/style-packs/`（13 成员；有包读包替换基调，无包按 DNA 模板新提炼） |
+| **风格包**（用户点名任一风格参照） | `references/style-packs/`（12 个可用风格包；有包读包替换基调，无包按 DNA 模板新提炼） |
 | **vibe 词桥接**（未点名风格但给了氛围词） | 高级感/极简→swiss-international；工程师/性能感→linear-instrument；ins 风/手作→organic-natural；杂志感→editorial-magazine；复古学院→dark-academia；硬核→brutalist-web；纸感→notion-paper；可爱/游戏化/onboarding→warm-soft-saas；电影感/AI 暗面/crypto→dark-cinematic；静奢/高端柔和/律所酒店→soft-premium；柔和结构/设计工具/建筑事务所→soft-structural；玻璃质感/AI 深空→ethereal-glass。歧义时在 Design Read 声明方向，用户可纠错 |
 | other niches | apply §3 universal rules + closest pack's trust logic; mark "domain pack pending" in design-notes. |
 
