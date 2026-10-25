@@ -22,6 +22,7 @@ import glob
 import os
 import re
 import sys
+from pathlib import Path
 from visual_diff import decode_png
 
 PASS, FAIL, UNKNOWN = "PASS", "FAIL", "UNKNOWN"
@@ -53,7 +54,8 @@ def check_run(directory: str) -> list[tuple[str, str, str]]:
         out.append(clause("tokens-first", FAIL,
                           "tokens.css missing" + (" (bridge project: also no theme-additions.css)" if has_bridge else "")))
     else:
-        head = open(tokens, encoding="utf-8", errors="ignore").read(3000).lower()
+        with open(tokens, encoding="utf-8", errors="ignore") as f:
+            head = f.read(3000).lower()
         missing = []
         if not re.search(r"seed|种子", head):
             missing.append("seed/种子")
@@ -84,8 +86,10 @@ def check_run(directory: str) -> list[tuple[str, str, str]]:
         else:
             out.append(clause("preview-exists", PASS,
                               f"multi-page deliverable: {len(pages)} pages ({', '.join(os.path.basename(p) for p in pages)})"))
-        total_var = sum(len(re.findall(r"var\(--", open(p, encoding="utf-8", errors="ignore").read())) for p in pages)
-        min_var = min(len(re.findall(r"var\(--", open(p, encoding="utf-8", errors="ignore").read())) for p in pages)
+        page_texts = [Path(p).read_text(encoding="utf-8", errors="ignore") for p in pages]
+        token_counts = [len(re.findall(r"var\(--", text)) for text in page_texts]
+        total_var = sum(token_counts)
+        min_var = min(token_counts)
         if total_var >= 10 and min_var >= 3:
             out.append(clause("token-consumption", PASS,
                               f"{total_var} var(--) references across {len(pages)} page(s) (min per page {min_var})"))
@@ -101,7 +105,7 @@ def check_run(directory: str) -> list[tuple[str, str, str]]:
     if not os.path.isfile(notes):
         out.append(clause("design-notes", FAIL, "design-notes.md missing"))
     else:
-        text = open(notes, encoding="utf-8", errors="ignore").read()
+        text = Path(notes).read_text(encoding="utf-8", errors="ignore")
         pos, ordered, absent = -1, True, []
         for i in range(9):
             m = re.search(rf"^\s*#{{1,6}}\s*§?\s*{i}(?!\d)", text, re.M)
@@ -155,17 +159,17 @@ def check_run(directory: str) -> list[tuple[str, str, str]]:
         token_sets = {}
         for hf in html_files:
             html_path = os.path.join(directory, hf)
-            content = open(html_path, encoding="utf-8", errors="ignore").read()
+            content = Path(html_path).read_text(encoding="utf-8", errors="ignore")
             # extract CSS custom property names
             vars_used = set(re.findall(r"--[\w-]+(?=\s*:)", content))
             token_sets[hf] = vars_used
         all_files = [hf for hf in html_files] + (["preview.html"] if os.path.exists(os.path.join(directory, "preview.html")) else [])
         if len(all_files) >= 2:
-            main_vars = set(re.findall(r"--[\w-]+(?=\s*:)", open(os.path.join(directory, "preview.html"), encoding="utf-8", errors="ignore").read())) if os.path.exists(os.path.join(directory, "preview.html")) else set()
+            main_vars = set(re.findall(r"--[\w-]+(?=\s*:)", Path(os.path.join(directory, "preview.html")).read_text(encoding="utf-8", errors="ignore"))) if os.path.exists(os.path.join(directory, "preview.html")) else set()
             drift = []
             for hf in all_files:
                 hp = os.path.join(directory, hf)
-                hv = set(re.findall(r"--[\w-]+(?=\s*:)", open(hp, encoding="utf-8", errors="ignore").read()))
+                hv = set(re.findall(r"--[\w-]+(?=\s*:)", Path(hp).read_text(encoding="utf-8", errors="ignore")))
                 if main_vars and hv != main_vars:
                     diff = hv.symmetric_difference(main_vars)
                     if diff:
@@ -184,14 +188,14 @@ def _build_fixture(root: str):
     """Good/bad fixture for selftest (created under caller-supplied temp root)."""
     good = os.path.join(root, "good-run")
     os.makedirs(os.path.join(good, "shots"), exist_ok=True)
-    open(os.path.join(good, "tokens.css"), "w", encoding="utf-8").write(
+    Path(os.path.join(good, "tokens.css")).write_text(
         "/* seed: demo brand oklch(0.6 0.14 250) | contrast: measured pairs below */\n"
-        ":root{--color-accent:oklch(0.6 0.14 250)}")
-    open(os.path.join(good, "preview.html"), "w", encoding="utf-8").write(
+        ":root{--color-accent:oklch(0.6 0.14 250)}", encoding="utf-8")
+    Path(os.path.join(good, "preview.html")).write_text(
         '<!doctype html><meta charset="utf-8"><title>t</title>'
-        + '<p style="color:var(--color-accent)">x</p>' * 12)
-    open(os.path.join(good, "design-notes.md"), "w", encoding="utf-8").write(
-        "\n".join(f"## {s} section" for s in NOTES_SECTIONS))
+        + '<p style="color:var(--color-accent)">x</p>' * 12, encoding="utf-8")
+    Path(os.path.join(good, "design-notes.md")).write_text(
+        "\n".join(f"## {s} section" for s in NOTES_SECTIONS), encoding="utf-8")
     import struct, zlib
     def chunk(kind, data):
         return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
@@ -199,14 +203,14 @@ def _build_fixture(root: str):
         raw = (b'\0' + b'\xff\xff\xff' * w) * h
         data = b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0))
         data += chunk(b'IDAT', zlib.compress(raw)) + chunk(b'IEND', b'')
-        open(os.path.join(good, "shots", f"shot-{i}.png"), "wb").write(data)
+        Path(os.path.join(good, "shots", f"shot-{i}.png")).write_bytes(data)
 
     bad = os.path.join(root, "bad-run")
     os.makedirs(bad, exist_ok=True)
-    open(os.path.join(bad, "tokens.css"), "w", encoding="utf-8").write(":root{}")
-    open(os.path.join(bad, "preview.html"), "w", encoding="utf-8").write("<p>no tokens</p>")
-    open(os.path.join(bad, "design-notes.md"), "w", encoding="utf-8").write("## §3 only")
-    open(os.path.join(bad, "server.log"), "w", encoding="utf-8").write("stray")
+    Path(os.path.join(bad, "tokens.css")).write_text(":root{}", encoding="utf-8")
+    Path(os.path.join(bad, "preview.html")).write_text("<p>no tokens</p>", encoding="utf-8")
+    Path(os.path.join(bad, "design-notes.md")).write_text("## §3 only", encoding="utf-8")
+    Path(os.path.join(bad, "server.log")).write_text("stray", encoding="utf-8")
     return good, bad
 
 
@@ -237,9 +241,9 @@ def selftest() -> int:
         # delivers theme-additions.css, not a parallel tokens.css
         bridge = os.path.join(tmp, "bridge-run")
         os.makedirs(bridge, exist_ok=True)
-        open(os.path.join(bridge, "components.json"), "w", encoding="utf-8").write("{}")
-        open(os.path.join(bridge, "theme-additions.css"), "w", encoding="utf-8").write(
-            "/* seed: #4F46E5 | contrast: measured via check_contrast --pairs */\n:root{}")
+        Path(os.path.join(bridge, "components.json")).write_text("{}", encoding="utf-8")
+        Path(os.path.join(bridge, "theme-additions.css")).write_text(
+            "/* seed: #4F46E5 | contrast: measured via check_contrast --pairs */\n:root{}", encoding="utf-8")
         b_res = {n: (s, d) for n, s, d in check_run(bridge)}
         s1, d1 = b_res.get("tokens-provenance", (None, ""))
         ok = s1 == PASS and "bridge form" in d1
@@ -274,7 +278,7 @@ def render_html(directory: str, results: list) -> str:
             for f in sorted(fs):
                 if f.lower().endswith(".png"):
                     p = os.path.join(root, f)
-                    b64 = base64.b64encode(open(p, "rb").read()).decode()
+                    b64 = base64.b64encode(Path(p).read_bytes()).decode()
                     rel = os.path.relpath(p, directory).replace("\\", "/")
                     shots.append((rel, b64))
 
@@ -316,8 +320,8 @@ def selftest_html() -> tuple[bool, str]:
         good, _ = _build_fixture(tmp)
         out_path = os.path.join(tmp, "report.html")
         results = check_run(good)
-        open(out_path, "w", encoding="utf-8").write(render_html(good, results))
-        doc = open(out_path, encoding="utf-8").read()
+        Path(out_path).write_text(render_html(good, results), encoding="utf-8")
+        doc = Path(out_path).read_text(encoding="utf-8")
         ok = ("ALL GREEN" in doc and "data:image/png;base64," in doc
               and "tokens-provenance" in doc and doc.count("<tr>") >= 5)
         return ok, out_path
@@ -353,7 +357,7 @@ def main() -> int:
     print(f"summary: {len(hard)} fail, {len(soft)} unknown, "
           f"{len(results) - len(hard) - len(soft)} pass")
     if a.html:
-        open(a.html, "w", encoding="utf-8").write(render_html(a.directory, results))
+        Path(a.html).write_text(render_html(a.directory, results), encoding="utf-8")
         print(f"acceptance report -> {a.html}")
     return 1 if hard else (2 if soft else 0)
 

@@ -75,22 +75,26 @@ class CdpClient:
 
     def __init__(self, host: str, port: int, path: str, timeout: float = 30.0):
         self.sock = socket.create_connection((host, port), timeout=timeout)
-        self.sock.settimeout(timeout)
-        key = base64.b64encode(os.urandom(16)).decode()
-        req = (f"GET {path} HTTP/1.1\r\nHost: {host}:{port}\r\n"
-               "Upgrade: websocket\r\nConnection: Upgrade\r\n"
-               f"Sec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n\r\n")
-        self.sock.sendall(req.encode())
-        resp = b""
-        while b"\r\n\r\n" not in resp:
-            chunk = self.sock.recv(4096)
-            if not chunk:
-                raise ConnectionError("upgrade failed: socket closed")
-            resp += chunk
-        if b" 101 " not in resp.split(b"\r\n", 1)[0]:
-            raise ConnectionError(f"upgrade failed: {resp[:120]!r}")
-        self._buf = b""
-        self._id = 0
+        try:
+            self.sock.settimeout(timeout)
+            key = base64.b64encode(os.urandom(16)).decode()
+            req = (f"GET {path} HTTP/1.1\r\nHost: {host}:{port}\r\n"
+                   "Upgrade: websocket\r\nConnection: Upgrade\r\n"
+                   f"Sec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n\r\n")
+            self.sock.sendall(req.encode())
+            resp = b""
+            while b"\r\n\r\n" not in resp:
+                chunk = self.sock.recv(4096)
+                if not chunk:
+                    raise ConnectionError("upgrade failed: socket closed")
+                resp += chunk
+            if b" 101 " not in resp.split(b"\r\n", 1)[0]:
+                raise ConnectionError(f"upgrade failed: {resp[:120]!r}")
+            self._buf = b""
+            self._id = 0
+        except BaseException:
+            self.sock.close()
+            raise
 
     def _read_message(self):
         """Read one complete (possibly fragmented) text message; auto-pong pings."""
@@ -197,6 +201,7 @@ def launch_browser(port: int) -> tuple[subprocess.Popen, str, str]:
             for line in proc.stderr:
                 lines.append(line)
         t = threading.Thread(target=reader, daemon=True)
+        proc._glasspring_stderr_reader = t
         t.start()
         while time.time() < deadline:
             for line in lines:
@@ -210,7 +215,9 @@ def launch_browser(port: int) -> tuple[subprocess.Popen, str, str]:
                     except OSError:
                         pass  # line seen but endpoint not serving yet
             time.sleep(0.1)
-        proc.terminate()  # this headless mode didn't come up; try the next
+        _terminate_tree(proc)  # this headless mode didn't come up; try the next
+    import shutil
+    shutil.rmtree(user_data, ignore_errors=True)
     raise RuntimeError("browser launched but no DevTools endpoint appeared")
 
 def browser_ws_url(port: int) -> str:
@@ -235,7 +242,13 @@ def _terminate_tree(proc: subprocess.Popen):
     try:
         proc.wait(timeout=5)
     except subprocess.TimeoutExpired:
-        pass
+        proc.kill()
+        proc.wait()
+    reader = getattr(proc, "_glasspring_stderr_reader", None)
+    if reader is not None:
+        reader.join(timeout=5)
+    if proc.stderr is not None:
+        proc.stderr.close()
 
 def shoot_with_retry(url: str, width: int, height: int, out_path: str, dsf: int = 1,
                      attempts: int = 3, clicks: list[str] | None = None,
@@ -333,10 +346,11 @@ def shoot(url: str, width: int, height: int, out_path: str, dsf: int = 1,
                           {"expression": probe, "returnByValue": True},
                           timeout=10, session=sid)
             probe_val = pv["result"]["result"].get("value")
-        cdp.close()
         w, h = png_size(out_path)
         return w, h, probe_val
     finally:
+        if "cdp" in locals():
+            cdp.close()
         _terminate_tree(proc)
         import shutil
         shutil.rmtree(user_data_dir, ignore_errors=True)

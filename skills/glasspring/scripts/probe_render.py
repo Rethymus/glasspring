@@ -496,11 +496,11 @@ def probe(url: str, settle: float = 0.8, with_axe: bool = True,
                 axe_res = run_axe(cdp, sid, url, settle + 0.4)
             if axe_res is not None:
                 a_ser, a_min = axe_res
-        if proc is not None:  # self-launched browser: close connection (caller may still use it in shared mode)
-            pass  # keep the target alive in shared mode — caller calls close()
         return classify(nat, froz, red, rac) + (a_ser, a_min, e_fail, vacuous, eco)
     finally:
         if proc is not None:
+            if cdp is not None:
+                cdp.close()
             _terminate_tree(proc)
             import shutil
             shutil.rmtree(user_data_dir, ignore_errors=True)

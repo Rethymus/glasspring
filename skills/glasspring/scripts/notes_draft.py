@@ -21,6 +21,7 @@ Usage:
 """
 from __future__ import annotations
 import argparse, datetime, os, re, sys
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import check_contrast as cc  # noqa: E402
@@ -38,7 +39,7 @@ NOTE_RE = re.compile(r"(var\(|color-mix|linear-gradient|radial-gradient)")
 def parse_tokens(css_path: str) -> dict[str, str]:
     """--name: value from any :root-level declaration (comments stripped)."""
     try:
-        text = open(css_path, encoding="utf-8", errors="ignore").read()
+        text = Path(css_path).read_text(encoding="utf-8", errors="ignore")
     except OSError:
         return {}
     text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
@@ -86,7 +87,8 @@ def ref_anchor(ref: str) -> tuple[str, str]:
     if not os.path.isfile(path):
         return None, "（references/ 下未找到此文件——核对文件名）"
     try:
-        head = open(path, encoding="utf-8", errors="ignore").read(2000)
+        with open(path, encoding="utf-8", errors="ignore") as f:
+            head = f.read(2000)
     except OSError:
         return path, "（无法读取文件头）"
     m = re.search(r"Last verified:\s*(\d{4}-\d{2}-\d{2})", head)
@@ -174,9 +176,9 @@ def selftest() -> int:
 
     with tempfile.TemporaryDirectory() as td:
         css = ":root{--bg:#FBFAF7;--ink:#35332E;--muted:#75716A;--btn:#348400;--font-body:system-ui;--line:var(--ink)}"
-        open(os.path.join(td, "tokens.css"), "w", encoding="utf-8").write(css)
-        open(os.path.join(td, "preview.html"), "w", encoding="utf-8").write(
-            "<html><body style='background:#f4f1ea'><h1>x — y</h1></body></html>")
+        Path(os.path.join(td, "tokens.css")).write_text(css, encoding="utf-8")
+        Path(os.path.join(td, "preview.html")).write_text(
+            "<html><body style='background:#f4f1ea'><h1>x — y</h1></body></html>", encoding="utf-8")
         tokens = parse_tokens(os.path.join(td, "tokens.css"))
         pairs, skipped = derive_pairs(tokens)
         labels = {p["label"] for p in pairs}

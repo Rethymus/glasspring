@@ -1,6 +1,6 @@
 # Publication note
 
-This repository's `main` branch is a **public source preview**, not a stable release. It is published as a sanitized root snapshot; earlier public history is held privately, and prior audit branch refs are preserved in local recovery bundles. No release tag or pull request accompanies this direct publication.
+This repository's `main` branch is a **public source preview**, not a stable release. The preview was initially published as a sanitized root snapshot; earlier public history is held privately, and prior audit branch refs are preserved in local recovery bundles. That initial publication was direct, without a contemporaneous pull request or release tag.
 
 ## Scope and evidence
 

@@ -299,12 +299,13 @@ def selftest() -> int:
     import tempfile
     with tempfile.TemporaryDirectory() as tdir:
         pf = os.path.join(tdir, "pairs.json")
-        _json.dump([
-            {"label": "ink/paper", "fg": "#111111", "bg": "#faf7f2"},
-            {"label": "deliberate-fail", "fg": "#cccccc", "bg": "#ffffff"},
-            {"label": "glass-nav", "fg": "#111111", "bg": "#000000",
-             "tint": "rgba(255,255,255,0.72)", "composites": "#ffffff,#000000"},
-        ], open(pf, "w", encoding="utf-8"))
+        with open(pf, "w", encoding="utf-8") as _pf:
+            _json.dump([
+                {"label": "ink/paper", "fg": "#111111", "bg": "#faf7f2"},
+                {"label": "deliberate-fail", "fg": "#cccccc", "bg": "#ffffff"},
+                {"label": "glass-nav", "fg": "#111111", "bg": "#000000",
+                 "tint": "rgba(255,255,255,0.72)", "composites": "#ffffff,#000000"},
+            ], _pf)
         import io, contextlib
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
@@ -314,7 +315,8 @@ def selftest() -> int:
         print(f"  [{'PASS' if ok else 'FAIL'}] batch mixed verdicts -> exit 1 with failing label listed")
         if not ok:
             fails.append("batch-mixed")
-        _json.dump([{"label": "ok", "fg": "#111111", "bg": "#faf7f2"}], open(pf, "w", encoding="utf-8"))
+        with open(pf, "w", encoding="utf-8") as _pf:
+            _json.dump([{"label": "ok", "fg": "#111111", "bg": "#faf7f2"}], _pf)
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
             rc = batch_pairs(pf)
