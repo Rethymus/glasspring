@@ -1,0 +1,20 @@
+{
+  "status": "DESIGNED_NOT_EXECUTED",
+  "purpose": "Measure task outcomes and visual usefulness independently of glasspring's own rule compliance",
+  "conditions": ["no_skill", "glasspring"],
+  "controls": ["same host and model revision", "same user brief and source assets", "fresh isolated project and session", "same time and tool budget", "no access to the other condition's outputs", "capture failures and total elapsed time"],
+  "tasks": [
+    {"id": "incident", "brief": "Responsive incident dashboard for on-call engineers. Filter logs by severity, pause the stream, show loading and empty results.", "outcomes": ["filter changes visible data", "pause stops updates", "readable at 390 and 1440", "keyboard can reach primary controls"]},
+    {"id": "pricing", "brief": "Team analytics pricing page with monthly and annual billing. Annual plan is 20 percent cheaper and shows the total due.", "outcomes": ["billing switch changes displayed amount and period", "primary CTA has a meaningful destination or explicit demo state", "comparison readable on mobile"]},
+    {"id": "brand", "brief": "Coffee shop landing page using the supplied cream and terracotta brand palette. Preserve brand identity.", "outcomes": ["brand brief respected", "contact or ordering action works", "no invented endorsements"]},
+    {"id": "form", "brief": "Public-service appointment form with errors, confirmation, keyboard navigation and no decorative animation.", "outcomes": ["invalid submission explains correction", "valid submission shows confirmation", "labels and focus visible"]},
+    {"id": "existing", "brief": "Add a settings page to the supplied existing component library without redesigning its visual system.", "outcomes": ["existing tokens/components reused", "save/cancel state works", "no unrelated configuration changes"]},
+    {"id": "multipage", "brief": "Three-page equipment-rental site with home, prices and journal using shared branding and working navigation.", "outcomes": ["all links resolve", "shared tokens preserved", "three page types use suitable distinct layouts"]}
+  ],
+  "replicates_per_condition_per_task": 3,
+  "blinding": "Randomize output labels and order after generation. Keep assignment key away from judges. Record screenshots at fixed sizes and test interactive outputs.",
+  "judges": "At least two people or separately operated reviewers, independent of generation and unaware of condition; do not call one agent's self-review independent human evidence",
+  "scoring": {"task_success": "0-4", "information_hierarchy": "0-4", "readability_and_access": "0-4", "brief_and_brand_fit": "0-4", "visual_coherence": "0-4", "interaction_usability": "0-4"},
+  "analysis": "Predeclare endpoints before generation. Publish all 36 outputs, failures, paired task differences, judge disagreement, time cost and uncertainty. No points merely for using tokens, glass, or obeying a style ban. Do not claim a general improvement if results are task-dependent or inconclusive.",
+  "results": null
+}

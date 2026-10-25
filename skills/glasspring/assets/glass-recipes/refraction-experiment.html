@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>glasspring · refraction experiment (OPT-IN, may hang embedded webviews)</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    /* glass tokens (Tier 1) */
+    --glass-blur: 20px;
+    --glass-saturate: 180%;
+    --glass-tint: rgba(255, 255, 255, 0.72);
+    --glass-tint-dark: rgba(18, 20, 28, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.45);
+    --glass-shadow: 0 8px 32px rgb(0 0 0 / 0.18);
+    --ease-spring: linear(0, 0.065, 0.2112, 0.3848, 0.553, 0.6982, 0.8137, 0.8993, 0.9582, 0.9955, 1.0165, 1.0262, 1.0284, 1.0262, 1.0219, 1.017, 1.0123, 1.0082, 1.005, 1.0027, 1.0011, 1.0001, 0.9995, 0.9992, 0.9992, 0.9993, 0.9994, 0.9995, 0.9997, 0.9998, 0.9999, 0.9999, 1);
+    /* Spring(duration:0.3, bounce:0.25) via scripts/spring_convert.py; play over 1.2s */
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh; padding: 32px 20px 80px;
+    background:
+      radial-gradient(420px 300px at 12% 8%,  #ffd400 0%, transparent 62%),   /* bright worst-case */
+      radial-gradient(500px 360px at 88% 18%, #7c3aed 0%, transparent 60%),
+      radial-gradient(460px 340px at 18% 82%, #0ea5e9 0%, transparent 60%),
+      radial-gradient(520px 380px at 85% 86%, #f43f5e 0%, transparent 58%),
+      linear-gradient(160deg, #101418, #1c2430 55%, #141a22);
+    background-attachment: fixed;
+  }
+  h1 { color: #fff; font-size: 1.4rem; letter-spacing: .01em; margin-bottom: 6px; }
+  .sub { color: rgb(255 255 255 / .72); font-size: .85rem; margin-bottom: 28px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+
+  .card { border-radius: 20px; padding: 20px; min-height: 190px; }
+  .card h2 { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; opacity: .65; margin-bottom: 10px; }
+  .card p { font-size: .95rem; line-height: 1.65; }
+  .card code { font-family: ui-monospace, Consolas, monospace; font-size: .8em; }
+
+  /* TIER 1 — full glass (light tint over any content) */
+  .tier1 {
+    background: var(--glass-tint); color: #101418;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+            backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 rgb(255 255 255 / .35);
+  }
+  /* TIER 2 — scrim fallback (no backdrop-filter) */
+  .tier2 {
+    background: rgba(255, 255, 255, 0.88); color: #101418;
+    background-image: linear-gradient(rgb(255 255 255 / .25), transparent 40%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 rgb(255 255 255 / .3);
+  }
+  /* TIER 3 — refraction enhancement (Chromium; feDisplacementMap over backdrop) */
+  .tier3 {
+    background: rgba(255, 255, 255, 0.55); color: #101418;
+    -webkit-backdrop-filter: url(#lens) blur(18px) saturate(180%);
+            backdrop-filter: url(#lens) blur(18px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 rgb(255 255 255 / .35);
+  }
+  /* dark glass variant — white text; worst-case backdrop is the WHITE stripe below */
+  .dark-demo {
+    background: var(--glass-tint-dark); color: #fff;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgb(255 255 255 / .16);
+    box-shadow: var(--glass-shadow);
+  }
+  /* worst-case backdrop stripe crossing ALL cards (white + yellow bands) */
+  .worstcase { position: relative; max-width: 1200px; margin: 26px auto 0; }
+  .worstcase .stripes {
+    position: absolute; inset: -14px 0; z-index: -1; border-radius: 24px;
+    background: linear-gradient(90deg, #ffffff 0 30%, #ffd400 30% 55%, #ffffff 55% 78%, #ff8a00 78% 100%);
+  }
+  .contrast-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1200px; margin: 0 auto; }
+  .fail-demo {
+    border-radius: 16px; padding: 16px; color: #fff;
+    -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.18); /* deliberately LOW tint alpha — teaching failure */
+    border: 1px dashed rgba(255,255,255,.6);
+  }
+  .pass-demo {
+    border-radius: 16px; padding: 16px; color: #101418;
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  .tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+         padding: 3px 8px; border-radius: 999px; margin-bottom: 8px; }
+  .tag.fail { background: #b91c1c; color: #fff; }
+  .tag.pass { background: #14532d; color: #fff; }
+
+  /* spring demo — curve generated by spring_convert.py --duration 0.3 --bounce 0.25 */
+  .spring-row { max-width: 1200px; margin: 30px auto 0; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  button.pop {
+    font: inherit; font-weight: 600; padding: 12px 22px; border-radius: 999px; border: 0; cursor: pointer;
+    background: #fff; color: #101418; box-shadow: 0 6px 20px rgb(0 0 0 / .25);
+  }
+  .spring-chip {
+    padding: 14px 26px; border-radius: 16px; background: var(--glass-tint); color: #101418;
+    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border); font-weight: 600;
+  }
+  .spring-chip.animate { animation: pop 1.2s var(--ease-spring); }
+  @keyframes pop { from { transform: scale(.86); } to { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .spring-chip.animate { animation: none; } }
+
+  /* Tier 2 fallback if backdrop-filter unsupported */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .tier1, .tier3, .dark-demo, .spring-chip { background: rgba(255,255,255,.92); }
+    .fail-demo { background: rgba(255,255,255,.55); color: #101418; }
+  }
+  @media (max-width: 640px) { .contrast-demo { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>glasspring — Tier 3 refraction experiment ⚠ OPT-IN</h1>
+  <p class="sub">EXPERIMENTAL: SVG feDisplacementMap over backdrop-filter. Known to hang/blank some embedded Chromium webviews (found in glasspring N3 testing). Never enable without a feature-detect + escape hatch. Original N3 fixture:  · tiers 1/2/3 + worst-case contrast + spring curve (scripts/spring_convert.py). Backdrop stripes simulate worst-case bright content scrolling under glass.</p>
+
+  <!-- SVG displacement map for Tier 3 refraction (rounded-rect SDF approximation) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="lens" x="-20%" y="-20%" width="140%" height="140%">
+      <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='260'%3E%3Cdefs%3E%3CradialGradient id='g'%3E%3Cstop offset='70%25' stop-color='%23000'/%3E%3Cstop offset='100%25' stop-color='%23fff'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='400' height='260' rx='40' fill='url(%23g)'/%3E%3C/svg%3E" result="map"/>
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+  <div class="grid">
+    <section class="card tier1" data-testid="tier1">
+      <h2>Tier 1 · Full Glass</h2>
+      <p><code>backdrop-filter: blur(20px) saturate(180%)</code> + 0.72 tint alpha floor. Text must stay ≥4.5:1 against the <em>worst-case</em> backdrop — see the contrast row below.</p>
+    </section>
+    <section class="card tier2" data-testid="tier2">
+      <h2>Tier 2 · Opaque Scrim</h2>
+      <p>Ships automatically via <code>@supports not (backdrop-filter…)</code>, reduced-transparency, forced-colors, and low-device heuristics. No blur needed to be readable.</p>
+    </section>
+    <section class="card tier3" data-testid="tier3">
+      <h2>Tier 3 · Refraction (enhance)</h2>
+      <p>SVG <code>feDisplacementMap</code> edge bending on top of Tier 1. Chromium-leaning: must be invisible if removed. Decorative only.</p>
+    </section>
+  </div>
+
+  <div class="worstcase">
+    <div class="stripes" aria-hidden="true"></div>
+    <section class="card dark-demo" data-testid="dark-glass">
+      <h2>Dark glass · worst-case backdrop = white/yellow bands</h2>
+      <p>Tint <code>rgba(18,20,28,0.72)</code> over pure white → effective bg ≈ #54565C; white text ≈ 7.3:1 (AAA). Verified with <code>check_contrast.py --composites</code>.</p>
+    </section>
+  </div>
+
+  <div class="contrast-demo" style="margin-top:24px">
+    <div class="fail-demo" data-testid="contrast-fail">
+      <span class="tag fail">FAIL ON PURPOSE — teaching case</span>
+      <p>White text on 0.18-alpha glass over yellow. ≈1.4:1 — never ship. Raise tint alpha to ≥0.70 or switch text color.</p>
+    </div>
+    <div class="pass-demo" data-testid="contrast-pass">
+      <span class="tag pass">PASS — 0.72 tint floor</span>
+      <p>Dark text on 0.72 white tint over the same yellow → effective bg ≈ #FFF3B8, ≈16.5:1. This is the tint-alpha floor rule from glass.md.</p>
+    </div>
+  </div>
+
+  <div class="spring-row">
+    <button class="pop" id="popBtn" type="button">▶ replay spring</button>
+    <div class="spring-chip" id="springChip" data-testid="spring-chip">spring chip · Spring(0.3s, bounce 0.25) → CSS linear()</div>
+  </div>
+
+<script>
+  const chip = document.getElementById('springChip');
+  document.getElementById('popBtn').addEventListener('click', () => {
+    chip.classList.remove('animate'); void chip.offsetWidth; chip.classList.add('animate');
+  });
+  addEventListener('load', () => chip.classList.add('animate'));
+</script>
+</body>
+</html>

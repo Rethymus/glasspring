@@ -1,0 +1,17 @@
+# Provenance and evidence boundaries
+
+The source was an unversioned local workspace. Its complete private archive and SHA-256 manifest are stored outside the public repository. Public `main` is a sanitized root snapshot; it does not reconstruct development history or prove authorship. Earlier public history is retained in a private archive, and the former audit branch refs are preserved in local recovery bundles.
+
+The source summary was treated as a set of claims. Counts, execution results and file contents were rechecked. Missing historical transcripts, reused labels and reconstructed scores cannot be repaired by inference. Archived variants do not establish independent experiments.
+
+REA comparison used the repository's observed HEAD `41cf869949b82bd0f24d425f6557432ae3a63545`. README, package metadata, MIT license, third-party notices and MCP contracts were retrieved at that revision, with local SHA-256 records. GitHub's unauthenticated REST API returned a rate-limit error; the commit was obtained using `git ls-remote` and the files fetched by that commit.
+
+REA provides investigation tools. Glasspring's source mentions its distribution and explicit uncertainty patterns, but no REA dependency, target investigation trace or installed REA execution was found in the reviewed source. The audit did not run REA. “Inspired by REA” is supported; “powered by REA” and “validated by REA” are not.
+
+The original source ledger includes links to unofficial leaked-prompt collections and speculative model documents. They cannot establish official behavior or license terms. Such references and their claims have been removed from the public adapters. Original research remains in the private baseline. Remaining references require a per-file review before stable release.
+
+A post-publication source scan found internal sample labels and sample-specific observations in the candidate. This cleanup removes the identified labels and observations from the public tree; sample payloads and screenshots are not included in the updated source preview. The latest separate sample-suite results are summarized without project identifiers in `PUBLICATION-NOTE.md`.
+
+The follow-up date scan found future-dated research claims in several cards. Those dates and unverifiable research attributions were removed; remaining guidance is labeled as project advice or linked to an accessible source.
+
+No fresh no-skill / with-skill generation experiment was performed by independent hosts during this audit. The retained evaluation protocol explicitly requires new generation, fixed budgets, randomized presentation and outcome-oriented scoring before efficacy claims.

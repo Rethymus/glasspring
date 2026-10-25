@@ -1,0 +1,22 @@
+name: candidate checks
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  mechanical:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - run: python -m unittest discover -s tests -v
+      - run: node skills/glasspring/scripts/install.mjs --selftest
+      - run: python skills/glasspring/scripts/verify_output.py --selftest
+      - run: python skills/glasspring/scripts/mcp_server.py --selftest
+      # Browser and fresh host-session acceptance are separate release gates.

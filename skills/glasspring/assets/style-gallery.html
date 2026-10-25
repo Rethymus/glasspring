@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>glasspring 风格画廊：8 家族同内容对照</title>
+<style>
+  /* 基座：画廊自身的中性壳（不属于任何风格） */
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #E8E6E1; font-family: system-ui, sans-serif; padding: 24px 16px 64px; }
+  .gal-header { max-width: 720px; margin: 0 auto 28px; }
+  .gal-header h1 { font-size: 22px; color: #2b2b28; }
+  .gal-header p { font-size: 13px; color: #4a4640; line-height: 1.6; }
+  .strip { display: grid; gap: 28px; max-width: 720px; margin: 0 auto; }
+  .strip > section { border-radius: 6px; overflow: hidden; }
+  .strip h2 { font-size: 12px; letter-spacing: .12em; padding: 10px 16px; color: #fff; background: #2b2b28; font-weight: 600; }
+  .strip h2 small { font-weight: 400; margin-left: 8px; }  /* opacity .55 removed 2026-10-24: pass own gate */
+  /* 样本内容结构（六个风格渲染同一结构） */
+  .sample { padding: 28px 22px; }
+  .sample .kicker { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+  .sample h3 { font-size: 26px; line-height: 1.15; margin-bottom: 10px; }
+  .sample p { font-size: 14px; line-height: 1.65; margin-bottom: 14px; }
+  .sample .meta { font-size: 11px; color: inherit !important; }  /* 2026-10-24: gallery must pass its own axe gate — dim inline meta colors overridden to section ink */
+  .sample .btn { display: inline-block; font-size: 13px; padding: 9px 18px; }
+</style>
+</head>
+<body>
+<div class="gal-header">
+  <h1>glasspring 风格画廊</h1>
+  <p>同一组样本内容（标题/导语/按钮/元信息）× 十二个风格包的实渲染对照（每个包的完整 DNA 卡——色阶/规则/实测对比度/转正状态——见 references/style-packs/）。本画廊壳为中性灰，各节内样式互不渗漏。★ = GP 端到端转正包。</p>
+</div>
+<div class="strip">
+
+<!-- ═══ 1. LINEAR INSTRUMENT ═══ -->
+<section style="background:#101319; font-family:system-ui;" aria-label="Linear instrument 样张">
+  <h2 style="color:#101319; background:#75C8FC;">① LINEAR INSTRUMENT <small>仪器盘 · devtools/B2B ★</small></h2>
+  <div class="sample" style="padding:24px 20px; color:#e8eaf6;">
+    <div class="kicker" style="color:#8b93f8; font-family:ui-monospace; font-size:11px;">SPRINT 14 · WEEK 2</div>
+    <h3 style="color:#e8eaf6; font-weight:650; font-size:22px;">Keyboard-first issue triage</h3>
+    <p style="color:#9aa3b5; font-family:ui-monospace; font-size:13px; font-variant-numeric:tabular-nums;">ORB-214 · P1 · 2h · focus-regression</p>
+    <span class="btn" style="background:#8b93f8; color:#0d0f16; font-weight:600;">⌘K Open command</span>
+    <p class="meta" style="color:#525a6e; margin-top:12px; font-size:11px;">compact 36px rows ／ j/k navigate ／ zero glass</p>
+  </div>
+</section>
+
+<!-- ═══ 2. NOTION PAPER ═══ -->
+<section style="background:#EAE7E3;" aria-label="Notion paper 样张">
+  <h2 style="color:#37352F; background:#F7F6F3; border-bottom:1px solid #d9d5cf;">② NOTION PAPER <small>纸感极简 · 文档/知识库</small></h2>
+  <div class="sample" style="background:#F7F6F3; color:#37352F;">
+    <div class="kicker" style="color:#6f6b64; font-size:11px;">📖 内部手册</div>
+    <h3 style="font-weight:700; font-size:24px; color:#37352F;">团队决策日志模板</h3>
+    <p style="font-size:14px; line-height:1.7;">把每次重要决定写成一页：背景、选项、结论、复核日期。块可以拖，字可以评，历史不能改。</p>
+    <span class="btn" style="border:1px solid #d9d5cf; color:#37352F; background:#fff;">使用此模板</span>
+    <p class="meta" style="color:#9b968f; margin-top:10px; font-size:11px;">hover 才浮现操作 ／ 零投影 ／ 块即组件</p>
+  </div>
+</section>
+
+<!-- ═══ 3. SWISS INTERNATIONAL ═══ -->
+<section style="background:#F9F7F2;" aria-label="Swiss international 样张">
+  <h2 style="color:#111; background:#F9F7F2; border-bottom:2px solid #111;">③ SWISS INTERNATIONAL <small>网格秩序 · 作品集/编辑</small></h2>
+  <div class="sample" style="padding:28px 22px;">
+    <div class="kicker" style="color:#C0271B; font-family:ui-monospace; font-size:11px;">01 / AUSSTELLUNG</div>
+    <h3 style="color:#111; font-weight:800; font-size:30px; letter-spacing:-.02em; line-height:1.02; text-transform:uppercase;">Neue Räume.</h3>
+    <p style="color:#333; font-size:14px; line-height:1.5; max-width:40ch;">Objektive Fotografie. Asymmetrisches Raster. Drei Farben: Schwarz, Weiß, Rot. Nichts sonst.</p>
+    <span class="btn" style="background:#111; color:#F9F7F2;">Ausstellung →</span>
+    <p class="meta" style="color:#777; margin-top:12px; font-size:11px;">grid裸露 ／ 锐角纪律 ／ 红仅标点</p>
+  </div>
+</section>
+
+<!-- ═══ 4. BRUTALIST WEB ═══ -->
+<section style="background:#FFFFFF;" aria-label="Brutalist web 样张">
+  <h2 style="color:#fff; background:#111;">④ BRUTALIST WEB <small>结构裸露 · 作品集/独立刊物</small></h2>
+  <div class="sample" style="border-top:3px solid #111; border-bottom:3px solid #111; color:#111;">
+    <div class="kicker" style="color:#0000FF; font-family:ui-monospace; font-size:11px; font-weight:700;">NO.004 — RAW OUTPUT</div>
+    <h3 style="color:#111; font-weight:800; font-size:26px; text-transform:uppercase;">This page has no corners.</h3>
+    <p style="color:#111; font-size:14px; font-weight:600;">系统字体。平面色块。黑边勾一切。hover 反色。没有第三种颜色。</p>
+    <span class="btn" style="background:#0000FF; color:#fff; border:2px solid #111;">WORK ←→</span>
+    <p class="meta" style="color:#111; margin-top:12px; font-size:11px;">radius 0 全站 ／ shadow 禁止 ／ 反色即 hover</p>
+  </div>
+</section>
+
+<!-- ═══ 5. EDITORIAL MAGAZINE ═══ -->
+<section style="background:#FAF7F2;" aria-label="Editorial magazine 样张">
+  <h2 style="color:#1A1815; background:#FAF7F2; border-bottom:0.5px solid #D8D2C8;">⑤ EDITORIAL MAGAZINE <small>阅读仪式感 · 深度内容</small></h2>
+  <div class="sample" style="padding:30px 24px;">
+    <div class="kicker" style="color:#722F37; font-family:ui-monospace; font-size:11px;">ESSAY · NO.12 · 阅读 14 分钟</div>
+    <h3 style="color:#1A1815; font-family:Georgia, serif; font-weight:700; font-size:27px; line-height:1.2;">慢读作为一种抵抗。</h3>
+    <p style="color:#3d3a34; font-family:Georgia, serif; font-size:15px; line-height:1.8;">首字下沉，细规则线，宽行距——每一处排版都在说：这里的内容值得慢读。</p>
+    <span class="btn" style="background:transparent; color:#722F37; border:0; border-bottom:1px solid #722F37; border-radius:0; padding:2px 0;">继续阅读 ↓</span>
+    <p class="meta" style="color:#8a857c; margin-top:12px; font-size:11px;">衬线体系 ／ 首字下沉 ／ 细线节奏 ／ 无卡片</p>
+  </div>
+</section>
+
+<!-- ═══ 6. GLASSPRING GLASS（基线玻璃）═══ -->
+<!-- ═══ 6. DARK ACADEMIA ═══ -->
+<section style="background:#F5F1E8;" aria-label="Dark academia 样张">
+  <h2 style="color:#2C2418; background:#F5F1E8; border-bottom:3px double #2C2418;">⑥ DARK ACADEMIA <small> 烛光书卷 · 文创出版</small></h2>
+  <div class="sample" style="padding:28px 22px;">
+    <div class="kicker" style="color:#6D2E2E; font-family:ui-monospace; font-size:11px;">VOL. II · §1 · ANNO MMXXVI</div>
+    <h3 style="color:#2C2418; font-family:Georgia, serif; font-weight:700; font-size:26px; line-height:1.2;">Bibliotheca: 知识的重量。</h3>
+    <p style="color:#3d3327; font-family:Georgia, serif; font-size:14px; line-height:1.75;">双线框、拉丁编号、oxblood 引言竖线——每一处符号都在说：这里的内容有出处。</p>
+    <span class="btn" style="background:#6D2E2E; color:#F5F1E8; font-family:Georgia, serif;">Vol. I →</span>
+    <p class="meta" style="color:#8a7d6e; margin-top:12px; font-size:11px;">哥特衬线 ／ 双线框 ／ oxblood 竖线 ／ 玻璃互斥</p>
+  </div>
+</section>
+
+<!-- ═══ 7. ORGANIC NATURAL ═══ -->
+<section style="background:#FAF6F0;" aria-label="Organic natural 样张">
+  <h2 style="color:#2E3B32; background:#FAF6F0; border-bottom:1px solid #d4cdc2;">⑦ ORGANIC NATURAL <small> 陶土植物 · 可持续品牌</small></h2>
+  <div class="sample" style="padding:28px 22px; border-radius:16px 4px 16px 4px;">
+    <div class="kicker" style="color:#8B4A2B; font-size:11px;">手作系列 · 第一批</div>
+    <h3 style="color:#2E3B32; font-weight:600; font-size:24px; line-height:1.25;">每一只杯子，都有手温。</h3>
+    <p style="color:#4a5548; font-size:14px; line-height:1.7;">有机曲线，不对称叶片圆角，陶土与鼠尾草——把可持续从口号变成触感。</p>
+    <span class="btn" style="background:#43654C; color:#FAF6F0; border-radius:12px 3px 12px 3px;">了解工艺 →</span>
+    <p class="meta" style="color:#7a8078; margin-top:12px; font-size:11px;">呼吸留白 ≥40% ／ 绿调墨水 ／ 零玻璃零金属</p>
+  </div>
+</section>
+
+<!-- ═══ 8. GLASSPRING GLASS ═══ -->
+<section style="background:linear-gradient(150deg,#0f2027,#203a43,#2c5364); padding-bottom:8px;" aria-label="Glasspring glass 样张">
+  <h2 style="color:#fff; background:transparent; padding-left:16px;">⑥ GLASSPRING GLASS <small> 基线玻璃 · 信任区外</small></h2>
+  <div class="sample" style="margin:14px 16px; background:rgba(255,255,255,0.10); backdrop-filter:blur(18px) saturate(180%); -webkit-backdrop-filter:blur(18px) saturate(180%); border:1px solid rgba(255,255,255,0.22); border-radius:14px; color:#fff; box-shadow:0 8px 32px rgba(0,0,0,.25);">
+    <div class="kicker" style="color:rgba(255,255,255,.65); font-size:11px;">FROSTED PANEL · TIER 1</div>
+    <h3 style="font-weight:700; font-size:22px;">Frosted chrome, opaque trust zones.</h3>
+    <p style="color:rgba(255,255,255,.88); font-size:14px;">玻璃只给导航与浮层——信任区（金额/正文/图表）永远实底。最坏合成对比度已实测。</p>
+    <span class="btn" style="background:#fff; color:#203a43; font-weight:600;">Open glass.md</span>
+    <p class="meta" style="color:rgba(255,255,255,.55); margin-top:12px; font-size:11px;">α0.72 地板 ／ 最坏复合已实测 ／ 三路降级</p>
+  </div>
+</section>
+
+<!-- ═══ 9. WARM-SOFT SAAS ═══ -->
+<section style="background:#FBFAF7;" aria-label="Warm-soft SaaS 样张">
+  <h2 style="color:#FBFAF7; background:#348400;">⑨ WARM-SOFT SAAS <small>暖软游戏化 · 习惯养成 ★</small></h2>
+  <div class="sample" style="background:#fdfbf6; border:2px solid #35332E; border-radius:20px; padding:24px 22px; color:#35332E; box-shadow:0 4px 0 #1E6400;">
+    <div class="kicker" style="color:#476651; font-size:12px; font-weight:700;">第 3 天 · 连击中</div>
+    <h3 style="font-weight:800; font-size:24px; color:#35332E;">今日专注番茄</h3>
+    <p style="font-size:14px; color:#75716A;">四个就够，贪多豆会蔫哦。</p>
+    <span class="btn" style="background:#348400; color:#fff; border:2px solid #1E6400; border-radius:999px; box-shadow:0 4px 0 #1E6400; font-weight:800;">开始专注</span>
+    <p class="meta" style="color:#75716A; margin-top:12px; font-size:11px;">边框 ≥2px 永不 hairline ／ 绿 500 零文字 ／ chunky 按压下沉</p>
+  </div>
+</section>
+
+<!-- ═══ 10. DARK CINEMATIC ═══ -->
+<section style="background:#030304;" aria-label="Dark cinematic 样张">
+  <h2 style="color:#E9EBEE; background:#14191E;">⑩ DARK CINEMATIC <small>暗色电影级 · AI/infra 营销 ★</small></h2>
+  <div class="sample" style="padding:24px 22px; color:#E9EBEE; background:#0A0D10; border:1px solid rgb(255 255 255 / .09);">
+    <div class="kicker" style="color:#999FA6; font-size:11px; letter-spacing:.18em;">DEPLOY</div>
+    <h3 style="font-weight:600; font-size:24px; color:#E9EBEE;">一次上线，全球边缘。</h3>
+    <p style="color:#999FA6; font-size:13px;">发布即部署到三百个城市节点。没有队列这个词。</p>
+    <span class="btn" style="background:#00AEE9; color:#030304; font-weight:600; border-radius:6px;">立即部署</span>
+    <p class="meta" style="color:#999FA6; margin-top:12px; font-size:11px;">void 分层 ≠ #000 ／ 信号色全页 ≤3 ／ glow 只此一处</p>
+  </div>
+</section>
+
+<!-- ═══ 11. SOFT PREMIUM ═══ -->
+<section style="background:#FCFAF6;" aria-label="Soft premium 样张">
+  <h2 style="color:#362418; background:#D8F0D0;">⑪ SOFT PREMIUM <small>静奢柔和 · 律所/精品酒店 ★</small></h2>
+  <div class="sample" style="padding:26px 22px; color:#362418;">
+    <div class="kicker" style="color:#476651; font-size:11px;">住</div>
+    <h3 style="font-family:Georgia,'Songti SC',serif; font-weight:500; font-size:26px; color:#362418;">十二间房朝十二个方向。</h3>
+    <p style="color:#787069; font-size:14px;">没有两间看得见同样的山。窗帘拉开就是山。</p>
+    <span class="btn" style="background:#362418; color:#FCFAF6; border-radius:8px; box-shadow:0 24px 60px rgba(54,36,24,.06);">查看房态</span>
+    <p class="meta" style="color:#787069; margin-top:12px; font-size:11px;">胶片颗粒 0.03 ／ sage 双轨 ／ 超软影 &lt;0.05</p>
+  </div>
+</section>
+
+<!-- ═══ 12. SOFT STRUCTURAL ═══ -->
+<section style="background:#F1F4F7;" aria-label="Soft structural 样张">
+  <h2 style="color:#1E2226; background:#ffffff;">⑫ SOFT STRUCTURAL <small>柔性结构 · 设计工具/专业服务 ★</small></h2>
+  <div class="sample" style="background:#fff; border:1px solid rgba(30,34,38,.06); border-radius:10px; padding:22px 20px; color:#1E2226; box-shadow:0 40px 80px rgba(30,34,38,.06), 0 8px 24px rgba(30,34,38,.04);">
+    <div class="kicker" style="color:#575B60; font-size:11px; text-transform:uppercase;">WORKS</div>
+    <h3 style="font-weight:900; font-size:24px; letter-spacing:-.02em; color:#1E2226;">以结构回应场地。</h3>
+    <p style="color:#575B60; font-size:13px;">从第一根线的位置开始设计。</p>
+    <span class="btn" style="background:#2266A4; color:#fff; border-radius:10px;">查看项目</span>
+    <p class="meta" style="color:#575B60; margin-top:12px; font-size:11px;">巨型 grotesk 承担戏剧 ／ 漫射影无方向 ／ accent ≤3</p>
+  </div>
+</section>
+
+<!-- ═══ 13. ETHEREAL GLASS ═══ -->
+<section style="background:#050505;" aria-label="Ethereal glass 样张">
+  <h2 style="color:#E4E8EE; background:#0B0D11;">⑬ ETHEREAL GLASS <small>空灵玻璃 · AI 数据平台 ★</small></h2>
+  <div class="sample" style="padding:22px 20px; color:#E4E8EE; background:linear-gradient(160deg,#14191E,#0A0D10); border:1px solid rgb(255 255 255 / .09); border-radius:14px; box-shadow:inset 0 1px 0 rgb(255 255 255 / .12);">
+    <div class="kicker" style="color:#999FA6; font-size:11px;">STREAM</div>
+    <h3 style="font-weight:300; font-size:24px; color:#E4E8EE;">在它发生时回答。</h3>
+    <p style="color:#999FA6; font-family:ui-monospace; font-size:13px;">latency 214ms · 3 sources live</p>
+    <span class="btn" style="background:#00AEE9; color:#030304; border-radius:10px; font-weight:600;">开始查询</span>
+    <p class="meta" style="color:#999FA6; margin-top:12px; font-size:11px;">假玻璃三件套 ／ 定价区恒实底 ／ mesh 单色相 ≤0.15</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
