@@ -83,11 +83,11 @@ These check repository code; they do not evaluate an Agent's design output. The 
 | Privacy review | **PARTIAL**: heuristic text scan only; no dedicated secret scan or complete binary/history review. |
 | Codex host | Skill metadata listing **PASS**; reading the installed file and task behavior **UNKNOWN**. |
 | Claude Code host | Fresh-session discovery and task behavior **NOT_RUN**. |
-| Independent efficacy | **NOT_RUN (DESIGNED_NOT_EXECUTED)**; the public pilot is not a hidden holdout, and its coffee task's supplied palette is absent from this repository. |
+| Independent efficacy | **NOT_RUN (DESIGNED_NOT_EXECUTED)**; the public pilot is not a hidden holdout, two task inputs are missing, and its rubric does not separately score visual distinctiveness or record token cost and Skill-use coverage. See [evaluation notes](docs/EVALUATION.md). |
 | Browser dependency integrity | **OPEN**: axe-core is fetched from a CDN without a pinned integrity value or offline coverage policy. |
 | Stable release | **BLOCKED** until all open release gates are resolved. |
 
-See [release gates](docs/RELEASE-GATES.md), [evaluation notes](docs/EVALUATION.md), [provenance](PROVENANCE.md), and [third-party notices](THIRD_PARTY_NOTICES.md) for evidence and closure requirements. No claim is made that the Skill improves design quality, works in every Agent host, or fully conforms to WCAG.
+See [release gates](docs/RELEASE-GATES.md), [evaluation notes](docs/EVALUATION.md), the [public pilot protocol](evals/protocol.json), [provenance](PROVENANCE.md), and [third-party notices](THIRD_PARTY_NOTICES.md) for evidence and closure requirements. No claim is made that the Skill improves design quality, works in every Agent host, or fully conforms to WCAG.
 
 ## Safety and license
 

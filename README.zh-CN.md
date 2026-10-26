@@ -83,11 +83,11 @@ python skills/glasspring/scripts/mcp_server.py --selftest
 | 隐私审查 | **PARTIAL**：目前只有启发式文本扫描；未执行专用密钥扫描，也未完整审查二进制文件和 Git 历史。 |
 | Codex 宿主 | Skill 元数据可见性 **PASS**；读取安装后的文件和任务行为 **UNKNOWN**。 |
 | Claude Code 宿主 | 全新会话发现和任务行为 **NOT_RUN**。 |
-| 独立效果评测 | **NOT_RUN (DESIGNED_NOT_EXECUTED)**；公开试点不是隐藏留出集，咖啡任务提到的随附配色也未包含在仓库中。 |
+| 独立效果评测 | **NOT_RUN (DESIGNED_NOT_EXECUTED)**；公开试点不是隐藏留出集，两个任务所需输入缺失，评分也未单独衡量视觉差异度或记录 token 成本和 Skill 使用覆盖。详见[评测说明](docs/EVALUATION.md)。 |
 | 浏览器依赖完整性 | **OPEN**：axe-core 从 CDN 获取，尚无固定完整性校验值或离线覆盖策略。 |
 | 稳定版发布 | 仍有未解除的发布门槛，状态为 **BLOCKED**。 |
 
-证据和解除条件见[发布门槛](docs/RELEASE-GATES.md)、[评测说明](docs/EVALUATION.md)、[来源说明](PROVENANCE.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。目前不宣称该 Skill 能提升设计质量、兼容所有 Agent 宿主或完全符合 WCAG。
+证据和解除条件见[发布门槛](docs/RELEASE-GATES.md)、[评测说明](docs/EVALUATION.md)、[公开试点评测协议](evals/protocol.json)、[来源说明](PROVENANCE.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。目前不宣称该 Skill 能提升设计质量、兼容所有 Agent 宿主或完全符合 WCAG。
 
 ## 安全与许可证
 

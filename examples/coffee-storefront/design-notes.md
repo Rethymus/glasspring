@@ -75,7 +75,8 @@ Measured with `skills/glasspring/scripts/check_contrast.py` using the listed for
 
 | Command or action | Result |
 |---|---|
-| `python -m unittest discover -s tests -v` | PASS, 25 tests, exit 0 |
+| Earlier repository unit suite, before `4fcfa5e` added a scoped-guidance regression | PASS, 25 tests, exit 0 |
+| Current reviewed source at `00d5f99`: `python -m unittest discover -s tests -v` | PASS, 26 tests, exit 0 (local rerun) |
 | `node skills/glasspring/scripts/install.mjs --selftest` | PASS, exit 0 |
 | `python skills/glasspring/scripts/verify_output.py --selftest` | PASS, exit 0 |
 | `python skills/glasspring/scripts/mcp_server.py --selftest` | PASS, exit 0 |
