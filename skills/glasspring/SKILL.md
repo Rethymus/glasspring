@@ -120,7 +120,7 @@ Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被
 - Color: dominant neutral + one sharp accent beats timid palettes. Verify, don't hope.
 - Motion: frequent interactions (scroll/typing/list updates) get none; data updates replace in place; springs only where semantics fit (see motion.md); everything interruptible; `prefers-reduced-motion` renders end states.
 - **brief 点名即赢**（双源：Anthropic 原文 "the brief's own words always win" + impeccable "Redirecting a clear brief toward your taste is failure"）：slop 清单只管**自由轴**——brief/用户明确点名其中样式（如就是要 cream+terracotta 品牌色）时照做，slop_scan 相应命中按 design-notes §6 豁免论证处理，门禁不强拒用户指定的轴
-- **去饰回填律**（taste-skill 248 站实证研究 2026-10-20）：拿走标签/卡片/装饰只完成一半——必须以实质回填（更大字号/整片色场/真实图像/每节满内容），否则读作单薄；盲评更偏好有 tell 的丰富页而非无 tell 的空页
+- **内容补位检查**（改写自 taste-skill 的内部迭代记录）：减少装饰后，再检查内容量、层次和视觉重心是否仍然充分；这是可按 brief 取舍的评审提示，不代表“内容越多越好”，也不是跨模型或真人用户的效果证据。该来源的盲评使用模型评审，每个 brief 每轮一名评审，且后续轮次复用了 brief；详见独立 Skill 的第三方声明。
 - A11y floor: 4.5:1 text (7:1 target), 3:1 non-text/focus, focus-visible always, targets ≥44px, 200% zoom, never color-only. Sticky bars: padding `calc(栏高 + safe-area-inset)`，滚底验证。 WCAG 2.2: 3.2.6/3.3.7/3.3.8 — detail in glass.md §5.
 - Dark mode = separate material tokens, not inversion. Off-white text (`oklch(0.93 …)`), never pure white paragraphs on pure black.
 - CJK/长标题兜底：所有 display/title 级标题加 `text-wrap: balance`（成本一行，防「恒温一整/天」式断行）；中文正文 line-height ≥1.7。

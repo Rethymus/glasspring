@@ -41,7 +41,7 @@
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-然后访问 http://127.0.0.1:8000/preview.html。[示例 README](examples/coffee-storefront/README.md)和[设计说明](examples/coffee-storefront/design-notes.md)记录了启动方式、设计决定、检查结果及范围限制。
+然后访问 http://127.0.0.1:8000/preview.html。可查看[预览源码](examples/coffee-storefront/preview.html)、[设计令牌](examples/coffee-storefront/tokens.css)和[设计说明](examples/coffee-storefront/design-notes.md)；[示例 README](examples/coffee-storefront/README.md)记录启动方式和范围限制。
 
 ## 安装与试用
 

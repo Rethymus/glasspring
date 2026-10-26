@@ -41,7 +41,7 @@ Preview the example from the repository root:
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-Then open http://127.0.0.1:8000/preview.html. The [example README](examples/coffee-storefront/README.md) and [design notes](examples/coffee-storefront/design-notes.md) describe its setup, decisions, checks, and limits.
+Then open http://127.0.0.1:8000/preview.html. Inspect the [preview source](examples/coffee-storefront/preview.html), [tokens](examples/coffee-storefront/tokens.css), and [design notes](examples/coffee-storefront/design-notes.md); the [example README](examples/coffee-storefront/README.md) documents setup and limits.
 
 ## Install and try
 
