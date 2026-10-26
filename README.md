@@ -2,11 +2,13 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring is a project-local Agent Skill for coding agents working on responsive web interfaces.** It supports new previews, full restyles, small edits, and read-only reviews. It selects static references for each task and includes scripts for selected local and browser checks. The reference library is maintained in the repository; it does not automatically inspect live products and create new reference cards.
+**Glasspring is a project-local Agent Skill that gives coding agents a routed workflow for responsive web interfaces.** Its instructions cover new previews, full restyles, small edits, and read-only reviews. It selects static references for each task and includes scripts for selected local and browser checks. The reference library is maintained in the repository; it does not automatically inspect live products and create new reference cards.
 
 ## Coffee storefront example
 
-This fictional storefront is a **manual example guided by Glasspring's references and checks**. It shows a responsive page and a local shopping-bag interaction; the page, products, and copy are fictional, and the images were generated for this example. The bag updates page state and subtotal only, with no order or payment service. These captures describe the example, not an installed-host run or a comparative efficacy study.
+This fictional storefront is a **manual implementation of the task brief below, guided by Glasspring's references and checks**. Its design notes record a direct-to-consumer (D2C) route, three considered directions, the selected split hero, and seven measured contrast pairs. The screenshots and GIF show the page and local bag interaction; they are not an installed-host run or a comparative efficacy result.
+
+The page, products, and copy are fictional, and its images were generated for this example. The bag updates page state and subtotal only, with no order or payment service.
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page at 1440px</p>
 
@@ -28,7 +30,7 @@ Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffe
 
 > **Release status:** public source preview. A stable release remains **BLOCKED** by unresolved third-party rights, independent efficacy, host behavior, and browser-runtime dependency gates. See the [release gates](docs/RELEASE-GATES.md).
 
-## Task modes
+## Task modes in the Skill
 
 | Task | Workflow |
 |---|---|
