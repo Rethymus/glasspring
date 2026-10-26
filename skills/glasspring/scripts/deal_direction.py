@@ -12,7 +12,7 @@ laws (assets/design-notes-template.md §1):
   3  Redraw only for a reason you can state (brand conflict / missing asset),
      never for comfort — and record the redraw in design-notes.
 
-The deck: the nine style packs plus one engine-led wildcard (no pack — pick
+The deck: the twelve style packs plus one engine-led wildcard (no pack — pick
 one of the nine creative engines and carry the whole page with it). This is
 a random draw, so it fights familiarity by construction.
 
@@ -66,7 +66,7 @@ def main() -> int:
         ok = (len(PACKS) == 12 and DEAL_N == 3
               and all("\n" not in v for v in PACKS.values())
               and len(WILDCARD) == 2)
-        print(f"  [{'PASS' if ok else 'FAIL'}] deck: 9 packs + 1 wildcard, deal size 3")
+        print(f"  [{'PASS' if ok else 'FAIL'}] deck: 12 packs + 1 wildcard, deal size 3")
         rng = random.Random(42)
         drawn = rng.sample(list(PACKS) + ["__wild__"], DEAL_N)
         print(f"  [{'PASS' if len(set(drawn)) == 3 else 'FAIL'}] seeded deal returns 3 distinct names")

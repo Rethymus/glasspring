@@ -1,6 +1,6 @@
 """Independent boundary regressions added by the audit; no model API calls."""
 from pathlib import Path
-import contextlib, io, json, subprocess, sys, tempfile, unittest
+import contextlib, http.client, io, json, os, subprocess, sys, tempfile, unittest
 from unittest.mock import patch
 
 SCRIPTS = Path(__file__).resolve().parents[1] / 'skills/glasspring/scripts'
@@ -16,6 +16,13 @@ class ReleaseIntegrity(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
+
+    def test_design_differentiator_requirement_is_task_scoped(self):
+        skill = (SCRIPTS.parent / 'SKILL.md').read_text(encoding='utf-8')
+        self.assertNotIn('Every deliverable must have', skill)
+        self.assertIn('For a new preview or full restyle, require', skill)
+        self.assertIn('Do not impose this requirement on small edits or review-only work', skill)
+        self.assertIn('a new visual differentiator', skill)
 
     def test_fake_pngs_are_rejected(self):
         good, _ = vo._build_fixture(str(self.root))
@@ -40,6 +47,18 @@ class ReleaseIntegrity(unittest.TestCase):
         Path(good, 'preview.html').write_text('<p style="color:var(--ink)">hello</p>')
         p = subprocess.run([sys.executable, str(SCRIPTS/'verify_output.py'), good], capture_output=True)
         self.assertEqual(p.returncode, 2)
+
+    def test_notes_draft_stdout_is_utf8_with_legacy_pipe_encoding(self):
+        env = os.environ.copy()
+        env['PYTHONIOENCODING'] = 'cp936'
+        p = subprocess.run(
+            [sys.executable, str(SCRIPTS/'notes_draft.py'), str(self.root), '--stdout'],
+            capture_output=True, env=env,
+        )
+        self.assertEqual(p.returncode, 0, p.stderr.decode('utf-8', errors='replace'))
+        output = p.stdout.decode('utf-8')
+        self.assertIn('文件名›节名', output)
+        self.assertIn('生成时扫描快照', output)
 
     def test_blank_page_mcp_is_failure(self):
         with patch.object(probe, 'probe', return_value=([], [], [], 0, [], [], [], True, {})):
@@ -153,6 +172,19 @@ class ReleaseIntegrity(unittest.TestCase):
         with patch.object(sys, 'argv', ['samples_gate', '--root', str(self.root)]), patch.object(gate, 'has_unreachable_remote_deps', return_value=None), patch.object(gate, 'slop_ok', return_value=(True, 'clean')), patch.object(gate, 'probe', return_value=(False, 'probe crash')), contextlib.redirect_stdout(capture):
             self.assertEqual(gate.main(), 1)
         self.assertIn('[FAIL]', capture.getvalue())
+
+    def test_preview_wait_retries_malformed_startup_response(self):
+        with patch.object(gate.urllib.request, 'urlopen', side_effect=[
+            http.client.BadStatusLine('GET / HTTP/1.1'),
+            contextlib.nullcontext(),
+        ]) as open_url, patch.object(gate.time, 'sleep'):
+            self.assertTrue(gate.wait_for_preview('http://localhost:1234/', attempts=2))
+        self.assertEqual(open_url.call_count, 2)
+
+    def test_preview_wait_does_not_accept_persistent_malformed_responses(self):
+        with patch.object(gate.urllib.request, 'urlopen', side_effect=http.client.BadStatusLine('GET / HTTP/1.1')) as open_url, patch.object(gate.time, 'sleep'):
+            self.assertFalse(gate.wait_for_preview('http://localhost:1234/', attempts=2))
+        self.assertEqual(open_url.call_count, 2)
 
     def test_non_private_sample_directory_is_discovered(self):
         samples=self.root/'samples';samples.mkdir()

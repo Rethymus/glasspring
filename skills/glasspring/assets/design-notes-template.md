@@ -1,7 +1,7 @@
 # design-notes.md 标准模板
 
 > 用途：每次 GP 运行的设计说明**统一格式**——使跨 run 对比、审计回溯、用户终审的成本降到最低。
-> 适应：所有 Glasspring 产出。允许增删节但**七节序号不可换**。
+> 适应：所有 Glasspring 产出。允许增删节但**九节序号不可换**。
 > **格式约束**：节标题必须用 `## §N` 格式（如 `## §0 · 路由与默认值`）——`verify_output.py` 机械检查按此模式匹配（`## 0` 或 `# §0` 也可，但前缀 `#` 不可省略且编号必须有序）。
 
 ## §0 · 路由与默认值
@@ -71,7 +71,7 @@
 ## §7 · 已知限制
 
 - 诚实列出（含 <360px 未验证/离线字体退化/交互态无截图等）
-- 每条标注：可辩护取舍 vs 需后续迭代；**影响类打标**（ui-craft 竞品研读 2026-10-20）：blocks-conversion（阻断转化）/ adds-friction（增加摩擦）/ reduces-trust（削弱信任）/ minor-polish（仅打磨）——让限制的利害可读；**影响类打标**（ui-craft 竞品研读 2026-10-20）：blocks-conversion（阻断转化）/ adds-friction（增加摩擦）/ reduces-trust（削弱信任）/ minor-polish（仅打磨）——让限制的利害可读
+- 每条标注：可辩护取舍 vs 需后续迭代；**影响类打标**（ui-craft 竞品研读 2026-10-20）：blocks-conversion（阻断转化）/ adds-friction（增加摩擦）/ reduces-trust（削弱信任）/ minor-polish（仅打磨）——让限制的利害可读
 
 ## §8 · 依赖的 Last-verified 锚点
 

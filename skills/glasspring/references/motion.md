@@ -1,11 +1,11 @@
 # motion.md — spring physics & motion semantics
 
 > When to read: before adding any animation/transition. If the answer is "don't animate", that's a valid outcome.
-> Last verified: 2026-10-25. Sources: Apple’s [Motion guidance](https://developer.apple.com/design/human-interface-guidelines/motion), [SwiftUI Spring API](https://developer.apple.com/documentation/swiftui/spring), and MDN’s [`prefers-reduced-motion` reference](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion). Web recommendations are project translations, not Apple platform requirements.
+> Targeted source checks updated 2026-10-26; this is not a full claim-by-claim audit. Inline links identify sources checked. Apple sources include its [Motion guidance](https://developer.apple.com/design/human-interface-guidelines/motion) and [SwiftUI Spring API](https://developer.apple.com/documentation/swiftui/spring); MDN covers [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion). Web recommendations are project translations, not Apple platform requirements.
 
 ## 0. The three questions (answer before animating)
 
-1. **Does this interaction happen frequently?** (scroll, typing, list updates) → **no animation.** Apple: "avoid adding motion to UI interactions that occur frequently." **频带量化**（emilkowalski/skills 49.3k★ animate 深读 2026-10-24，与 HIG 定性规则互证）：**100+ 次/日**（快捷键/命令面板）→ 永不动画；**数十次/日**（hover、列表导航）→ 仅近不可觉的快而小；**偶发**（模态/抽屉/toast）→ 标准动画；**罕见/首次**（onboarding/庆祝）→ 愉悦预算所在。**键盘触发的动作是硬性否决，不是判断题**。
+1. **Does this interaction happen frequently?** (scroll, typing, list updates) → default to no motion. Apple advises generally avoiding custom motion in frequently repeated app interactions ([HIG Motion](https://developer.apple.com/design/human-interface-guidelines/motion)). The bands below are project heuristics adapted from [Emil Kowalski's `animate` Skill at a pinned revision](https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md#L31-L37), not measured user thresholds: **100+ times/day** (keyboard shortcuts/command palette) → no animation; **tens/day** (hover/list navigation) → near-imperceptible and fast, or none; **occasional** (modal/drawer/toast) → standard motion; **rare/first-time** (onboarding/celebration) → use sparingly. Keyboard-initiated actions are this project's default no-motion rule, not a platform requirement.
 2. **Is it a data update?** Chart refresh, log line arrival, score tick → **replace in place, no animation.** Animating data changes causes misreading (devtools/BI/security consensus).
 3. **Is motion the only signal?** Then add a text/state signal too — "Make motion optional" + `prefers-reduced-motion` must render the end state.
 
@@ -18,7 +18,7 @@
 | bouncy | `Spring(duration: 0.5, bounce: 0.3)` | playful overshoot | appearing elements, delight moments (sparse!) |
 | interactive | `interactiveSpring(response: 0.15, dampingFraction: 0.86)` | very fast | direct-manipulation follow-ups |
 
-Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overdamping. Generate actual curves: `python scripts/spring_convert.py --semantic bouncy --css`.
+Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overdamping. From the project root, generate actual curves with `python "<SKILL_ROOT>/scripts/spring_convert.py" --semantic bouncy --css`; replace `<SKILL_ROOT>` with the host-specific project install path listed in `SKILL.md`.
 
 ## 2. The interruptibility rule (web-specific, critical)
 
@@ -26,13 +26,13 @@ Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overda
 - Use CSS `linear()` for: state transitions, entrances, toggles — anything with a fixed start and end.
 - Use a JS spring integrator (Motion library or ~20 lines of semi-implicit Euler) for: drag releases, swipe cards, pull-to-refresh — anything that must continue the gesture's velocity.
 - Never fake a gesture with CSS: a drag-release that restarts from zero reads as broken.
-- **Gesture-direction consistency (HIG Motion, confirmed 2026-10-18)**: motion must mirror the gesture that caused it — "if someone reveals a view by sliding it down from the top, they don't expect to dismiss the view by sliding to the side". Dismissal springs follow the opening gesture's axis, not a convenient default.
-- **Supplement channels (HIG Motion)**: visual feedback should be paired with haptics (native packs) or audio where the platform supports it — "avoid using motion as the only way to communicate important information" applies doubly when the visual is transient.
+- **Gesture-direction consistency**: keep dismissal motion consistent with the opening gesture when that helps preserve spatial expectations (a paraphrase of [Apple HIG Motion](https://developer.apple.com/design/human-interface-guidelines/motion)).
+- **Do not rely on motion alone for important information**: keep a visible or textual state cue; add haptics or audio only when useful and available for the target platform ([Apple HIG Motion](https://developer.apple.com/design/human-interface-guidelines/motion)).
 
 ## 3. Duration guidance (NN/g; Apple gives parameter-based, not fixed-duration, guidance)
 
 - Feedback: ~100ms. Small state changes: 150–250ms. Large panels/regions: 300ms. 500ms absolute ceiling.
-- **Per-component bands**（emilkowalski/skills 49.3k★ animate SKILL.md 深读 2026-10-24，与 NN/g 分带互证细化）：button press 100–160ms / tooltip·小 popover 125–200ms / dropdown·select 150–250ms / modal·drawer 200–500ms / **stagger 30–80ms 间隔**；UI 动画一律 <300ms（模态上限 500）。
+- **Per-component duration references** (adapted from the pinned [animate Skill](https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md#L101-L110), not universal or user-study thresholds): button press 100–160ms, tooltip/small popover 125–200ms, dropdown/select 150–250ms, and modal/drawer 200–500ms. The source gives a general <300ms UI recommendation while listing 200–500ms for modals/drawers; treat the longer timings as case-specific. Use a short stagger only when it supports reading order, and never block interaction; no fixed stagger band is claimed here.
 - Entrances slightly longer than exits (300 in / 200–250 out). Fast start, gentle settle — spring curves do this naturally.
 - "150ms micro-interaction" style folklore attributed to Apple is unverified — cite springs, not magic durations.
 - **缓动方向按情境**（同源 2026-10-24）：入/出场 ease-out；屏上移动/形变 ease-in-out；hover/颜色变化 `ease`（即时跟随）；匀速运动（marquee/进度）linear；**ease-in 永不用于 UI 入场**——它推迟用户正注视的时刻（弹簧曲线自带此性质，勿再叠加 easing）。非弹簧过渡的参考曲线：`cubic-bezier(0.23, 1, 0.32, 1)`（自定义 ease-out——内置关键字曲线偏弱）。
@@ -49,7 +49,7 @@ Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overda
 ```
 
 For practical UI, prefer `--duration 0.3 …` (plays over ~1.2s) — perceptual duration is what users feel.
-Implementation notes: any number of points allowed, values outside [0,1] encode overshoot (supported since 2023-12 in all engines). WAAPI accepts the same string.
+Implementation notes: values outside [0,1] are allowed and can encode overshoot. MDN marks `linear()` widely available across browsers since December 2023 ([reference](https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function/linear)). The Web Animations API's `easing` option accepts CSS easing functions ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect)), so the same function can be passed there.
 
 ## 4a. Start/end states & input-origin rules
 
@@ -99,11 +99,11 @@ Implementation notes: any number of points allowed, values outside [0,1] encode 
 - 滚动驱动动效用 CSS Scroll/View Timelines 或 IntersectionObserver，**不轮询 scrollTop**；离屏暂停；rAF 循环必须有停止条件。
 - 动画卡顿时的选择是**降级技术而非删除动效**（prefer downgrading technique over removing motion entirely）。
 
-## 5b. CSS Scroll-Driven Animations（Baseline 2024，scroll-craft + taste-skill motion 互证）
+## 5b. CSS Scroll-Driven Animations (optional enhancement; support varies)
 
 - `animation-timeline: view()` / `scroll()` 实现纯 CSS 滚动驱动——**零 JS、零 scroll 劫持、零轮询**。
 - taste-skill motion.md 55k 的核心洞察：**"scroll-linked means linear"**——滚动就是缓动，14/18 个 scrub 站锁定滚动条（这正是 CSS scroll timelines 做的）。
-- Baseline 2024 全绿灯（Chrome 115+/Edge 115+）。Firefox/Safari 仍在开发——用 `@supports (animation-timeline: view())` 门控，不支持时静态显示完成态。
+- **Browser support checked 2026-10-26:** MDN marks `animation-timeline` as limited availability and not Baseline because some widely used browsers do not support it ([compatibility status](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-timeline)). Keep the `@supports (animation-timeline: view())` gate and a static completed-state fallback; verify the target browser versions before relying on the enhancement.
 - **glasspring 域**：落地页滚动叙事（layout-baselines.md §分段）应优先使用 CSS scroll timelines；仅当需要复杂时间轴编排时才用 GSAP ScrollTrigger（scroll-craft 引擎）。
 - **四种已验证 scrub 模式**（gpt-taste GSAP 语汇 交叉 2026-10-22）：①钉住标题+下方画廊滚动 ②图像 scale 0.8→1.0 进场+退场压暗淡出 ③**逐词擦洗**（词 opacity 0.1→1.0 随滚动点亮——注意 0.1 不是 0：起点必须可读，这是「动画不守门」在 scrub 上的投影）④滚动驱动卡片堆叠。reduced-motion 一律塌缩到静态终态（gsap.matchMedia 门控）
 
@@ -122,4 +122,4 @@ Implementation notes: any number of points allowed, values outside [0,1] encode 
 
 ## 7. Reduced motion
 
-`@media (prefers-reduced-motion: reduce)`: springs render at end state; only opacity/color micro-transitions remain. `prefers-reduced-motion` support ~97%; treat it as mandatory, not progressive.
+`@media (prefers-reduced-motion: reduce)`: preserve the content and render the completed state without unnecessary movement; opacity or color transitions may remain when they help communicate state. Treat this as a project accessibility requirement, and verify behavior in target browsers ([MDN reference](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion)).

@@ -24,14 +24,14 @@ focal element. Four passes, each a fresh page load:
                        must leave a visible fingerprint (style/geometry).
   D  axe-core a11y   — inject axe-core (CDN) on the REAL page and run WCAG
                        2.x A/AA tags. critical/serious → FAIL; moderate/minor
-                       → WARN. CDN unreachable → honest SKIP (passes A-C
+                       → WARN. CDN unreachable or integrity mismatch → honest SKIP (passes A-C
                        still cover the motion contracts).
 
 Reuses preview_shot.py's stdlib CDP machinery (no playwright, no node).
-Exit codes: 0 pass (warnings allowed) / 1 fail / 2 no browser found.
+Exit codes: 0 pass (warnings allowed) / 1 fail / 2 no browser found or UNKNOWN (incomplete coverage).
 """
 from __future__ import annotations
-import argparse, base64, json, os, sys, tempfile, time, urllib.request
+import argparse, base64, hashlib, json, os, sys, tempfile, time, urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from preview_shot import (CdpClient, browser_ws_url, find_browser, free_tcp_port,
@@ -123,6 +123,10 @@ NATURAL_CSS = "*,*::before,*::after{animation:none!important;transition:none!imp
 PAUSED_CSS = "*,*::before,*::after{animation-play-state:paused!important}"
 
 AXE_CDN = "https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.10.2/axe.min.js"
+# Integrity pin: sha256 of the cdnjs 4.10.2 artifact (553290 bytes, header "axe v4.10.2"),
+# measured 2026-10-27. A mismatch is treated as an unreachable CDN: pass D skips honestly
+# instead of running unverified code. Upstream license: MPL-2.0 (Deque Systems).
+AXE_SHA256 = "b511cd9dec01c76f4b2ad1723b66b6db37d4c2eb4ed199076e1829d9ee7b75e3"
 
 _axe_cache: list[str] = []
 
@@ -139,6 +143,9 @@ def _load_axe_source() -> str | None:
             with urllib.request.urlopen(AXE_CDN, timeout=20) as r:
                 src = r.read().decode("utf-8")
             if "axe" in src[:2000]:
+                if hashlib.sha256(src.encode("utf-8")).hexdigest() != AXE_SHA256:
+                    print("  [D-SKIP] axe-core integrity mismatch — skipping pass D rather than running unverified code")
+                    return None
                 _axe_cache.append(src)
                 return src
         except OSError:
@@ -590,7 +597,7 @@ def main() -> int:
     for v in e_fail or []:
         print(f"  [E-FAIL click] {v['sel']} «{v['label']}»  {v['why']}")
     if a_ser is None and a.axe:
-        print("  [D-SKIP] axe-core CDN unreachable — a11y coverage limited to passes A-C")
+        print("  [D-SKIP] axe-core CDN unreachable or integrity mismatch — a11y coverage limited to passes A-C")
     n = len(a_fail) + len(c_fail) + (1 if rac else 0) + len(a_ser or []) + len(e_fail or [])
     if vacuous is True:
         print("  [V-FAIL vacuous] no meaningful rendered text, heading, controls, or media surface")

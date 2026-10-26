@@ -51,7 +51,7 @@ const canRefract = CSS.supports('backdrop-filter','url(#x)')
 
 ## 5. Deliverable preview requirements
 
-Any web deliverable must open as a static page (no build step) or one-command dev server, so the reviewer (human or agent) can screenshot it at 390/768/1440. Include a `<!-- VERIFY: run scripts/check_contrast.py on the pairs listed in design-notes.md -->` comment in preview.html.
+Any web deliverable must open as a static page (no build step) or one-command dev server, so the reviewer (human or agent) can screenshot it at 390/768/1440. Include a `<!-- VERIFY: run the installed Glasspring skill's check_contrast.py via its SKILL_ROOT path on the pairs listed in design-notes.md -->` comment in preview.html.
 
 ## 6. 2026 新增能力（research cycle 2026-10-16 更新，web.dev Baseline 2026 全清单 + MDN 逐条核实）
 

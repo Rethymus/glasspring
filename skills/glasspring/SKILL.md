@@ -1,41 +1,43 @@
 ---
 name: glasspring
-description: Design, restyle, or review responsive web interfaces using routed design references and selected local or browser checks. Use for new pages, dashboards, deliberate redesigns, or review of an existing web preview. Small edits should follow the existing design system and use proportional checks. Native and mini-program outputs are web previews unless separately implemented and tested on their platform.
-license: MIT
+description: Design, restyle, or review responsive web interfaces using routed design references and selected local or browser checks. Use for new pages, dashboards, deliberate redesigns, or review of an existing web preview. Small edits should follow the existing design system and use proportional checks. Platform-specific references may inform web previews; this package has no validated native-app, game, or mini-program code-output path.
+license: LICENSE
 compatibility: Audited on Windows with Python 3.12 and Node.js 22.14. Core Python tools use stdlib and sibling modules; browser probes need Chromium and fetch axe-core from a CDN. Installer supports Codex and Claude Code directory layouts; live discovery and other OS versions require host testing.
 metadata:
   version: "2.1"
   domain-packs: "14"
-  style-packs: "13"
+  style-packs: "12"
 ---
 
 # glasspring — frontend design skill
 
 Audit candidate: mechanical checks do not establish design quality or task success. Preserve FAIL, UNKNOWN and SKIP in reports; missing browser or axe coverage is not PASS. Exercise primary actions against expected visible outcomes. Existing historical scores are development evidence, not independent efficacy measurements. References retain provisional provenance until the release ledger is resolved.
 
-You are a design lead who ships interfaces that look intentional, not generated. This skill encodes an Apple-inspired **design language** — frosted glass materials, spring physics, restrained hierarchy — adapted per industry domain, product type, platform, and stack. It teaches a **design language, never a UI replica** (legal posture, see §6). Every deliverable must have **one memorable design differentiator** (multi-screen: one per screen) — a signature interaction, typographic gesture, layout motif, or material treatment. If your output could pass as another brief's output, you haven't designed yet.
+You are a design lead who ships interfaces that look intentional, not generated. This skill encodes an Apple-inspired **design language** — frosted glass materials, spring physics, restrained hierarchy — adapted per industry domain, product type, platform, and stack. It teaches a **design language, never a UI replica** (legal posture, see §6). For a new preview or full restyle, require **one memorable design differentiator per screen** — a signature interaction, typographic gesture, layout motif, or material treatment. Do not impose this requirement on small edits or review-only work; preserve the existing system or report without editing. During a new design task, if the result could pass as another brief's output, reconsider the direction.
 
 ## 0 · Scope and build gates
 
 Choose the narrowest task mode before applying the gates:
 
-- **New preview** — follow Steps 1–6 and deliver `tokens.css`, `preview.html`, and `design-notes.md`.
+- **New preview** — follow Steps 1–6 and deliver the three core files (`tokens.css`, `preview.html`, and `design-notes.md`) plus narrow and desktop PNG captures in `shots/`.
 - **Full restyle of an existing app** — work in its existing source and token entrypoint; capture before/after views and record the decisions. Do not create a parallel preview or token file unless requested.
-- **Small edit** — preserve the existing system and use checks proportional to the changed surface. Do not require the full router, three design directions, or the new-preview deliverables.
+- **Small edit** — preserve the existing system and use checks proportional to the changed surface. Do not require the full router, three design directions, a new visual differentiator, or the new-preview deliverables.
 - **Review only** — inspect the requested files or preview without editing them. Report observed evidence and gaps; do not present missing browser or interaction observations as passes.
 
-The gates below apply in full to new previews and full restyles. For small edits and review-only tasks, apply only the relevant checks.
+Apply visual review, contrast measurement, and relevant static checks to new previews and full restyles. The output-contract checker for `tokens.css`, `preview.html`, `design-notes.md`, and `shots/` applies only to a new standalone preview. A full restyle keeps the app's existing page and token entrypoints and records before/after evidence; do not run the new-preview contract against the app root. For small edits and review-only tasks, apply only relevant checks.
+
+**Helper paths** — `scripts/`, `references/`, and `assets/` are relative to this skill's installed directory. For this repository's project install, use `.agents/skills/glasspring` for Codex/generic or `.claude/skills/glasspring` for Claude Code as `SKILL_ROOT`; from the project root, invoke `"<SKILL_ROOT>/scripts/<tool>"` and keep project inputs and `--target .` relative to the project. Never run bare `scripts/<tool>` from the project root: it can fail or execute an unrelated project script. Do not search outside the project for helpers.
 
 0. **作用域封锁（最高优先）** — 只在**当前项目目录**内读写文件。绝不扫描、读取或修改其他项目/目录，即使用户的话看似指向它们（如"我的仪表盘/我的后台"）：先在当前项目内查找目标，找不到就**询问用户路径**，得到明确路径前不得越出项目根目录。任何临时文件用完即清理。
 1. **Tokens first** — for a new preview, create the semantic tokens before component styling. In an existing app, use its established token entrypoint. Avoid new one-off color values when the system already provides a token.
 2. **Contrast measured** — measure changed or newly authored text/background pairs with `scripts/check_contrast.py`; for glass, test worst-case composites. Record the actual result and preserve failures or missing coverage.
 3. **Glass decision tree** — read and apply `references/glass.md` §0 before adding a translucent surface. If the design does not use translucent surfaces, skip this reference.
 4. **Visual review** — after a new preview or full restyle, inspect a mobile and desktop render. For a small visual edit, inspect the affected viewport and nearby layout. Use `scripts/preview_shot.py` where a local page URL and Chromium are available; report unavailable observations instead of implying they ran.
-5. **Deliverables** — use the three-file contract for a new standalone preview: `tokens.css` + `preview.html` + `design-notes.md`（格式见 `assets/design-notes-template.md` §0-§8）. A full restyle uses the existing app files and token entrypoint with before/after evidence and design notes. Review-only work returns findings without creating those files.
+5. **Deliverables** — for a new standalone preview, provide the three core files (`tokens.css` + `preview.html` + `design-notes.md`, formatted with `assets/design-notes-template.md` §0-§8) and narrow and desktop PNG captures in `shots/`. A full restyle uses the existing app files and token entrypoint with before/after evidence and design notes. Review-only work returns findings without creating those files.
 
 ## 1 · Router — answer four questions, then read ONLY the files the table points to
 
-Read ≤3 routed craft references per task (typically `tokens.md` + type + domain pack). Style pack replaces domain pack in the count. `glass.md` is gate-required for any translucent surface (outside 3-file budget). If no surface can be translucent, note it and skip. Platform files are exempt adapters. Every reference starts with "When to read". Unspecified dimension → use default, note it.
+Read ≤3 core craft references for the task routing budget (typically `tokens.md` + product-type + domain pack). A style pack replaces the domain pack in this count. This is not a cap on every file read: task-triggered guides such as `type.md` for text styling, `motion.md` before adding animation or transitions, and `recommended-stack.md` for React/Next.js + Tailwind when no component library is specified are additional reads when relevant. `glass.md` is gate-required for any translucent surface (outside the 3-file budget). If no surface can be translucent, note it and skip. Platform files are exempt adapters. Every reference starts with "When to read". Unspecified dimension → use default, note it.
 
 **① Product type** (default: web product page)
 - Marketing/landing/brand site → §3 divergence rules + typography-driven; no type pack needed.
@@ -60,7 +62,7 @@ Read ≤3 routed craft references per task (typically `tokens.md` + type + domai
 | manufacturing / logistics / AEC / agtech / energy-telecom / legal / accounting | `references/domains/industrial-b2b.md` |
 | 学术 / 科研 / 期刊 / 课题组 / 生化环材 / 化工材料环境企业 | `references/domains/science-research.md` |
 | 企业介绍官网 / 产品演示页（Apple 语法主场） | `references/domains/corporate-demo.md` |
-| **风格包**（用户点名任一风格参照） | `references/style-packs/`（13 成员；有包读包替换基调，无包按 DNA 模板新提炼） |
+| **风格包**（用户点名任一风格参照） | `references/style-packs/`（12 个可用风格包；有包读包替换基调，无包按 DNA 模板新提炼） |
 | **vibe 词桥接**（未点名风格但给了氛围词） | 高级感/极简→swiss-international；工程师/性能感→linear-instrument；ins 风/手作→organic-natural；杂志感→editorial-magazine；复古学院→dark-academia；硬核→brutalist-web；纸感→notion-paper；可爱/游戏化/onboarding→warm-soft-saas；电影感/AI 暗面/crypto→dark-cinematic；静奢/高端柔和/律所酒店→soft-premium；柔和结构/设计工具/建筑事务所→soft-structural；玻璃质感/AI 深空→ethereal-glass。歧义时在 Design Read 声明方向，用户可纠错 |
 | other niches | apply §3 universal rules + closest pack's trust logic; mark "domain pack pending" in design-notes. |
 
@@ -94,16 +96,22 @@ Read ≤3 routed craft references per task (typically `tokens.md` + type + domai
 
 **Step 4 — Build with recipes.** 竖切优先：先做最有代表性的一页，过 Step 5 后再铺开。Glass→`glass.md`、Motion→`motion.md`、Type→`type.md`、构图基线→`layout-baselines.md`、Web→`platforms/web.md`。
 
-**Step 5 — Verify.**
+**Step 5 — Verify.** Choose commands by task mode. Per-run gates inspect the artifact; helper selftests check the toolchain and need not be repeated for every page.
 ```
-python scripts/doctor.py --target .
-python scripts/check_contrast.py --pairs pairs.json
-python scripts/preview_shot.py preview.html --out-dir shots --expect-title <标题>
-python scripts/verify_output.py .
+# Run from the project root; replace <SKILL_ROOT> with the host-specific project install path above.
+# New standalone preview
+python "<SKILL_ROOT>/scripts/doctor.py" --target "<RUN_DIR>" --skip-selftest
+python "<SKILL_ROOT>/scripts/check_contrast.py" --pairs pairs.json
+python "<SKILL_ROOT>/scripts/preview_shot.py" "<LOCAL_URL>" --out-dir "<RUN_DIR>/shots" --widths 390,1440 --expect-title "My Preview"
+
+# Full restyle: preserve the existing app and token entrypoints
+python "<SKILL_ROOT>/scripts/slop_scan.py" "<APP_ROOT>"
+python "<SKILL_ROOT>/scripts/check_contrast.py" --pairs pairs.json
+python "<SKILL_ROOT>/scripts/preview_shot.py" "<LOCAL_URL>" --out-dir "<RUN_DIR>/shots" --widths 390,1440 --expect-title "My App"
 ```
 Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被拒"；只看截图不回读代码；每图带验收意图逐项目验。每轮修 top-3，≤3 rounds。
 
-**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md`. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For new previews or restyles, `scripts/notes_draft.py <run_dir>` can prefill measured checks, initial scan and dated anchors; the judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
+**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md` and narrow and desktop PNG captures in `shots/`; after the notes and captures are final, rerun `doctor.py --target "<RUN_DIR>" --skip-selftest` as the final static and output-contract gate. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes; rerun checks for the changed surface and do not apply the new-preview output contract. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For a new preview, run `python "<SKILL_ROOT>/scripts/notes_draft.py" "<RUN_DIR>"` from the project root to prefill measured checks, a scan snapshot taken at invocation time, and dated anchors; if it should represent the pre-fix scan, generate it before repairs. For a full restyle, use this drafter only when a dedicated run directory contains the files it expects; otherwise write the evidence in design notes directly. The judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
 
 ## 3 · Universal core rules
 
@@ -112,7 +120,7 @@ Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被
 - Color: dominant neutral + one sharp accent beats timid palettes. Verify, don't hope.
 - Motion: frequent interactions (scroll/typing/list updates) get none; data updates replace in place; springs only where semantics fit (see motion.md); everything interruptible; `prefers-reduced-motion` renders end states.
 - **brief 点名即赢**（双源：Anthropic 原文 "the brief's own words always win" + impeccable "Redirecting a clear brief toward your taste is failure"）：slop 清单只管**自由轴**——brief/用户明确点名其中样式（如就是要 cream+terracotta 品牌色）时照做，slop_scan 相应命中按 design-notes §6 豁免论证处理，门禁不强拒用户指定的轴
-- **去饰回填律**（taste-skill 248 站实证研究 2026-10-20）：拿走标签/卡片/装饰只完成一半——必须以实质回填（更大字号/整片色场/真实图像/每节满内容），否则读作单薄；盲评更偏好有 tell 的丰富页而非无 tell 的空页
+- **内容补位检查**（改写自 taste-skill 的内部迭代记录）：减少装饰后，再检查内容量、层次和视觉重心是否仍然充分；这是可按 brief 取舍的评审提示，不代表“内容越多越好”，也不是跨模型或真人用户的效果证据。该来源的盲评使用模型评审，每个 brief 每轮一名评审，且后续轮次复用了 brief；详见独立 Skill 的第三方声明。
 - A11y floor: 4.5:1 text (7:1 target), 3:1 non-text/focus, focus-visible always, targets ≥44px, 200% zoom, never color-only. Sticky bars: padding `calc(栏高 + safe-area-inset)`，滚底验证。 WCAG 2.2: 3.2.6/3.3.7/3.3.8 — detail in glass.md §5.
 - Dark mode = separate material tokens, not inversion. Off-white text (`oklch(0.93 …)`), never pure white paragraphs on pure black.
 - CJK/长标题兜底：所有 display/title 级标题加 `text-wrap: balance`（成本一行，防「恒温一整/天」式断行）；中文正文 line-height ≥1.7。
@@ -128,7 +136,7 @@ Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被
 | bouncy | `Spring(0.5, bounce 0.3)` | sparse delight moments |
 | interactive | `response 0.15, ζ 0.86` | direct manipulation |
 
-Generate CSS: `python scripts/spring_convert.py --semantic snappy --css`. Gesture releases → JS spring integrator, never CSS.
+Generate CSS from the project root: `python "<SKILL_ROOT>/scripts/spring_convert.py" --semantic snappy --css`. Replace `<SKILL_ROOT>` with the host-specific project install path above. Gesture releases → JS spring integrator, never CSS.
 
 ## 5 · Trust-zone veto (overrides any aesthetic instruction)
 
@@ -163,14 +171,14 @@ Opaque, high-contrast, motion-light surfaces for: money amounts & balances, chec
 | `scripts/preview_shot.py` | Step 5 门禁：真窄视口+桌面截图（先 `--selftest`；需本地 URL） |
 | `scripts/probe_render.py` | Step 5 optional gate: animation-gated (A) / t=0 window (B) / reduced-motion (C) / axe a11y (D) / dead-contract click fingerprint (E) / flat-spacing economy (F) (`--selftest` first) |
 | `scripts/deal_direction.py` | open-brief build: deal 3 directions, commit to 1（承诺三律随牌打印） |
-| `scripts/doctor.py` | one-shot selftest + slop + contract 聚合（Step 5 捷径） |
+| `scripts/doctor.py` | one-shot selftest + slop + contract 聚合；新预览逐次检查用 `--skip-selftest`，契约只适用于新预览 |
 | `scripts/run_init.py` | one-command run scaffold（骨架+tokens 占位+notes 模板+下一步指引） |
-| `scripts/notes_draft.py` | design-notes 起稿：自动预填 §4 对比实测（token 自动配对）/§6 首扫/§8 锚点日期，判断节留待填槽（终稿仍须补全） |
+| `scripts/notes_draft.py` | design-notes 起稿：自动预填 §4 对比实测（token 自动配对）/生成时扫描快照/§8 锚点日期；快照是否为首扫取决于调用时机 |
 | `scripts/visual_diff.py` | pixel diff：修复前后截图 `--min-diff` 必须有差（无差=没修）；restyle 前后证据；复跑 drift `--max-diff` |
 | `scripts/mcp_server.py` | MCP host（Claude Desktop/ZCode/Cursor）注册后门禁变一等工具：slop_scan/check_contrast/verify_output/probe_render/visual_diff/notes_draft/spring_convert/palette/deal/doctor 结构化 JSON 返回 |
-| `scripts/verify_output.py` | 输出契约 Step 6 前置；FAIL=不交付；`--html` 报告 |
+| `scripts/verify_output.py` | 新独立预览的输出契约；不用于沿用现有入口的整体改版；FAIL=不交付；`--html` 报告 |
 | `assets/design-notes-template.md` | 每次交付的 design-notes.md 统一格式（§0-§8 九节不可换序） |
 | `assets/glass-recipes/showcase.html` | visual reference for the three tiers |
 | `assets/glass-recipes/refraction-experiment.html` | only when user explicitly wants refraction (known webview hazard) |
 
-Provenance: values marked "approx" are project estimates, not official product constants. The repository's [third-party notice and review ledger](../../THIRD_PARTY_NOTICES.md) records known sources and unresolved licensing questions; it is not a complete source ledger or rights clearance. The standalone package also includes its own scoped notice.
+Provenance: values marked "approx" are project estimates, not official product constants. The bundled [third-party notice](THIRD_PARTY_NOTICES.md) records known sources and unresolved licensing questions; it is not a complete source ledger or rights clearance. The repository root also contains a broader review, which is not included when the standalone skill folder is copied.

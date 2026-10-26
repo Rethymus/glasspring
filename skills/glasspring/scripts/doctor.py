@@ -69,7 +69,7 @@ def main() -> int:
     if target_real == HERE or target_real == os.path.dirname(HERE):
         print("  note: target is the skill root, not a run directory — slop hits in "
               "assets/glass-recipes are showcase fixtures (glass by design), and "
-              "contract clauses expect a run dir (preview.html/tokens.css/shots). "
+              "contract clauses expect a run dir (preview.html/tokens.css/design-notes.md/shots). "
               "Pass --target <run-dir> for a meaningful verdict.")
 
     print(f"-- slop scan: {a.target} --")

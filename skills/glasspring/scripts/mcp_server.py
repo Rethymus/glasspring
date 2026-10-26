@@ -232,7 +232,7 @@ TOOLS = [
                          ["pairs"]),
      "handler": t_check_contrast},
     {"name": "verify_output", "title": "Output contract check",
-     "description": "Mechanical delivery-contract check of a run directory (tokens.css + preview.html + design-notes.md §0-§8, scope hygiene). FAIL = do not deliver.",
+     "description": "Mechanical new-preview contract check of a run directory (tokens.css + preview.html + design-notes.md §0-§8 + narrow and desktop PNGs in shots/, scope hygiene). FAIL = do not deliver.",
      "inputSchema": _obj({"directory": {"type": "string"}}, ["directory"]),
      "handler": t_verify_output},
     {"name": "probe_render", "title": "6-pass render probe",
