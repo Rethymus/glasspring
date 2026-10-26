@@ -2,15 +2,15 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-Glasspring 是一个可安装的 Agent Skill，用于响应式网页界面工作。它打包任务指引、静态参考卡和可选的本地检查，覆盖新建预览、整体改版、局部修改和只读审查。新建独立网页预览时，工作流要求交付 `tokens.css`、`preview.html` 和 `design-notes.md`。
+**Glasspring 是一个安装到项目中的 Agent Skill，面向响应式网页界面工作。**它通过指引 Agent 按产品类型、业务领域、平台和技术栈选择静态设计参考，并在需要时运行可选的本地或浏览器检查。新建独立预览时，交付 `tokens.css`、`preview.html` 和 `design-notes.md` 三个文件。
 
-> 当前为公开源码预览；稳定版发布状态为 **BLOCKED**。详见[发布门槛](docs/RELEASE-GATES.md)。
+> 当前为公开源码预览。第三方权利、独立效果评测、宿主行为和浏览器运行时依赖尚未解决，稳定版发布状态为 **BLOCKED**。详见[发布门槛](docs/RELEASE-GATES.md)。
 
 ## 咖啡售卖页示例
 
 这个虚构售卖页是**手工按照 Glasspring 的参考和检查流程整理的示例**，对应下方同一条任务简报，并遵循三件预览交付约定。它不是 Agent 宿主会话记录、独立效果评测，也不是尚不完整的公开试点协议重放。
 
-页面和商品均为虚构。购物袋只在本地更新商品数量和小计，不会下单或收款。
+页面、商品和文案均为虚构；主视觉、商品和植物素材由图像生成器为本示例生成。购物袋只在本地更新商品数量和小计，不会下单或收款。
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>1440px 桌面页面</p>
 
@@ -39,7 +39,9 @@ python -m http.server 8000 --directory examples/coffee-storefront
 | 局部 UI 修改 | 沿用现有设计系统，只检查受影响区域 |
 | 只读审查 | 返回审查发现，不改文件 |
 
-参考卡是静态资料。Glasspring 不会采集线上产品，也没有把调研观察自动转成设计指导的流程。默认材质和动效建议受 Apple 风格启发；用户需求和现有设计系统优先，玻璃效果可选。检查工具只覆盖选定规则与行为，不评定整体设计质量，也不认证完整符合 WCAG。
+工作指引要求每项任务最多读取三份设计参考；平台适配文档单独计算；只有使用半透明表面时才要求读取 `glass.md`。检查工具可以测量指定的对比度组合、扫描选定静态模式、验证交付结构，并在浏览器工具可用时捕获页面和探测选定的渲染/交互行为。
+
+参考卡是静态资料。Glasspring 不会采集线上产品，也没有把调研观察自动转成设计指导的流程。默认材质和动效建议受 Apple 风格启发，用户需求和现有设计系统优先，玻璃效果可选。“Apple 风格启发”仅描述设计方向，不代表与 Apple 有关联。检查工具不评定整体设计质量，也不认证完整符合 WCAG。
 
 对于原生 App、游戏和小程序，当前工作流会提供网页预览；只有另有已实现并经过测试的平台版本时才会输出对应平台实现。可选的 stdio MCP 服务提供部分辅助工具；注册需要手动配置，生产宿主集成尚未验证。
 
@@ -54,7 +56,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-安装到 Claude Code 项目目录时使用 `--host claude`。安装器只负责复制文件；文件复制成功不能证明宿主会发现或遵循 Skill。备份、恢复和宿主证据见[安装与宿主验证](INSTALL.md)。
+安装到 Claude Code 项目目录时使用 `--host claude`。安装器会把文件复制到 Codex 的 `.agents/skills/glasspring` 或 Claude Code 的 `.claude/skills/glasspring` 项目目录。项目检查使用 Node.js 22 和 Python 3.12；浏览器检查需要 Chromium。文件复制成功不能证明宿主会发现或遵循 Skill。备份、恢复和宿主证据见[安装与宿主验证](INSTALL.md)。
 
 可以用以下任务试用 Glasspring：
 

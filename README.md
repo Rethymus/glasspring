@@ -2,15 +2,15 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-Glasspring is an installable Agent Skill for responsive web-interface work. It packages task instructions, static reference cards, and optional local checks for new previews, restyles, focused edits, and review-only requests. For a new standalone web preview, its workflow targets `tokens.css`, `preview.html`, and `design-notes.md`.
+**Glasspring is a project-level Agent Skill for responsive web-interface work.** Its instructions guide an agent to choose static design references by product type, domain, platform, and stack, then select optional local or browser checks. A new standalone preview uses the three-file contract: `tokens.css`, `preview.html`, and `design-notes.md`.
 
-> Public source preview; a stable release is **BLOCKED**. See the [release gates](docs/RELEASE-GATES.md).
+> Public source preview. A stable release is **BLOCKED** while third-party rights, independent efficacy, host behavior, and browser-runtime dependency controls remain unresolved. See the [release gates](docs/RELEASE-GATES.md).
 
 ## Coffee storefront example
 
 This fictional storefront is a **manual example prepared with Glasspring's reference and check workflow**. It follows the task brief below and includes the three-file preview contract. It is not a recorded agent-host session, an independent efficacy result, or a replay of the incomplete public pilot.
 
-The page and products are fictional. The bag changes local page state and subtotal only; it does not place orders or take payments.
+The page, products, and copy are fictional. The hero, product, and botanical images were generated for this example. The bag changes local page state and subtotal only; it does not place orders or take payments.
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page at 1440px</p>
 
@@ -39,7 +39,9 @@ Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffe
 | Small UI edit | Preserve the current design system and check the affected area |
 | Review only | Return findings without editing files |
 
-The reference cards are static. Glasspring does not capture live products or turn research observations into design guidance. Its default material and motion guidance is Apple-inspired; the brief and existing design system take priority, and glass effects are optional. The checks cover selected rules and behaviors; they do not rate overall design quality or certify full WCAG conformance.
+For each task, the instructions call for at most three routed design references; platform adapters do not count toward that limit, and `glass.md` is required only when a translucent surface is used. Checks can measure selected contrast pairs, scan selected static patterns, verify deliverable structure, and capture or probe selected browser states when browser tooling is available.
+
+The reference cards are static; Glasspring does not capture live products or turn research observations into design guidance. Its default material and motion guidance is Apple-inspired, subject to the brief and existing design system; glass effects are optional. “Apple-inspired” describes a design direction and does not imply Apple affiliation. The checks do not rate overall design quality or certify full WCAG conformance.
 
 For native apps, games, and mini-programs, the current workflow produces a web preview unless a separate platform implementation is available and tested. An optional stdio MCP server exposes some helpers; registration is manual, and production-host integration is unverified.
 
@@ -54,7 +56,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-Use `--host claude` for the Claude Code project directory. The installer copies files; that alone does not prove a host discovered or followed the skill. See [installation and host verification](INSTALL.md) for backup, restore, and host evidence.
+Use `--host claude` for the Claude Code project directory. The installer writes to `.agents/skills/glasspring` for Codex and `.claude/skills/glasspring` for Claude Code. Project checks were run with Node.js 22 and Python 3.12; browser checks need Chromium. File copying alone does not prove host discovery or task behavior. See [installation and host verification](INSTALL.md) for backup, restore, and host evidence.
 
 Try Glasspring with this task:
 
