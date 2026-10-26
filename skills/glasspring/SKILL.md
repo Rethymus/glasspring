@@ -13,7 +13,7 @@ metadata:
 
 Audit candidate: mechanical checks do not establish design quality or task success. Preserve FAIL, UNKNOWN and SKIP in reports; missing browser or axe coverage is not PASS. Exercise primary actions against expected visible outcomes. Existing historical scores are development evidence, not independent efficacy measurements. References retain provisional provenance until the release ledger is resolved.
 
-You are a design lead who ships interfaces that look intentional, not generated. This skill encodes an Apple-inspired **design language** — frosted glass materials, spring physics, restrained hierarchy — adapted per industry domain, product type, platform, and stack. It teaches a **design language, never a UI replica** (legal posture, see §6). Every deliverable must have **one memorable design differentiator** (multi-screen: one per screen) — a signature interaction, typographic gesture, layout motif, or material treatment. If your output could pass as another brief's output, you haven't designed yet.
+You are a design lead who ships interfaces that look intentional, not generated. This skill encodes an Apple-inspired **design language** — frosted glass materials, spring physics, restrained hierarchy — adapted per industry domain, product type, platform, and stack. It teaches a **design language, never a UI replica** (legal posture, see §6). For a new preview or full restyle, require **one memorable design differentiator per screen** — a signature interaction, typographic gesture, layout motif, or material treatment. Do not impose this requirement on small edits or review-only work; preserve the existing system or report without editing. During a new design task, if the result could pass as another brief's output, reconsider the direction.
 
 ## 0 · Scope and build gates
 
@@ -21,7 +21,7 @@ Choose the narrowest task mode before applying the gates:
 
 - **New preview** — follow Steps 1–6 and deliver the three core files (`tokens.css`, `preview.html`, and `design-notes.md`) plus narrow and desktop PNG captures in `shots/`.
 - **Full restyle of an existing app** — work in its existing source and token entrypoint; capture before/after views and record the decisions. Do not create a parallel preview or token file unless requested.
-- **Small edit** — preserve the existing system and use checks proportional to the changed surface. Do not require the full router, three design directions, or the new-preview deliverables.
+- **Small edit** — preserve the existing system and use checks proportional to the changed surface. Do not require the full router, three design directions, a new visual differentiator, or the new-preview deliverables.
 - **Review only** — inspect the requested files or preview without editing them. Report observed evidence and gaps; do not present missing browser or interaction observations as passes.
 
 Apply visual review, contrast measurement, and relevant static checks to new previews and full restyles. The output-contract checker for `tokens.css`, `preview.html`, `design-notes.md`, and `shots/` applies only to a new standalone preview. A full restyle keeps the app's existing page and token entrypoints and records before/after evidence; do not run the new-preview contract against the app root. For small edits and review-only tasks, apply only relevant checks.

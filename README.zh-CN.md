@@ -80,10 +80,12 @@ python skills/glasspring/scripts/mcp_server.py --selftest
 | 范围 | 状态 |
 |---|---|
 | 历史完整审计 | **FAIL / INCOMPLETE**：12 项 PASS、1 项真实对比度失败、1 项预期负向对照、2 项 SKIP；对比度问题仍未解决。 |
+| 隐私审查 | **PARTIAL**：目前只有启发式文本扫描；未执行专用密钥扫描，也未完整审查二进制文件和 Git 历史。 |
 | Codex 宿主 | Skill 元数据可见性 **PASS**；读取安装后的文件和任务行为 **UNKNOWN**。 |
 | Claude Code 宿主 | 全新会话发现和任务行为 **NOT_RUN**。 |
 | 独立效果评测 | **NOT_RUN**；公开试点协议不是隐藏留出集，且缺少所需来源输入。 |
-| 稳定版发布 | 第三方权利和归属审查未完成，状态为 **BLOCKED**。 |
+| 浏览器依赖完整性 | **OPEN**：axe-core 从 CDN 获取，尚无固定完整性校验值或离线覆盖策略。 |
+| 稳定版发布 | 仍有未解除的发布门槛，状态为 **BLOCKED**。 |
 
 证据和解除条件见[发布门槛](docs/RELEASE-GATES.md)、[评测说明](docs/EVALUATION.md)、[来源说明](PROVENANCE.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。目前不宣称该 Skill 能提升设计质量、兼容所有 Agent 宿主或完全符合 WCAG。
 

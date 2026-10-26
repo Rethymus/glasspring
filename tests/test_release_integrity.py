@@ -17,6 +17,13 @@ class ReleaseIntegrity(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
 
+    def test_design_differentiator_requirement_is_task_scoped(self):
+        skill = (SCRIPTS.parent / 'SKILL.md').read_text(encoding='utf-8')
+        self.assertNotIn('Every deliverable must have', skill)
+        self.assertIn('For a new preview or full restyle, require', skill)
+        self.assertIn('Do not impose this requirement on small edits or review-only work', skill)
+        self.assertIn('a new visual differentiator', skill)
+
     def test_fake_pngs_are_rejected(self):
         good, _ = vo._build_fixture(str(self.root))
         for p in Path(good, 'shots').glob('*.png'):

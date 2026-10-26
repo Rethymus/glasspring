@@ -80,10 +80,12 @@ These check repository code; they do not evaluate an Agent's design output. The 
 | Area | State |
 |---|---|
 | Historical full audit | **FAIL / INCOMPLETE**: 12 PASS, 1 real contrast failure, 1 expected-negative control, and 2 SKIP; the contrast issue remains open. |
+| Privacy review | **PARTIAL**: heuristic text scan only; no dedicated secret scan or complete binary/history review. |
 | Codex host | Skill metadata listing **PASS**; reading the installed file and task behavior **UNKNOWN**. |
 | Claude Code host | Fresh-session discovery and task behavior **NOT_RUN**. |
 | Independent efficacy | **NOT_RUN**; the public pilot protocol is not a hidden holdout and lacks required source inputs. |
-| Stable release | **BLOCKED** pending third-party rights and attribution review. |
+| Browser dependency integrity | **OPEN**: axe-core is fetched from a CDN without a pinned integrity value or offline coverage policy. |
+| Stable release | **BLOCKED** until all open release gates are resolved. |
 
 See [release gates](docs/RELEASE-GATES.md), [evaluation notes](docs/EVALUATION.md), [provenance](PROVENANCE.md), and [third-party notices](THIRD_PARTY_NOTICES.md) for evidence and closure requirements. No claim is made that the Skill improves design quality, works in every Agent host, or fully conforms to WCAG.
 
