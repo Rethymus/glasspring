@@ -1,6 +1,6 @@
 ---
 name: glasspring
-description: Design, restyle, or review responsive web interfaces using routed design references and selected local or browser checks. Use for new pages, dashboards, deliberate redesigns, or review of an existing web preview. Small edits should follow the existing design system and use proportional checks. Native and mini-program outputs are web previews unless separately implemented and tested on their platform.
+description: Design, restyle, or review responsive web interfaces using routed design references and selected local or browser checks. Use for new pages, dashboards, deliberate redesigns, or review of an existing web preview. Small edits should follow the existing design system and use proportional checks. Platform-specific references may inform web previews; this package has no validated native-app, game, or mini-program code-output path.
 license: LICENSE
 compatibility: Audited on Windows with Python 3.12 and Node.js 22.14. Core Python tools use stdlib and sibling modules; browser probes need Chromium and fetch axe-core from a CDN. Installer supports Codex and Claude Code directory layouts; live discovery and other OS versions require host testing.
 metadata:

@@ -6,7 +6,7 @@
 
 The package follows the open [Agent Skills format](https://agentskills.io/specification): a `SKILL.md` with supporting references, scripts, and assets. That format does not establish host discovery or behavior. Glasspring has no automated pipeline that turns live-product observations into new reference cards; its browser tools inspect a URL supplied for a specific task or check.
 
-> **Release status: BLOCKED for a stable release.** This is a public source preview. Reference provenance and rights, privacy/history review, an unresolved contrast failure in the historical audit, live host behavior, independent efficacy, and browser dependency integrity still need resolution. See the [release gates](docs/RELEASE-GATES.md).
+> **Release status: stable release BLOCKED.** This is a public source preview. See the [release gates](docs/RELEASE-GATES.md) for current blockers, evidence, and closure requirements.
 
 ## What it does
 
@@ -19,7 +19,7 @@ For new previews and restyles, references route by product type, domain or style
 
 Available checks include selected text-contrast calculations, a heuristic style-pattern scan, an output contract for new previews, and optional browser screenshots and interaction probes. An optional stdio MCP server exposes some checks; registration is manual, and production host integration has not been verified.
 
-The router can select platform-specific references, but the published example and validated output focus on responsive web previews. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation has been built and tested.
+Platform-specific references may inform a responsive web preview, but this repository has no validated native-app, game, or mini-program code-output path.
 
 ## Coffee storefront example
 
