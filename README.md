@@ -39,7 +39,7 @@ Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffe
 | Small UI edit | Preserve the current design system and check the affected area |
 | Review only | Return findings without editing files |
 
-For each task, the instructions call for at most three routed design references; platform adapters do not count toward that limit, and `glass.md` is required only when a translucent surface is used. Checks can measure selected contrast pairs, scan selected static patterns, verify deliverable structure, and capture or probe selected browser states when browser tooling is available.
+For each task, the instructions call for at most three routed design references, commonly `tokens.md` plus a product-type and domain reference. A named [style pack](skills/glasspring/references/style-packs/) can replace the domain reference; platform adapters are exempt from the limit, and `glass.md` is an extra required read only when a translucent surface is used. Checks can measure selected contrast pairs, scan selected static patterns, verify deliverable structure, and capture or probe selected browser states when browser tooling is available.
 
 The reference cards are static; Glasspring does not capture live products or turn research observations into design guidance. Its default material and motion guidance is Apple-inspired, subject to the brief and existing design system; glass effects are optional. “Apple-inspired” describes a design direction and does not imply Apple affiliation. The checks do not rate overall design quality or certify full WCAG conformance.
 
