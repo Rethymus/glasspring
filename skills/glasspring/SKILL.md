@@ -1,7 +1,7 @@
 ---
 name: glasspring
 description: Design, restyle, or review responsive web interfaces using routed design references and selected local or browser checks. Use for new pages, dashboards, deliberate redesigns, or review of an existing web preview. Small edits should follow the existing design system and use proportional checks. Native and mini-program outputs are web previews unless separately implemented and tested on their platform.
-license: MIT for project-authored material only; see THIRD_PARTY_NOTICES.md
+license: LICENSE
 compatibility: Audited on Windows with Python 3.12 and Node.js 22.14. Core Python tools use stdlib and sibling modules; browser probes need Chromium and fetch axe-core from a CDN. Installer supports Codex and Claude Code directory layouts; live discovery and other OS versions require host testing.
 metadata:
   version: "2.1"
@@ -176,4 +176,4 @@ Opaque, high-contrast, motion-light surfaces for: money amounts & balances, chec
 | `assets/glass-recipes/showcase.html` | visual reference for the three tiers |
 | `assets/glass-recipes/refraction-experiment.html` | only when user explicitly wants refraction (known webview hazard) |
 
-Provenance: values marked "approx" are project estimates, not official product constants. The repository's [third-party notice and review ledger](../../THIRD_PARTY_NOTICES.md) records known sources and unresolved licensing questions; it is not a complete source ledger or rights clearance. The standalone package also includes its own scoped notice.
+Provenance: values marked "approx" are project estimates, not official product constants. The bundled [third-party notice](THIRD_PARTY_NOTICES.md) records known sources and unresolved licensing questions; it is not a complete source ledger or rights clearance. The repository root also contains a broader review, which is not included when the standalone skill folder is copied.
