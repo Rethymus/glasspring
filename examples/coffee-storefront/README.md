@@ -1,6 +1,6 @@
 # Coffee storefront worked example
 
-This is a **manual, Glasspring-guided implementation of the same fictional task brief in the root README**. It follows the skill's three-file output contract: [`tokens.css`](tokens.css), [`preview.html`](preview.html), and [`design-notes.md`](design-notes.md). The skill version, route, decisions, checks, and limits are recorded in the design notes.
+This is a **manual, Glasspring-guided implementation of the same fictional task brief in the root README**. It follows the new-preview contract: the three core files [`tokens.css`](tokens.css), [`preview.html`](preview.html), and [`design-notes.md`](design-notes.md), plus narrow and desktop PNG captures in [`shots/`](shots/). The skill version, route, decisions, checks, and limits are recorded in the design notes.
 
 This page is not an Agent host session, an independent efficacy result, or a replay of [`evals/protocol.json`](../../evals/protocol.json). That public protocol still lacks referenced inputs, so a benchmark replay is not possible from this repository. The example demonstrates a page and its local behavior; it does not show host discovery or prove that the Skill improves design quality.
 

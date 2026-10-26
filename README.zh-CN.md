@@ -10,7 +10,7 @@
 
 ## 它能做什么
 
-- **新建独立预览：**制作页面并交付 <code>tokens.css</code>、<code>preview.html</code> 和 <code>design-notes.md</code>。
+- **新建独立预览：**制作页面并交付三个核心文件——<code>tokens.css</code>、<code>preview.html</code> 和 <code>design-notes.md</code>——以及保存在 <code>shots/</code> 下的窄屏和桌面 PNG 截图。
 - **整体改版：**在现有应用中修改，沿用原有入口，并记录修改前后的证据。
 - **局部 UI 修改：**保留现有设计系统，只检查改动区域。
 - **只读审查：**报告发现，不编辑文件。
@@ -61,7 +61,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 安装后，可在编程 Agent 会话中尝试以下任务：
 
 ~~~text
-使用 Glasspring 为虚构品牌 Morrow Coffee 制作响应式售卖页。配色使用暖奶油色（#f8f3eb）、浓咖啡色文字（#35221b）和陶土色按钮（#93432d）。包含主视觉、三张商品卡，以及可用键盘操作的本地购物袋；加购和移除商品时更新数量与小计，不做下单或支付。只使用目标项目已有素材；若没有商品图片，请用 CSS 或内联 SVG 绘制简单插图，不下载外部素材。交付 tokens.css、preview.html 和 design-notes.md。检查 390px 和 1440px 布局，并报告无法执行的检查。
+使用 Glasspring 为虚构品牌 Morrow Coffee 制作响应式售卖页。配色使用暖奶油色（#f8f3eb）、浓咖啡色文字（#35221b）和陶土色按钮（#93432d）。包含主视觉、三张商品卡，以及可用键盘操作的本地购物袋；加购和移除商品时更新数量与小计，不做下单或支付。只使用目标项目已有素材；若没有商品图片，请用 CSS 或内联 SVG 绘制简单插图，不下载外部素材。交付 tokens.css、preview.html 和 design-notes.md。检查 390px 和 1440px 布局，并将窄屏和桌面 PNG 截图保存在 shots/；报告无法执行的检查。
 ~~~
 
 这是一条示例请求，不代表真实 Agent 运行，也不是复现上方手工截图的步骤。

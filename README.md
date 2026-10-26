@@ -10,7 +10,7 @@ The package follows the open [Agent Skills format](https://agentskills.io/specif
 
 ## What it does
 
-- **New standalone preview:** build a page and deliver <code>tokens.css</code>, <code>preview.html</code>, and <code>design-notes.md</code>.
+- **New standalone preview:** build a page and deliver the three core files—<code>tokens.css</code>, <code>preview.html</code>, and <code>design-notes.md</code>—plus narrow and desktop PNG captures under <code>shots/</code>.
 - **Full restyle:** work in the existing app, preserve its entrypoints, and record before/after evidence.
 - **Small UI edit:** keep the existing design system and check the affected area.
 - **Review only:** report findings without editing files.
@@ -61,7 +61,7 @@ For Claude Code, use <code>--host claude</code>. The installer copies the skill 
 After installing, try a task like this in a coding-agent session:
 
 ~~~text
-Use Glasspring to create a responsive storefront for fictional Morrow Coffee. Use warm cream (#f8f3eb), espresso text (#35221b), and terracotta actions (#93432d). Include a hero, three product cards, and a keyboard-operable local bag that adds and removes products and updates the subtotal; do not add checkout or payment. Use only assets already in the target project. If it has no product imagery, create simple CSS or inline SVG illustrations; do not download external assets. Deliver tokens.css, preview.html, and design-notes.md. Check 390px and 1440px layouts, and report checks you cannot run.
+Use Glasspring to create a responsive storefront for fictional Morrow Coffee. Use warm cream (#f8f3eb), espresso text (#35221b), and terracotta actions (#93432d). Include a hero, three product cards, and a keyboard-operable local bag that adds and removes products and updates the subtotal; do not add checkout or payment. Use only assets already in the target project. If it has no product imagery, create simple CSS or inline SVG illustrations; do not download external assets. Deliver tokens.css, preview.html, and design-notes.md. Save narrow and desktop PNG captures in shots/ after checking the 390px and 1440px layouts, and report checks you cannot run.
 ~~~
 
 This is an example request, not a recorded Agent run or a recipe for reproducing the manual screenshots above.

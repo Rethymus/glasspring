@@ -19,7 +19,7 @@ You are a design lead who ships interfaces that look intentional, not generated.
 
 Choose the narrowest task mode before applying the gates:
 
-- **New preview** — follow Steps 1–6 and deliver `tokens.css`, `preview.html`, and `design-notes.md`.
+- **New preview** — follow Steps 1–6 and deliver the three core files (`tokens.css`, `preview.html`, and `design-notes.md`) plus narrow and desktop PNG captures in `shots/`.
 - **Full restyle of an existing app** — work in its existing source and token entrypoint; capture before/after views and record the decisions. Do not create a parallel preview or token file unless requested.
 - **Small edit** — preserve the existing system and use checks proportional to the changed surface. Do not require the full router, three design directions, or the new-preview deliverables.
 - **Review only** — inspect the requested files or preview without editing them. Report observed evidence and gaps; do not present missing browser or interaction observations as passes.
@@ -33,7 +33,7 @@ Apply visual review, contrast measurement, and relevant static checks to new pre
 2. **Contrast measured** — measure changed or newly authored text/background pairs with `scripts/check_contrast.py`; for glass, test worst-case composites. Record the actual result and preserve failures or missing coverage.
 3. **Glass decision tree** — read and apply `references/glass.md` §0 before adding a translucent surface. If the design does not use translucent surfaces, skip this reference.
 4. **Visual review** — after a new preview or full restyle, inspect a mobile and desktop render. For a small visual edit, inspect the affected viewport and nearby layout. Use `scripts/preview_shot.py` where a local page URL and Chromium are available; report unavailable observations instead of implying they ran.
-5. **Deliverables** — use the three-file contract for a new standalone preview: `tokens.css` + `preview.html` + `design-notes.md`（格式见 `assets/design-notes-template.md` §0-§8）. A full restyle uses the existing app files and token entrypoint with before/after evidence and design notes. Review-only work returns findings without creating those files.
+5. **Deliverables** — for a new standalone preview, provide the three core files (`tokens.css` + `preview.html` + `design-notes.md`, formatted with `assets/design-notes-template.md` §0-§8) and narrow and desktop PNG captures in `shots/`. A full restyle uses the existing app files and token entrypoint with before/after evidence and design notes. Review-only work returns findings without creating those files.
 
 ## 1 · Router — answer four questions, then read ONLY the files the table points to
 
@@ -111,7 +111,7 @@ python "<SKILL_ROOT>/scripts/preview_shot.py" "<LOCAL_URL>" --out-dir "<RUN_DIR>
 ```
 Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被拒"；只看截图不回读代码；每图带验收意图逐项目验。每轮修 top-3，≤3 rounds。
 
-**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md`; after the notes are final, rerun `doctor.py --target "<RUN_DIR>" --skip-selftest` as the final static and output-contract gate. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes; rerun checks for the changed surface and do not apply the new-preview output contract. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For a new preview, run `python "<SKILL_ROOT>/scripts/notes_draft.py" "<RUN_DIR>"` from the project root to prefill measured checks, a scan snapshot taken at invocation time, and dated anchors; if it should represent the pre-fix scan, generate it before repairs. For a full restyle, use this drafter only when a dedicated run directory contains the files it expects; otherwise write the evidence in design notes directly. The judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
+**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md` and narrow and desktop PNG captures in `shots/`; after the notes and captures are final, rerun `doctor.py --target "<RUN_DIR>" --skip-selftest` as the final static and output-contract gate. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes; rerun checks for the changed surface and do not apply the new-preview output contract. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For a new preview, run `python "<SKILL_ROOT>/scripts/notes_draft.py" "<RUN_DIR>"` from the project root to prefill measured checks, a scan snapshot taken at invocation time, and dated anchors; if it should represent the pre-fix scan, generate it before repairs. For a full restyle, use this drafter only when a dedicated run directory contains the files it expects; otherwise write the evidence in design notes directly. The judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
 
 ## 3 · Universal core rules
 

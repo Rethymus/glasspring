@@ -7,7 +7,7 @@
 - Reading this as: a fictional D2C coffee storefront for people choosing a small-batch roast; warm, editorial brand language; desktop and mobile web preview.
 - Route: marketing / brand page; e-commerce retail, D2C; plain web; static HTML, CSS, and vanilla JavaScript. No product type pack or platform adapter was needed.
 - Core references counted toward the routing budget: `tokens.md` and `domains/ecommerce-retail.md`. No product-type pack or platform adapter was needed. Task-triggered guides: `type.md` for text styling and `motion.md` before adding the page's transitions and smooth scrolling. `glass.md` was not read because no translucent surface is used. The page follows the README task brief; its generated imagery was already present in the project when this packaging pass began.
-- Deliverables: `tokens.css`, `preview.html`, `design-notes.md`, and local example assets. The one-page preview keeps its component CSS in `preview.html`, as the contract checker scans that entry file for token use.
+- Deliverables: the three core files (`tokens.css`, `preview.html`, and `design-notes.md`), narrow and desktop PNG captures in `shots/`, and local example assets. The one-page preview keeps its component CSS in `preview.html`, as the contract checker scans that entry file for token use.
 - Scope: manually align and review the existing fictional example against the Skill contract. The visuals and local bag behavior were retained; these notes do not represent an invocation by an installed Codex or Claude host.
 
 ## §1 · Direction choice
