@@ -94,7 +94,7 @@
 ## 动效预算（motion.md 55k）
 
 - **静态页必须先过检**：动效是最后一道工序，**永远不是拯救弱布局的手段**。
-- **预算制**：inspector 统计加载+滚动期间动起来的元素，**少于八个判失败**。五部分 = 2-3 个滚动大场面 + 1 个签名时刻 + 其余安静。
+- **动效预算（上游观察，不是通用 UX 结论）**：Taste Skill 在 99 个 Awwwards SOTD 页面样本中记录了其 inspector 的 8 个元素 floor、低于 16 的 warning，并明确 floor 不是目标（[样本范围](https://github.com/Leonxlnx/taste-skill/blob/6010f91a9935f1c167dfc500fb1a475681892e6b/skills/taste-skill/references/motion.md#L45-L47)、[预算说明](https://github.com/Leonxlnx/taste-skill/blob/6010f91a9935f1c167dfc500fb1a475681892e6b/skills/taste-skill/references/motion.md#L66-L68)）。Glasspring 不自动计数或执行这项门禁；不要把该展示型网站样本外推到产品工作面，也不要为凑数添加动效。具体项目规则见 [motion.md §6a](motion.md#6a-获奖站实测动效纪律)。
 
 ## 图像实测（imagery.md 51k）
 
