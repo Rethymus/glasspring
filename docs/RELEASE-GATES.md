@@ -6,7 +6,7 @@ Status: **Public source preview published; NO-GO for a stable release**. The pub
 |---|---|---|
 | Recoverable private source baseline | PASS | Complete archive, per-file SHA-256 manifest, archive CRC verification; original path excluded from public tree |
 | Baseline source tests | PASS, bounded | Existing tool selftests passed on the audited Windows environment; this does not establish gate completeness |
-| False-success regressions | PASS, bounded | 24 independent regression tests on candidate; original failures retained separately |
+| False-success regressions | PASS, bounded | 25 Python unit tests passed on the candidate worktree on 2026-10-26 with `python -m unittest discover -s tests -v`; this is bounded regression coverage, not an independent audit. Original failures are retained separately. |
 | Selected live browser checks | PASS, bounded | Multi-page sample: four pages at 390 and 1440, axe and click observations present; screenshot/DOM UX findings remain recorded |
 | Historical full audit suite | FAIL / INCOMPLETE | 12 PASS, 1 real color-contrast failure, 1 exact expected-negative control, and 2 SKIP across 16 rows; exit 1. The contrast finding remains unresolved. |
 | Follow-up browser sample gate | PASS, bounded | Candidate `samples_gate.py` at commit `add83a497f08793ffd1fc364417bd8dc4cdc9d82` ran against an isolated copy of 11 original sample directories: 11 PASS, 0 FAIL, 0 SKIP, exit 0, with viewport checks at 390px and 1440px. Three build samples were built. One non-blocking slop warning remains. This does not include the historical contrast task, an independent efficacy study, or host discovery; sample inputs remain private and are not reproducible from a public clone. |

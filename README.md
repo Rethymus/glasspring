@@ -2,17 +2,11 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring is an opinionated, project-local Agent Skill for coding agents asked to build a responsive web preview, restyle an existing interface, make a small UI edit, or review without editing.** It routes static references by product type, domain or style pack, platform, and stack, and includes scripts for selected local and browser checks. Its default materials and motion are Apple-inspired (without affiliation); glass is optional, and the brief and existing design system take precedence. Host discovery and task behavior remain incompletely verified, as shown below. A new standalone preview uses the three-file contract: `tokens.css`, `preview.html`, and `design-notes.md`.
-
-The reference library is static. Glasspring does not automatically inspect live products and turn observations into new reference cards.
-
-> This is a public source preview. A stable release is **BLOCKED** while third-party rights, independent efficacy, host behavior, and browser-runtime dependency controls remain unresolved. See the [release gates](docs/RELEASE-GATES.md).
+**Glasspring is a project-local Agent Skill for coding agents working on responsive web interfaces.** It supports new previews, full restyles, small edits, and read-only reviews. It selects static references for each task and includes scripts for selected local and browser checks. The reference library is maintained in the repository; it does not automatically inspect live products and create new reference cards.
 
 ## Coffee storefront example
 
-This fictional storefront is a **manual example prepared with Glasspring's references and checks**. It follows the self-contained README task below, not the separate coffee task in the [public pilot protocol](evals/protocol.json): that pilot task's referenced palette input is absent from this repository. These images show the example, not an agent-host session or an efficacy result.
-
-The page, products, and copy are fictional; its hero, product, and botanical images were generated for this example. The bag updates local page state and subtotal only. It does not place orders or take payments.
+This fictional storefront is a **manual example guided by Glasspring's references and checks**. It shows a responsive page and a local shopping-bag interaction; the page, products, and copy are fictional, and the images were generated for this example. The bag updates page state and subtotal only, with no order or payment service. These captures describe the example, not an installed-host run or a comparative efficacy study.
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page at 1440px</p>
 
@@ -32,21 +26,24 @@ python -m http.server 8000 --directory examples/coffee-storefront
 
 Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffee-storefront/) include the page, tokens, and asset provenance; [design notes](examples/coffee-storefront/design-notes.md) record the manual checks and their limits.
 
-## Workflows
+> **Release status:** public source preview. A stable release remains **BLOCKED** by unresolved third-party rights, independent efficacy, host behavior, and browser-runtime dependency gates. See the [release gates](docs/RELEASE-GATES.md).
 
-| Request | Intended workflow |
+## Task modes
+
+| Task | Workflow |
 |---|---|
 | New standalone web preview | Select relevant references, build a page, and deliver `tokens.css`, `preview.html`, and `design-notes.md` |
-| Full restyle | Work in the existing app and token entrypoint; record decisions and before/after evidence |
+| Full restyle | Keep the existing app and token entrypoint; record decisions and before/after evidence |
 | Small UI edit | Preserve the current design system and check the affected area |
 | Review only | Return findings without editing files |
 
-## How the instructions work
+## Routing and boundaries
 
-- **Choose references:** The core routing budget is at most three craft references; a selected style pack replaces a domain pack. Task-specific guides and platform adapters may add reads when relevant.
-- **Choose a direction:** For a new preview or full restyle, the instructions ask the agent to consider three distinct directions and commit to one before building. This is an instructed workflow, not an independently measured design-quality result.
-- **Build and check:** New previews use the three-file contract. Restyles work in the existing app and token entrypoint. Helper scripts can check selected contrast pairs and static patterns; the output-contract checker applies only to new previews. Browser helpers can capture or probe selected page states when the required tools are available.
-- **Respect the limits:** The default material and motion guidance is Apple-inspired, subject to the brief and existing design system; glass is optional. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation is available and tested. Checks do not rate overall design quality or certify full WCAG conformance. Optional MCP registration is manual, and production-host integration is unverified.
+- References route by product type, domain or style pack, platform, and applicable stack. The core craft budget is at most three references; a style pack replaces a domain pack. Relevant guides and platform adapters may add reads.
+- For a new preview or full restyle, the instructions ask the agent to consider three distinct directions before building. This describes the workflow, not a measured quality result.
+- The default design language is Apple-inspired; the brief and existing design system take precedence, and glass is optional.
+- New previews use the three-file contract. Full restyles keep the existing app paths. Checks cover selected contrast pairs and static patterns; browser captures and probes require the relevant local tooling. They do not score overall design quality or certify full WCAG conformance.
+- Native apps, games, and mini-programs receive web previews unless a separate platform implementation has been built and tested. MCP registration is manual. See the status table and [installation notes](INSTALL.md) for host evidence.
 
 See [architecture notes](docs/ARCHITECTURE.md) for the product boundary, [provenance notes](PROVENANCE.md) and [third-party notices](THIRD_PARTY_NOTICES.md) for source and rights gaps.
 
@@ -88,7 +85,7 @@ For a new-preview run directory, check its output structure and selected static 
 python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN" --skip-selftest
 ~~~
 
-This runs the static scan and new-preview output contract without repeating helper selftests. The contract is not for full restyles, which keep the existing app's file paths and use before/after evidence. Run the selftests above when checking the package or toolchain. These checks do not run a coding agent or show that the Skill improves design. The axe check in `probe_render.py` needs Chromium and network access to fetch axe-core; if that coverage is unavailable or skipped, the result is `UNKNOWN` unless another observed failure makes it `FAIL`.
+The package commands exercise selected helper logic; they do not run an agent task. The `doctor.py --skip-selftest` command runs a static scan and the new-preview output contract, so use it only for a standalone preview. The axe check in `probe_render.py` requires Chromium and network access to fetch axe-core; missing or skipped coverage is `UNKNOWN` unless another observed failure makes the result `FAIL`.
 
 | Area | Recorded status |
 |---|---|
@@ -99,7 +96,7 @@ This runs the static scan and new-preview output contract without repeating help
 | Independent efficacy | **NOT_RUN**; the public pilot is not a holdout, and its referenced palette and component-library inputs are missing. See the [protocol](evals/protocol.json) and [evaluation notes](docs/EVALUATION.md). |
 | Privacy / third-party rights / browser runtime | **PARTIAL / BLOCKED / OPEN**, respectively. See [security notes](SECURITY.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [release gates](docs/RELEASE-GATES.md). |
 
-Do not infer support for every agent, improved design quality, or full WCAG conformance from these results. The [evaluation notes](docs/EVALUATION.md) explain the study plan and research context.
+These results are limited to the cited runs; they do not establish broad host compatibility, independent design improvement, or full WCAG conformance. See the [evaluation notes](docs/EVALUATION.md) for the study plan and research context.
 
 ## Safety and project files
 
