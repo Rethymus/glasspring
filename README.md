@@ -101,7 +101,8 @@ This check does not measure design quality or verify every interaction.
 | Area | Recorded status |
 |---|---|
 | Main CI | **PASS** for the recorded Windows, macOS, and Ubuntu checks; this does not test an agent session. [Run details](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
-| Last recorded sample suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP; exit code 1. Sample projects are absent from the public tree, so a fresh replay is **INSUFFICIENT_EVIDENCE**. |
+| Historical full audit suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP; exit code 1. This remains an unresolved contrast finding. |
+| Follow-up browser sample gate | **PASS, bounded**: 11 sample directories from an isolated copy of the original workspace all passed at 390px and 1440px; 0 FAIL, 0 SKIP, exit code 0, using the gate at commit `add83a497f08793ffd1fc364417bd8dc4cdc9d82`. One existing slop warning remains. This gate does not rerun the historical contrast task or establish design quality. The sample inputs are not in the public repository, so a fresh clone cannot reproduce it (**INSUFFICIENT_EVIDENCE** for public replay). |
 | Host behavior | **PARTIAL**: one Codex session listed skill metadata (**PASS**); reading the installed skill and task behavior remain **UNKNOWN**; Claude discovery and task behavior are **NOT_RUN**. |
 | Independent efficacy | **NOT_RUN**. The public [protocol](evals/protocol.json) is incomplete and lacks referenced palette/component-library inputs and fixed host/model/budget values; replay is **INSUFFICIENT_EVIDENCE**. |
 | Privacy review | **PARTIAL**; see [security notes](SECURITY.md). |

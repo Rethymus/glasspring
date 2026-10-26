@@ -101,7 +101,8 @@ python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
 | 范围 | 已记录状态 |
 |---|---|
 | 主分支 CI | 记录中的 Windows、macOS 和 Ubuntu 检查为 **PASS**；不包含 Agent 会话测试。[运行记录](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
-| 最近一次完整样本套件 | **FAIL**：12 项 PASS、1 项对比度 FAIL、1 条预期负向控制、2 项网络 SKIP；退出码为 1。样本项目未公开，因此当前无法重放，标记为 **INSUFFICIENT_EVIDENCE**。 |
+| 历史完整审计套件 | **FAIL**：12 项 PASS、1 项对比度 FAIL、1 条预期负向控制、2 项网络 SKIP；退出码为 1。对比度问题仍未解决。 |
+| 后续浏览器样本门禁 | **PASS（有限范围）**：从原工作区隔离副本中取 11 个样本目录，均通过 390px 和 1440px 检查；0 FAIL、0 SKIP，退出码为 0。运行的是提交 `add83a497f08793ffd1fc364417bd8dc4cdc9d82` 中的门禁；仍有 1 条 slop 警告。该门禁没有重跑历史对比度任务，也不能证明设计质量。样本输入未放入公开仓库，用户从新克隆仓库无法复现，因此公开重放状态仍为 **INSUFFICIENT_EVIDENCE**。 |
 | 宿主行为 | **PARTIAL**：一次 Codex 会话列出 Skill 元数据（**PASS**）；是否读取已安装文件及任务行为仍为 **UNKNOWN**；Claude 发现和任务行为为 **NOT_RUN**。 |
 | 独立效果评测 | **NOT_RUN**。公开[协议](evals/protocol.json)不完整，缺少提到的配色和组件库输入，也没有固定宿主、模型和预算值；重放为 **INSUFFICIENT_EVIDENCE**。 |
 | 隐私审查 | **PARTIAL**；详见[安全说明](SECURITY.md)。 |
