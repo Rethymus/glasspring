@@ -8,7 +8,7 @@
 
 ## Coffee storefront example
 
-This fictional storefront is a **manual example prepared with Glasspring's reference and check workflow**. It follows the self-contained task brief below: a responsive coffee storefront with a hero, three products, and a keyboard-operable local bag. The [public pilot protocol](evals/protocol.json) also has a coffee-brand task, but its referenced palette input is absent from this repository, so this page is not a replay or result of that task. These visuals show the example only; they are not an agent-host session or an independent efficacy result.
+This fictional storefront is a **manual example prepared with Glasspring's reference and check workflow**. It follows the self-contained task brief below: a responsive coffee storefront with a hero, three products, and a keyboard-operable local bag. The [public pilot protocol](evals/protocol.json) also has a coffee-brand task, but its supplied palette input is missing from this repository. The README task below gives separate hex colors and adds a local bag interaction, so this page is not a replay or result of the pilot. These visuals show the example only; they are not an agent-host session or an independent efficacy result.
 
 The page, products, and copy are fictional. The hero, product, and botanical images were generated for this example. The bag changes local page state and subtotal only; it does not place orders or take payments.
 
