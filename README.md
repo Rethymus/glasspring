@@ -6,6 +6,15 @@
 
 The package follows the open [Agent Skills format](https://agentskills.io/specification). That format loads the full `SKILL.md` when a host activates a Skill; Glasspring then asks the agent to read no more than three core design references, with task-specific guides and platform adapters added when needed. This routing instruction is not a measured claim about token savings or better results, and host loading behavior has not been verified across hosts. References are static: Glasspring does not browse live products and turn observations into new reference cards. Native-app, game, and mini-program code delivery is outside the validated scope.
 
+## When to use Glasspring
+
+- "Make a responsive preview page / dashboard / landing page" — new preview.
+- "Redesign this app's look" — full restyle that keeps your existing token system.
+- "Small UI fix" — edit within the existing system.
+- "Review this page's design" — read-only report.
+
+Glasspring does not deliver native-app, game, or mini-program code; its platform references can inform a web preview only.
+
 > **Public source preview · stable release BLOCKED.** Rights review for retained third-party material is incomplete. See the [release gates](docs/RELEASE-GATES.md) and [third-party notices](THIRD_PARTY_NOTICES.md) before redistributing the source or an installed copy.
 
 ## Coffee storefront example
