@@ -4,7 +4,7 @@
 
 **Glasspring is a project-local Agent Skill for coding agents working on responsive web interfaces.** It routes each task to relevant curated design references and offers local checks for selected implementation details.
 
-Glasspring is a workflow, a reference library, and helper scripts. It does not automatically inspect live products or create new research cards.
+The package follows the open [Agent Skills format](https://agentskills.io/specification): a `SKILL.md` with supporting references, scripts, and assets. That format does not establish host discovery or behavior. Glasspring does not automatically inspect live products or create new research cards.
 
 > **Release status: BLOCKED for a stable release.** This is a public source preview. Reference provenance and rights, privacy/history review, an unresolved contrast failure in the historical audit, live host behavior, independent efficacy, and browser dependency integrity still need resolution. See the [release gates](docs/RELEASE-GATES.md).
 
@@ -17,7 +17,7 @@ Glasspring is a workflow, a reference library, and helper scripts. It does not a
 
 For new previews and restyles, references route by product type, domain or style pack, platform, and stack. The default design language is Apple-inspired; the brief and existing design system take priority, and glass is optional. MCP registration is optional and manual.
 
-The current implementation targets responsive web previews. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation has been built and tested.
+The reference library and published example are web-first. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation has been built and tested.
 
 ## Coffee storefront example
 
@@ -43,7 +43,9 @@ Then open http://127.0.0.1:8000/preview.html. The [example README](examples/coff
 
 ## Install and try
 
-Install into a disposable project first. Replace <code>PATH_TO_PROJECT</code> with that project's path:
+Install into a disposable project first. Replace <code>PATH_TO_PROJECT</code> with that project's path.
+
+The audited toolchain used Node.js 22.14 and Python 3.12; these are tested versions, not minimum-version guarantees.
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git

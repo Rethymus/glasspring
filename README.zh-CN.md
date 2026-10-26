@@ -4,7 +4,7 @@
 
 **Glasspring 是一个项目级 Agent Skill，供编程 Agent 处理响应式网页界面。**它会按任务选择相关的精选设计参考，并提供用于检查部分实现细节的本地工具。
 
-Glasspring 由工作流程、静态参考资料和辅助脚本组成，不会自动检查线上产品或生成新的研究卡片。
+该 Skill 遵循开放的 [Agent Skills 格式](https://agentskills.io/specification)：以 `SKILL.md` 为入口，并附带参考资料、脚本和素材。符合文件格式不代表宿主已发现或遵循该 Skill。Glasspring 不会自动检查线上产品或生成新研究卡片。
 
 > **发布状态：稳定版 BLOCKED。** 当前是公开源码预览。参考资料来源与授权、隐私和历史审查、历史审计中仍未解决的对比度失败项、真实宿主行为、独立效果评测和浏览器依赖完整性仍待解决。详见[发布门槛](docs/RELEASE-GATES.md)。
 
@@ -17,7 +17,7 @@ Glasspring 由工作流程、静态参考资料和辅助脚本组成，不会自
 
 新建预览和整体改版会按产品类型、领域或风格包、平台及技术栈路由参考。默认设计语言受 Apple 风格启发；用户需求和既有设计系统优先，玻璃效果可选。MCP 注册是可选的手动配置。
 
-当前实现面向响应式网页预览。原生 App、游戏和小程序默认交付网页预览；只有另有独立实现并完成测试时，才提供对应平台的实现。
+参考资料库和公开示例以 Web 界面为主。原生 App、游戏和小程序默认得到网页预览；只有另有对应平台实现并完成测试，才会交付该平台的实现。
 
 ## 咖啡售卖页示例
 
@@ -43,7 +43,9 @@ python -m http.server 8000 --directory examples/coffee-storefront
 
 ## 安装与试用
 
-先安装到一次性项目。将 <code>PATH_TO_PROJECT</code> 替换为该项目的路径：
+先安装到一次性项目。将 <code>PATH_TO_PROJECT</code> 替换为该项目的路径。
+
+审计使用的工具版本为 Node.js 22.14 和 Python 3.12；这是已测试版本，不代表最低版本要求。
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git
