@@ -1,7 +1,7 @@
 # type.md — typography (Western + CJK)
 
 > When to read: with tokens.md, before writing any text styles.
-> Last verified: 2026-10-25. See Apple’s [Typography guidance](https://developer.apple.com/design/human-interface-guidelines/typography). Platform-specific text sizing and CJK recommendations here are project guidance; confirm behavior in the target runtime.
+> Targeted source check: Apple’s type-weight guidance was checked 2026-10-26; this is not a full claim-by-claim audit. See [Apple Typography guidance](https://developer.apple.com/design/human-interface-guidelines/typography). Platform-specific text sizing and CJK recommendations here are project guidance; confirm behavior in the target runtime.
 
 ## 1. Scale & roles
 

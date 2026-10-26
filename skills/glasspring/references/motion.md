@@ -1,7 +1,7 @@
 # motion.md — spring physics & motion semantics
 
 > When to read: before adding any animation/transition. If the answer is "don't animate", that's a valid outcome.
-> Last verified: 2026-10-25. Sources: Apple’s [Motion guidance](https://developer.apple.com/design/human-interface-guidelines/motion), [SwiftUI Spring API](https://developer.apple.com/documentation/swiftui/spring), and MDN’s [`prefers-reduced-motion` reference](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion). Web recommendations are project translations, not Apple platform requirements.
+> Targeted source checks updated 2026-10-26; this is not a full claim-by-claim audit. Inline links identify sources checked. Apple sources include its [Motion guidance](https://developer.apple.com/design/human-interface-guidelines/motion) and [SwiftUI Spring API](https://developer.apple.com/documentation/swiftui/spring); MDN covers [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion). Web recommendations are project translations, not Apple platform requirements.
 
 ## 0. The three questions (answer before animating)
 
@@ -49,7 +49,7 @@ Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overda
 ```
 
 For practical UI, prefer `--duration 0.3 …` (plays over ~1.2s) — perceptual duration is what users feel.
-Implementation notes: any number of points allowed, values outside [0,1] encode overshoot (supported since 2023-12 in all engines). WAAPI accepts the same string.
+Implementation notes: values outside [0,1] are allowed and can encode overshoot. MDN marks `linear()` widely available across browsers since December 2023 ([reference](https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function/linear)). The Web Animations API's `easing` option accepts CSS easing functions ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect)), so the same function can be passed there.
 
 ## 4a. Start/end states & input-origin rules
 
@@ -99,11 +99,11 @@ Implementation notes: any number of points allowed, values outside [0,1] encode 
 - 滚动驱动动效用 CSS Scroll/View Timelines 或 IntersectionObserver，**不轮询 scrollTop**；离屏暂停；rAF 循环必须有停止条件。
 - 动画卡顿时的选择是**降级技术而非删除动效**（prefer downgrading technique over removing motion entirely）。
 
-## 5b. CSS Scroll-Driven Animations（Baseline 2024，scroll-craft + taste-skill motion 互证）
+## 5b. CSS Scroll-Driven Animations (optional enhancement; support varies)
 
 - `animation-timeline: view()` / `scroll()` 实现纯 CSS 滚动驱动——**零 JS、零 scroll 劫持、零轮询**。
 - taste-skill motion.md 55k 的核心洞察：**"scroll-linked means linear"**——滚动就是缓动，14/18 个 scrub 站锁定滚动条（这正是 CSS scroll timelines 做的）。
-- Baseline 2024 全绿灯（Chrome 115+/Edge 115+）。Firefox/Safari 仍在开发——用 `@supports (animation-timeline: view())` 门控，不支持时静态显示完成态。
+- **Browser support checked 2026-10-26:** MDN marks `animation-timeline` as limited availability and not Baseline because some widely used browsers do not support it ([compatibility status](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-timeline)). Keep the `@supports (animation-timeline: view())` gate and a static completed-state fallback; verify the target browser versions before relying on the enhancement.
 - **glasspring 域**：落地页滚动叙事（layout-baselines.md §分段）应优先使用 CSS scroll timelines；仅当需要复杂时间轴编排时才用 GSAP ScrollTrigger（scroll-craft 引擎）。
 - **四种已验证 scrub 模式**（gpt-taste GSAP 语汇 交叉 2026-10-22）：①钉住标题+下方画廊滚动 ②图像 scale 0.8→1.0 进场+退场压暗淡出 ③**逐词擦洗**（词 opacity 0.1→1.0 随滚动点亮——注意 0.1 不是 0：起点必须可读，这是「动画不守门」在 scrub 上的投影）④滚动驱动卡片堆叠。reduced-motion 一律塌缩到静态终态（gsap.matchMedia 门控）
 
@@ -122,4 +122,4 @@ Implementation notes: any number of points allowed, values outside [0,1] encode 
 
 ## 7. Reduced motion
 
-`@media (prefers-reduced-motion: reduce)`: springs render at end state; only opacity/color micro-transitions remain. `prefers-reduced-motion` support ~97%; treat it as mandatory, not progressive.
+`@media (prefers-reduced-motion: reduce)`: preserve the content and render the completed state without unnecessary movement; opacity or color transitions may remain when they help communicate state. Treat this as a project accessibility requirement, and verify behavior in target browsers ([MDN reference](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion)).
