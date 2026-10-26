@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring is a project-local Agent Skill package intended to guide coding agents through designing, restyling, or reviewing responsive web interfaces.** It contains a `SKILL.md`, curated static design references, and helper scripts. The instructions describe how an agent should choose references and run selected checks; live host behavior is incompletely verified, as shown below. A new standalone preview uses the three-file contract: `tokens.css`, `preview.html`, and `design-notes.md`.
+**Glasspring is an opinionated, project-local Agent Skill for coding agents asked to build a responsive web preview, restyle an existing interface, make a small UI edit, or review without editing.** It routes static references by product type, domain or style pack, platform, and stack, and includes scripts for selected local and browser checks. Its default materials and motion are Apple-inspired (without affiliation); glass is optional, and the brief and existing design system take precedence. Host discovery and task behavior remain incompletely verified, as shown below. A new standalone preview uses the three-file contract: `tokens.css`, `preview.html`, and `design-notes.md`.
 
 The reference library is static. Glasspring does not automatically inspect live products and turn observations into new reference cards.
 
@@ -45,8 +45,8 @@ Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffe
 
 - **Choose references:** The core routing budget is at most three craft references; a selected style pack replaces a domain pack. Task-specific guides and platform adapters may add reads when relevant.
 - **Choose a direction:** For a new preview or full restyle, the instructions ask the agent to consider three distinct directions and commit to one before building. This is an instructed workflow, not an independently measured design-quality result.
-- **Build and check:** New previews use the three-file contract. Restyles work in the existing app and token entrypoint. Helper scripts can check selected contrast pairs and static patterns, verify the output structure, and capture or probe selected browser states when the required browser tooling is available.
-- **Respect the limits:** Browser helpers can capture or probe a supplied page. The default material and motion guidance is Apple-inspired, subject to the brief and existing design system; this describes a design direction and does not imply Apple affiliation. Glass is optional. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation is available and tested. Checks do not rate overall design quality or certify full WCAG conformance. Optional MCP registration is manual, and production-host integration is unverified.
+- **Build and check:** New previews use the three-file contract. Restyles work in the existing app and token entrypoint. Helper scripts can check selected contrast pairs and static patterns; the output-contract checker applies only to new previews. Browser helpers can capture or probe selected page states when the required tools are available.
+- **Respect the limits:** The default material and motion guidance is Apple-inspired, subject to the brief and existing design system; glass is optional. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation is available and tested. Checks do not rate overall design quality or certify full WCAG conformance. Optional MCP registration is manual, and production-host integration is unverified.
 
 See [architecture notes](docs/ARCHITECTURE.md) for the product boundary, [provenance notes](PROVENANCE.md) and [third-party notices](THIRD_PARTY_NOTICES.md) for source and rights gaps.
 
@@ -82,17 +82,17 @@ python skills/glasspring/scripts/verify_output.py --selftest
 python skills/glasspring/scripts/mcp_server.py --selftest
 ~~~
 
-For a generated run directory, check its output structure and selected static rules:
+For a new-preview run directory, check its output structure and selected static rules:
 
 ~~~sh
-python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
+python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN" --skip-selftest
 ~~~
 
-These checks exercise selected helper logic and packaging. They do not run a coding agent or show that the Skill improves design. The axe check in `probe_render.py` needs Chromium and network access to fetch axe-core; if that coverage is unavailable or skipped, the result is `UNKNOWN` unless another observed failure makes it `FAIL`.
+This runs the static scan and new-preview output contract without repeating helper selftests. The contract is not for full restyles, which keep the existing app's file paths and use before/after evidence. Run the selftests above when checking the package or toolchain. These checks do not run a coding agent or show that the Skill improves design. The axe check in `probe_render.py` needs Chromium and network access to fetch axe-core; if that coverage is unavailable or skipped, the result is `UNKNOWN` unless another observed failure makes it `FAIL`.
 
 | Area | Recorded status |
 |---|---|
-| Public `main` CI | **PASS** on Windows, macOS, and Ubuntu. It tests the repository checks, not an agent session. [Run details](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
+| Published `main` snapshot CI (`2ce478c`) | **PASS** on Windows, macOS, and Ubuntu. It tests the repository checks, not an agent session. [Run details](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
 | Historical full audit suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP across 16 rows; exit code 1. The contrast finding remains open, and the sample inputs are private. |
 | Follow-up browser sample gate | **PASS, bounded** on 11 private sample directories at 390px and 1440px; 0 FAIL and 0 SKIP. Public replay is **INSUFFICIENT_EVIDENCE** because the inputs are not included. This does not close the historical contrast finding or establish design quality. |
 | Host behavior | **PARTIAL**: one Codex session listed Skill metadata (**PASS**); installed-file reading and task behavior remain **UNKNOWN**; Claude discovery and task behavior are **NOT_RUN**. |

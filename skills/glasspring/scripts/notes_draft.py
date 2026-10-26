@@ -134,13 +134,13 @@ def build_draft(run_dir: str, pairs: list[dict], skipped: list[str],
     warn = [f for f in slop if f[0] == ss.WARN]
     info = [f for f in slop if f[0] == ss.INFO]
     L.append("## §6 · slop 扫描（机械生成 — notes_draft.py）\n")
-    L.append(f"首扫（notes_draft 自动运行，{now}）：**{len(hard)} hard / {len(warn)} warn / {len(info)} info**")
+    L.append(f"生成时扫描快照（notes_draft.py，{now}）：**{len(hard)} hard / {len(warn)} warn / {len(info)} info**")
     if slop:
         L.append("")
         for sev, rid, where, hint in slop:
             L.append(f"- **[{sev}]** `{rid}` — {where} — {hint}")
     else:
-        L.append("（零命中。终稿前用 `python slop_scan.py <run_dir>` 复跑一次确认，不要继承本声明——终检复跑律。）")
+        L.append("（本次快照为零命中。终稿应记录最后一次扫描结果；不要把本快照误写成修复前的首扫结果。）")
     L.append("\n### 修复 → 终扫\n\n> 待填：修复动作 + 终扫数字；截图至上律：门禁过 ≠ 页面好，交付前目检全部截图。\n")
     L.append("### warn 豁免\n\n> 待填：逐条论证（无豁免则写\"无豁免\"）。\n")
     L.append("## §7 · 已知限制\n\n> 待填：诚实清单，每条标影响类（blocks-conversion / adds-friction / reduces-trust / minor-polish）与可辩护/需迭代。\n")
@@ -237,6 +237,10 @@ def main() -> int:
     draft = build_draft(a.run_dir, pairs, skipped, slop, a.refs.split(","), a.pack,
                         " ".join(x for x in [a.run_dir, a.pairs and "--pairs …", a.pack and f"--pack {a.pack}"] if x))
     if a.stdout:
+        # Drafts contain Unicode punctuation and CJK text. In particular,
+        # Windows pipes can inherit a legacy code page that cannot encode it.
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(encoding="utf-8")
         sys.stdout.write(draft)
         return 0
     out = a.out or os.path.join(a.run_dir, "design-notes-DRAFT.md")
@@ -248,7 +252,7 @@ def main() -> int:
     nfail = sum(1 for p in pairs if not p.get("ok"))
     print(f"draft written: {out}")
     print(f"  §4 {len(pairs)} pairs ({nfail} FAIL) · §6 {len(slop)} findings · §8 {len(a.refs.split(',')) + bool(a.pack)} anchors")
-    print("  next: fill 待填 slots, finalize as design-notes.md, run verify_output.py")
+    print("  next: fill 待填 slots, finalize as design-notes.md, then run doctor.py --target <run_dir> --skip-selftest")
     return 0
 
 

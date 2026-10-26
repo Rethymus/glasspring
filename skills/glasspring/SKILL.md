@@ -24,7 +24,7 @@ Choose the narrowest task mode before applying the gates:
 - **Small edit** — preserve the existing system and use checks proportional to the changed surface. Do not require the full router, three design directions, or the new-preview deliverables.
 - **Review only** — inspect the requested files or preview without editing them. Report observed evidence and gaps; do not present missing browser or interaction observations as passes.
 
-The gates below apply in full to new previews and full restyles. For small edits and review-only tasks, apply only the relevant checks.
+Apply visual review, contrast measurement, and relevant static checks to new previews and full restyles. The output-contract checker for `tokens.css`, `preview.html`, `design-notes.md`, and `shots/` applies only to a new standalone preview. A full restyle keeps the app's existing page and token entrypoints and records before/after evidence; do not run the new-preview contract against the app root. For small edits and review-only tasks, apply only relevant checks.
 
 **Helper paths** — `scripts/`, `references/`, and `assets/` are relative to this skill's installed directory. For this repository's project install, use `.agents/skills/glasspring` for Codex/generic or `.claude/skills/glasspring` for Claude Code as `SKILL_ROOT`; from the project root, invoke `"<SKILL_ROOT>/scripts/<tool>"` and keep project inputs and `--target .` relative to the project. Never run bare `scripts/<tool>` from the project root: it can fail or execute an unrelated project script. Do not search outside the project for helpers.
 
@@ -96,17 +96,22 @@ Read ≤3 core craft references for the task routing budget (typically `tokens.m
 
 **Step 4 — Build with recipes.** 竖切优先：先做最有代表性的一页，过 Step 5 后再铺开。Glass→`glass.md`、Motion→`motion.md`、Type→`type.md`、构图基线→`layout-baselines.md`、Web→`platforms/web.md`。
 
-**Step 5 — Verify.**
+**Step 5 — Verify.** Choose commands by task mode. Per-run gates inspect the artifact; helper selftests check the toolchain and need not be repeated for every page.
 ```
 # Run from the project root; replace <SKILL_ROOT> with the host-specific project install path above.
-python "<SKILL_ROOT>/scripts/doctor.py" --target .
+# New standalone preview
+python "<SKILL_ROOT>/scripts/doctor.py" --target "<RUN_DIR>" --skip-selftest
 python "<SKILL_ROOT>/scripts/check_contrast.py" --pairs pairs.json
-python "<SKILL_ROOT>/scripts/preview_shot.py" preview.html --out-dir shots --expect-title "My Preview"
-python "<SKILL_ROOT>/scripts/verify_output.py" .
+python "<SKILL_ROOT>/scripts/preview_shot.py" "<LOCAL_URL>" --out-dir "<RUN_DIR>/shots" --widths 390,1440 --expect-title "My Preview"
+
+# Full restyle: preserve the existing app and token entrypoints
+python "<SKILL_ROOT>/scripts/slop_scan.py" "<APP_ROOT>"
+python "<SKILL_ROOT>/scripts/check_contrast.py" --pairs pairs.json
+python "<SKILL_ROOT>/scripts/preview_shot.py" "<LOCAL_URL>" --out-dir "<RUN_DIR>/shots" --widths 390,1440 --expect-title "My App"
 ```
 Render → screenshot 390+1440 → rubric 自审。**对抗式**：论证"应被拒"；只看截图不回读代码；每图带验收意图逐项目验。每轮修 top-3，≤3 rounds。
 
-**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md`. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For new previews or restyles, run `python "<SKILL_ROOT>/scripts/notes_draft.py" "<RUN_DIR>"` from the project root to prefill measured checks, initial scan and dated anchors; the judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
+**Step 6 — Deliver.** New preview: deliver `tokens.css` + `preview.html` + `design-notes.md`; after the notes are final, rerun `doctor.py --target "<RUN_DIR>" --skip-selftest` as the final static and output-contract gate. Full restyle: update the existing app and token entrypoint, then provide before/after evidence and design notes; rerun checks for the changed surface and do not apply the new-preview output contract. Small edits follow the host project's normal output. Review-only work returns findings without editing files. For a new preview, run `python "<SKILL_ROOT>/scripts/notes_draft.py" "<RUN_DIR>"` from the project root to prefill measured checks, a scan snapshot taken at invocation time, and dated anchors; if it should represent the pre-fix scan, generate it before repairs. For a full restyle, use this drafter only when a dedicated run directory contains the files it expects; otherwise write the evidence in design notes directly. The judgment sections still need human completion. Add `DESIGN.md` only when a durable project contract is requested. State the version and date where relevant.
 
 ## 3 · Universal core rules
 
@@ -166,12 +171,12 @@ Opaque, high-contrast, motion-light surfaces for: money amounts & balances, chec
 | `scripts/preview_shot.py` | Step 5 门禁：真窄视口+桌面截图（先 `--selftest`；需本地 URL） |
 | `scripts/probe_render.py` | Step 5 optional gate: animation-gated (A) / t=0 window (B) / reduced-motion (C) / axe a11y (D) / dead-contract click fingerprint (E) / flat-spacing economy (F) (`--selftest` first) |
 | `scripts/deal_direction.py` | open-brief build: deal 3 directions, commit to 1（承诺三律随牌打印） |
-| `scripts/doctor.py` | one-shot selftest + slop + contract 聚合（Step 5 捷径） |
+| `scripts/doctor.py` | one-shot selftest + slop + contract 聚合；新预览逐次检查用 `--skip-selftest`，契约只适用于新预览 |
 | `scripts/run_init.py` | one-command run scaffold（骨架+tokens 占位+notes 模板+下一步指引） |
-| `scripts/notes_draft.py` | design-notes 起稿：自动预填 §4 对比实测（token 自动配对）/§6 首扫/§8 锚点日期，判断节留待填槽（终稿仍须补全） |
+| `scripts/notes_draft.py` | design-notes 起稿：自动预填 §4 对比实测（token 自动配对）/生成时扫描快照/§8 锚点日期；快照是否为首扫取决于调用时机 |
 | `scripts/visual_diff.py` | pixel diff：修复前后截图 `--min-diff` 必须有差（无差=没修）；restyle 前后证据；复跑 drift `--max-diff` |
 | `scripts/mcp_server.py` | MCP host（Claude Desktop/ZCode/Cursor）注册后门禁变一等工具：slop_scan/check_contrast/verify_output/probe_render/visual_diff/notes_draft/spring_convert/palette/deal/doctor 结构化 JSON 返回 |
-| `scripts/verify_output.py` | 输出契约 Step 6 前置；FAIL=不交付；`--html` 报告 |
+| `scripts/verify_output.py` | 新独立预览的输出契约；不用于沿用现有入口的整体改版；FAIL=不交付；`--html` 报告 |
 | `assets/design-notes-template.md` | 每次交付的 design-notes.md 统一格式（§0-§8 九节不可换序） |
 | `assets/glass-recipes/showcase.html` | visual reference for the three tiers |
 | `assets/glass-recipes/refraction-experiment.html` | only when user explicitly wants refraction (known webview hazard) |

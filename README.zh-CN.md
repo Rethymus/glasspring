@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring 是一个面向项目目录的 Agent Skill 包，旨在引导编程 Agent 设计、改版或审查响应式网页界面。**包内包含 `SKILL.md`、人工整理的静态设计参考和辅助脚本。Skill 指令说明 Agent 应如何选择参考并运行选定检查；宿主实际行为的验证尚不完整，详见下文。新建独立预览时，使用 `tokens.css`、`preview.html` 和 `design-notes.md` 三文件交付约定。
+**Glasspring 是一个带有明确审美主张的项目级 Agent Skill，供编程 Agent 新建响应式网页预览、整体改版、局部 UI 修改或只读审查时使用。**它按产品类型、领域或风格包、平台和技术栈路由静态参考，并提供部分本地及浏览器检查脚本。默认材质与动效方向受 Apple 风格启发（不代表关联），玻璃效果可选；用户需求和既有设计系统优先。宿主发现和任务行为尚未完整验证，详见下文。新建独立预览采用 `tokens.css`、`preview.html` 和 `design-notes.md` 三文件约定。
 
 参考库是静态内容。Glasspring 不会自动检查线上产品并将观察结果转成新的参考卡。
 
@@ -45,8 +45,8 @@ python -m http.server 8000 --directory examples/coffee-storefront
 
 - **选择参考：** 核心路由最多使用三份设计参考；若选择风格包，则替代领域包。相关任务指南和平台适配文档可能增加读取文件。
 - **选择设计方向：** 对新预览或整体改版，指令要求 Agent 先考虑三个不同方向，再选定一个开始制作。这是指令规定的流程，不是经独立评测验证的设计质量结论。
-- **制作并检查：** 新建预览遵循三文件约定；整体改版沿用现有应用和 token 入口。辅助脚本可以检查选定的对比度组合和静态模式、验证产物结构；所需浏览器工具可用时，还能捕获或探测选定页面状态。
-- **了解边界：** 浏览器工具可以捕获或探测供检查的页面。默认材质和动效建议受 Apple 风格启发，具体以用户需求和现有设计系统为准；这只描述设计方向，不代表与 Apple 有关联。玻璃效果可选。对于原生 App、游戏和小程序，当前工作流提供网页预览，除非另有已实现并测试的平台版本。检查工具不评定整体设计质量，也不认证完整符合 WCAG。可选 MCP 注册需要手动配置，生产宿主集成尚未验证。
+- **制作并检查：** 新建预览遵循三文件约定；整体改版沿用现有应用和 token 入口。辅助脚本可以检查选定的对比度组合和静态模式；输出契约检查只适用于新预览。所需浏览器工具可用时，还能捕获或探测选定页面状态。
+- **了解边界：** 默认材质和动效建议受 Apple 风格启发，具体以用户需求和现有设计系统为准；玻璃效果可选。对于原生 App、游戏和小程序，当前工作流提供网页预览，除非另有已实现并测试的平台版本。检查工具不评定整体设计质量，也不认证完整符合 WCAG。可选 MCP 注册需要手动配置，生产宿主集成尚未验证。
 
 产品边界见[架构说明](docs/ARCHITECTURE.md)；来源与授权问题见[来源说明](PROVENANCE.md)和[第三方来源声明](THIRD_PARTY_NOTICES.md)。
 
@@ -82,17 +82,17 @@ python skills/glasspring/scripts/verify_output.py --selftest
 python skills/glasspring/scripts/mcp_server.py --selftest
 ~~~
 
-如果已有生成结果目录，也可检查其产物结构和部分静态规则：
+对新建预览的运行目录，可检查产物结构和部分静态规则：
 
 ~~~sh
-python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
+python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN" --skip-selftest
 ~~~
 
-这些检查只覆盖部分辅助工具逻辑和打包行为，不会运行编程 Agent，也不能证明 Skill 能提升设计效果。`probe_render.py` 的 axe 检查需要 Chromium 和网络连接来获取 axe-core；若该覆盖不可用或被跳过，且没有其他已观测失败项，结果为 `UNKNOWN`（若其他检查失败则为 `FAIL`）。
+此命令运行静态扫描和新预览输出契约，不会重复执行辅助脚本自检。该契约不适用于沿用现有文件路径的整体改版；改版应保留应用结构并提供修改前后的证据。检查包或工具链时再运行上方的自检命令。这些检查不会运行编程 Agent，也不能证明 Skill 能提升设计效果。`probe_render.py` 的 axe 检查需要 Chromium 和网络连接来获取 axe-core；若该覆盖不可用或被跳过，且没有其他已观测失败项，结果为 `UNKNOWN`（若其他检查失败则为 `FAIL`）。
 
 | 范围 | 已记录状态 |
 |---|---|
-| 公开 `main` CI | Windows、macOS 和 Ubuntu 检查为 **PASS**；CI 检查仓库工具，不运行 Agent 会话。[运行记录](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
+| 已发布的 `main` 快照 CI（`2ce478c`） | Windows、macOS 和 Ubuntu 检查为 **PASS**；CI 检查仓库工具，不运行 Agent 会话。[运行记录](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
 | 历史完整审计套件 | **FAIL**：12 项 PASS、1 项对比度 FAIL、1 条预期负向控制、2 项网络 SKIP；共 16 行，退出码为 1。对比度问题仍未解决，样本输入为私有内容。 |
 | 后续浏览器样本门禁 | **PASS（有限范围）**：11 个私有样本目录通过 390px 和 1440px 检查；0 FAIL、0 SKIP。样本未包含在仓库中，公开重放为 **INSUFFICIENT_EVIDENCE**。该结果没有解决历史对比度问题，也不能证明设计质量。 |
 | 宿主行为 | **PARTIAL**：一次 Codex 会话列出 Skill 元数据（**PASS**）；读取已安装文件及任务行为仍为 **UNKNOWN**；Claude 发现和任务行为为 **NOT_RUN**。 |

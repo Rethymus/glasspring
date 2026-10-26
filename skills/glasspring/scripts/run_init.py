@@ -73,8 +73,8 @@ NEXT_STEPS = """
   3. 替换 tokens.css 占位 → 实测: python scripts/check_contrast.py --fg ... --bg ...
   4. 重写 preview.html 为真实页面（当前是骨架, 门禁会红——这是设计起点）
   5. 截图:            python scripts/preview_shot.py "file:///{abs}/preview.html" --out-dir "{abs}/shots" --widths 390,1440
-  6. 终门禁:          python scripts/doctor.py --target "{abs}"
-  7. 填写 design-notes.md（§0-§8 逐节, 判断性决定与豁免论证写在对应节）
+  6. 填写 design-notes.md（§0-§8 逐节, 判断性决定与豁免论证写在对应节）
+  7. 终门禁:          python scripts/doctor.py --target "{abs}" --skip-selftest
 """
 
 

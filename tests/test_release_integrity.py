@@ -1,6 +1,6 @@
 """Independent boundary regressions added by the audit; no model API calls."""
 from pathlib import Path
-import contextlib, http.client, io, json, subprocess, sys, tempfile, unittest
+import contextlib, http.client, io, json, os, subprocess, sys, tempfile, unittest
 from unittest.mock import patch
 
 SCRIPTS = Path(__file__).resolve().parents[1] / 'skills/glasspring/scripts'
@@ -40,6 +40,18 @@ class ReleaseIntegrity(unittest.TestCase):
         Path(good, 'preview.html').write_text('<p style="color:var(--ink)">hello</p>')
         p = subprocess.run([sys.executable, str(SCRIPTS/'verify_output.py'), good], capture_output=True)
         self.assertEqual(p.returncode, 2)
+
+    def test_notes_draft_stdout_is_utf8_with_legacy_pipe_encoding(self):
+        env = os.environ.copy()
+        env['PYTHONIOENCODING'] = 'cp936'
+        p = subprocess.run(
+            [sys.executable, str(SCRIPTS/'notes_draft.py'), str(self.root), '--stdout'],
+            capture_output=True, env=env,
+        )
+        self.assertEqual(p.returncode, 0, p.stderr.decode('utf-8', errors='replace'))
+        output = p.stdout.decode('utf-8')
+        self.assertIn('文件名›节名', output)
+        self.assertIn('生成时扫描快照', output)
 
     def test_blank_page_mcp_is_failure(self):
         with patch.object(probe, 'probe', return_value=([], [], [], 0, [], [], [], True, {})):
