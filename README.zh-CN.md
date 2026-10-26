@@ -56,7 +56,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-安装到 Claude Code 项目时使用 <code>--host claude</code>。安装器会将 Skill 复制到项目内的 <code>.agents/skills/glasspring</code> 或 <code>.claude/skills/glasspring</code>。文件复制检查不能证明宿主会发现或遵循 Skill。证据、备份/恢复和移除步骤见[安装与宿主验证](INSTALL.md)。
+安装到 Claude Code 项目时使用 <code>--host claude</code>。安装器会将 Skill 复制到项目内的 <code>.agents/skills/glasspring</code> 或 <code>.claude/skills/glasspring</code>。安装目录包含[适用于独立 Skill 的第三方声明](skills/glasspring/THIRD_PARTY_NOTICES.md)，但不会包含更完整的[仓库级权利审查](THIRD_PARTY_NOTICES.md)。文件复制检查不能证明宿主会发现或遵循 Skill。证据、备份/恢复和移除步骤见[安装与宿主验证](INSTALL.md)。
 
 安装后，可在编程 Agent 会话中尝试以下任务：
 

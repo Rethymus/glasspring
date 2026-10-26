@@ -56,7 +56,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-For Claude Code, use <code>--host claude</code>. The installer copies the skill into the project's <code>.agents/skills/glasspring</code> or <code>.claude/skills/glasspring</code> directory. File-copy checks do not prove that a host discovers or follows the Skill. See [installation and host verification](INSTALL.md) for evidence, backup/restore, and removal steps.
+For Claude Code, use <code>--host claude</code>. The installer copies the skill into the project's <code>.agents/skills/glasspring</code> or <code>.claude/skills/glasspring</code> directory. The installed folder includes its [scoped third-party notice](skills/glasspring/THIRD_PARTY_NOTICES.md); the broader [repository-level rights review](THIRD_PARTY_NOTICES.md) is not copied. File-copy checks do not prove that a host discovers or follows the Skill. See [installation and host verification](INSTALL.md) for evidence, backup/restore, and removal steps.
 
 After installing, try a task like this in a coding-agent session:
 
