@@ -1,6 +1,6 @@
 """Independent boundary regressions added by the audit; no model API calls."""
 from pathlib import Path
-import contextlib, io, json, subprocess, sys, tempfile, unittest
+import contextlib, http.client, io, json, subprocess, sys, tempfile, unittest
 from unittest.mock import patch
 
 SCRIPTS = Path(__file__).resolve().parents[1] / 'skills/glasspring/scripts'
@@ -153,6 +153,19 @@ class ReleaseIntegrity(unittest.TestCase):
         with patch.object(sys, 'argv', ['samples_gate', '--root', str(self.root)]), patch.object(gate, 'has_unreachable_remote_deps', return_value=None), patch.object(gate, 'slop_ok', return_value=(True, 'clean')), patch.object(gate, 'probe', return_value=(False, 'probe crash')), contextlib.redirect_stdout(capture):
             self.assertEqual(gate.main(), 1)
         self.assertIn('[FAIL]', capture.getvalue())
+
+    def test_preview_wait_retries_malformed_startup_response(self):
+        with patch.object(gate.urllib.request, 'urlopen', side_effect=[
+            http.client.BadStatusLine('GET / HTTP/1.1'),
+            contextlib.nullcontext(),
+        ]) as open_url, patch.object(gate.time, 'sleep'):
+            self.assertTrue(gate.wait_for_preview('http://localhost:1234/', attempts=2))
+        self.assertEqual(open_url.call_count, 2)
+
+    def test_preview_wait_does_not_accept_persistent_malformed_responses(self):
+        with patch.object(gate.urllib.request, 'urlopen', side_effect=http.client.BadStatusLine('GET / HTTP/1.1')) as open_url, patch.object(gate.time, 'sleep'):
+            self.assertFalse(gate.wait_for_preview('http://localhost:1234/', attempts=2))
+        self.assertEqual(open_url.call_count, 2)
 
     def test_non_private_sample_directory_is_discovered(self):
         samples=self.root/'samples';samples.mkdir()

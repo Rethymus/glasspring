@@ -21,7 +21,7 @@ Usage:
   python samples_gate.py --only <sample-name> # one sample
 """
 from __future__ import annotations
-import argparse, os, re, subprocess, sys, time, urllib.request
+import argparse, http.client, os, re, subprocess, sys, time, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SKILL = os.path.dirname(HERE)
@@ -98,13 +98,7 @@ def serve_and_probe_build(sample_dir: str) -> tuple[bool, str]:
                                 cwd=sample_dir, stdout=lf, stderr=lf, shell=(os.name == "nt"))
     try:
         url = f"http://localhost:{port}/"
-        for _ in range(30):  # wait for the server (3s cap)
-            try:
-                with urllib.request.urlopen(url, timeout=1):
-                    break
-            except OSError:
-                time.sleep(0.1)
-        else:
+        if not wait_for_preview(url):
             return False, "preview server never came up"
         r1, d1 = probe(url, width=390)
         r2, d2 = probe(url, width=1440)
@@ -114,6 +108,21 @@ def serve_and_probe_build(sample_dir: str) -> tuple[bool, str]:
             subprocess.run(["taskkill", "/PID", str(proc.pid), "/T", "/F"], capture_output=True)
         else:
             proc.terminate()
+
+
+def wait_for_preview(url: str, attempts: int = 30, delay: float = 0.1) -> bool:
+    """Wait through transient malformed responses while the preview starts.
+
+    A BadStatusLine during startup is not a successful probe. Keep the existing
+    bounded wait and require a later valid HTTP response before continuing.
+    """
+    for _ in range(attempts):
+        try:
+            with urllib.request.urlopen(url, timeout=1):
+                return True
+        except (OSError, http.client.HTTPException):
+            time.sleep(delay)
+    return False
 
 
 def free_port() -> int:
