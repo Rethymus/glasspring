@@ -10,7 +10,7 @@ The MIT license in this directory applies only to project-authored material its 
 - XIAS and other design skills are named in some research notes. Their source revisions, licenses, and any adapted implementation have not been comprehensively checked.
 - Domain references cite Baymard, NN/g and Stanford research. The skill summarizes selected findings and design implications; citations do not grant rights to republish source text or assets.
 - Apple HIG and WWDC material is summarized as design guidance. Public availability is not permission to redistribute Apple text or assets; the project is not affiliated with Apple Inc.
-- axe-core is retrieved from cdnjs at probe runtime and is not bundled. Its license notice, integrity pinning, and runtime supply-chain policy still need review.
+- axe-core is fetched from cdnjs at probe runtime and is not bundled. The fetched artifact is pinned to sha256 b511cd9dec01c76f4b2ad1723b66b6db37d4c2eb4ed199076e1829d9ee7b75e3 (measured 2026-10-27 from the cdnjs 4.10.2 file); a mismatch skips the accessibility pass instead of running unverified code. axe-core is licensed MPL-2.0 by Deque Systems (verified against the npm registry, 2026-10-27). It is not redistributed in this repository and no MPL-covered files are bundled; runtime supply-chain policy: pinned version, pinned hash, honest skip on mismatch.
 - Photos, fonts, and product screenshots from omitted sample projects are not part of this package and have not been cleared for redistribution.
 
 This notice is not a complete provenance record or rights clearance. The repository clone contains a broader review in its root `THIRD_PARTY_NOTICES.md`; a standalone skill installation does not include that repository-level file.
