@@ -68,7 +68,7 @@ Measured with `skills/glasspring/scripts/check_contrast.py` using the listed for
 - **blocks-conversion — demo scope:** bag state is in memory only; there is no inventory, persistence, checkout, order submission, or payment.
 - **minor-polish — illustrative assets:** product names, prices, copy, and locally generated images are fictional, not evidence about a real coffee brand or retail outcome.
 - Browser plugin was not available in this session. Visual and interaction checks used Python Playwright 1.53.0 with Chrome 155.0.8059.85. The local interaction smoke had no console warnings/errors or page exceptions.
-- `probe_render.py --no-axe` returned **UNKNOWN**, exit 1: coverage was partial because axe was disabled and click observation was unavailable. The separately run Playwright flow covers the listed bag actions; automated axe coverage is NOT_RUN here. No claim of full WCAG conformance is made.
+- `probe_render.py --no-axe` returned **UNKNOWN**, Python process exit 2: coverage was partial because axe was disabled and click observation was unavailable. The separately run Playwright flow covers the listed bag actions; automated axe coverage is NOT_RUN here. No claim of full WCAG conformance is made.
 - Host discovery and independent efficacy are NOT_RUN for this example. This work does not clear the repository's release blockers; see [`docs/RELEASE-GATES.md`](../../docs/RELEASE-GATES.md).
 
 ### Recorded checks (2026-10-26)
@@ -85,7 +85,7 @@ Measured with `skills/glasspring/scripts/check_contrast.py` using the listed for
 | `python skills/glasspring/scripts/preview_shot.py <local URL> --out-dir <temp> --widths 390,1440 --expect-title "Morrow Coffee"` | PASS, exit 0; 390×844 and 1440×900 captures; temporary output directory |
 | Playwright Python 1.53.0 with Chrome 155.0.8059.85 | PASS, exit 0; page and images loaded; 200 responses; no browser errors or overflow; add, subtotal, keyboard, Escape, remove, and empty states verified |
 | `notes_draft.py` with the seven explicit pairs above | PASS, 7 pairs / 0 FAIL, 0 slop findings, 4 anchors, exit 0 |
-| `python skills/glasspring/scripts/probe_render.py <local URL> --no-axe` | UNKNOWN, partial coverage, exit 1; axe disabled and click observation unavailable |
+| `python skills/glasspring/scripts/probe_render.py <local URL> --no-axe` | UNKNOWN, partial coverage, Python process exit 2; axe disabled and click observation unavailable |
 
 ## §8 · Reference anchors
 
