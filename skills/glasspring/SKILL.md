@@ -37,7 +37,7 @@ The gates below apply in full to new previews and full restyles. For small edits
 
 ## 1 · Router — answer four questions, then read ONLY the files the table points to
 
-Read ≤3 core craft references for the task routing budget (typically `tokens.md` + product-type + domain pack). A style pack replaces the domain pack in this count. This is not a cap on every file read: task-triggered guides such as `type.md` for text styling and `motion.md` before adding animation or transitions are additional reads when relevant. `glass.md` is gate-required for any translucent surface (outside the 3-file budget). If no surface can be translucent, note it and skip. Platform files are exempt adapters. Every reference starts with "When to read". Unspecified dimension → use default, note it.
+Read ≤3 core craft references for the task routing budget (typically `tokens.md` + product-type + domain pack). A style pack replaces the domain pack in this count. This is not a cap on every file read: task-triggered guides such as `type.md` for text styling, `motion.md` before adding animation or transitions, and `recommended-stack.md` for React/Next.js + Tailwind when no component library is specified are additional reads when relevant. `glass.md` is gate-required for any translucent surface (outside the 3-file budget). If no surface can be translucent, note it and skip. Platform files are exempt adapters. Every reference starts with "When to read". Unspecified dimension → use default, note it.
 
 **① Product type** (default: web product page)
 - Marketing/landing/brand site → §3 divergence rules + typography-driven; no type pack needed.
