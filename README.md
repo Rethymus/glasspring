@@ -8,13 +8,15 @@
 
 ## Coffee storefront example
 
-This fictional storefront is a **manual example prepared with Glasspring's reference and check workflow**. It follows the task brief below and includes the three-file preview contract. It is not a recorded agent-host session, an independent efficacy result, or a replay of the incomplete public pilot.
+This fictional storefront is a **manual example prepared with Glasspring's reference and check workflow**. It follows the self-contained task brief below: a responsive coffee storefront with a hero, three products, and a keyboard-operable local bag. The [public pilot protocol](evals/protocol.json) also has a coffee-brand task, but its referenced palette input is absent from this repository, so this page is not a replay or result of that task. These visuals show the example only; they are not an agent-host session or an independent efficacy result.
 
 The page, products, and copy are fictional. The hero, product, and botanical images were generated for this example. The bag changes local page state and subtotal only; it does not place orders or take payments.
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page at 1440px</p>
 
-<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: add coffee, open the bag, increase quantity to two, and remove the item.' width='100%'><br>Local shopping-bag interaction, not evidence of agent discovery or efficacy.</p>
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: initial page, add House Blend, open the bag, add the same product again, then remove it.' width='100%'><br>Local shopping-bag interaction, not evidence of agent discovery or efficacy.</p>
+
+**Shown here:** 1440px desktop layout, 390px mobile layout, and local add → open → add another unit → remove states. The bag has no checkout, order submission, or payment service.
 
 <details>
   <summary>View the mobile layout and open bag state</summary>

@@ -8,13 +8,15 @@
 
 ## 咖啡售卖页示例
 
-这个虚构售卖页是**手工按照 Glasspring 的参考和检查流程整理的示例**，对应下方同一条任务简报，并遵循三件预览交付约定。它不是 Agent 宿主会话记录、独立效果评测，也不是尚不完整的公开试点协议重放。
+这个虚构售卖页是**手工按照 Glasspring 的参考和检查流程整理的示例**，依据下方自包含任务制作：响应式咖啡售卖页，包含主视觉、三种商品和可用键盘操作的本地购物袋。[公开试点协议](evals/protocol.json)中也有咖啡品牌任务，但该任务引用的配色输入未包含在本仓库中，因此本页面不是该任务的重放或评测结果。这些视觉素材只展示本示例，不代表 Agent 宿主会话或独立效果评测。
 
 页面、商品和文案均为虚构；主视觉、商品和植物素材由图像生成器为本示例生成。购物袋只在本地更新商品数量和小计，不会下单或收款。
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>1440px 桌面页面</p>
 
-<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='五帧本地交互：加入咖啡、打开购物袋、将数量增加到两件，再移除商品。' width='100%'><br>本地购物袋交互演示，不代表 Agent 发现能力或评测效果。</p>
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='五帧本地交互：初始页面、加入 House Blend、打开购物袋、再次加入同一商品，再移除商品。' width='100%'><br>本地购物袋交互演示，不代表 Agent 发现能力或评测效果。</p>
+
+**展示内容：** 1440px 桌面布局、390px 移动端布局，以及本地加购 → 打开购物袋 → 再加一件 → 移除商品的状态变化。购物袋没有结账、订单提交或支付服务。
 
 <details>
   <summary>查看移动端布局和购物袋状态</summary>
