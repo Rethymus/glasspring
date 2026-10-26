@@ -2,56 +2,48 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring is a project-local Agent Skill that gives coding agents a routed workflow for responsive web interfaces.** Its instructions cover new previews, full restyles, small edits, and read-only reviews. It selects static references for each task and includes scripts for selected local and browser checks. The reference library is maintained in the repository; it does not automatically inspect live products and create new reference cards.
+**Glasspring is a project-local Agent Skill for coding agents working on responsive web interfaces.** It routes each task to relevant curated design references and offers local checks for selected implementation details.
+
+Glasspring is a workflow, a reference library, and helper scripts. It does not automatically inspect live products or create new research cards.
+
+> **Release status: BLOCKED for a stable release.** This is a public source preview. Reference provenance and rights, privacy/history review, an unresolved contrast failure in the historical audit, live host behavior, independent efficacy, and browser dependency integrity still need resolution. See the [release gates](docs/RELEASE-GATES.md).
+
+## What it does
+
+- **New standalone preview:** build a page and deliver <code>tokens.css</code>, <code>preview.html</code>, and <code>design-notes.md</code>.
+- **Full restyle:** work in the existing app, preserve its entrypoints, and record before/after evidence.
+- **Small UI edit:** keep the existing design system and check the affected area.
+- **Review only:** report findings without editing files.
+
+For new previews and restyles, references route by product type, domain or style pack, platform, and stack. The default design language is Apple-inspired; the brief and existing design system take priority, and glass is optional. MCP registration is optional and manual.
+
+The current implementation targets responsive web previews. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation has been built and tested.
 
 ## Coffee storefront example
 
-This fictional storefront is a **manual implementation of the task brief below, guided by Glasspring's references and checks**. Its design notes record a direct-to-consumer (D2C) route, three considered directions, the selected split hero, and seven measured contrast pairs. The screenshots and GIF show the page and local bag interaction; they are not an installed-host run or a comparative efficacy result.
+This fictional storefront is a **manual example guided by Glasspring's references and checks**. It was not generated in a live coding-agent host session and is not an efficacy result. The screenshots and GIF show the page and its local bag interaction. Products, copy, and images are fictional; the bag updates page state and subtotal only, with no order or payment service.
 
-The page, products, and copy are fictional, and its images were generated for this example. The bag updates page state and subtotal only, with no order or payment service.
+<p align="center"><img src="examples/coffee-storefront/shots/coffee-storefront-desktop.png" alt="Full-page desktop screenshot of the fictional Morrow Coffee storefront." width="100%"><br>Desktop page at 1440px</p>
 
-<p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page at 1440px</p>
-
-<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: initial page, add House Blend, open the bag, add the same product again, then remove it.' width='100%'><br>Local shopping-bag interaction</p>
+<p align="center"><img src="examples/coffee-storefront/interaction.gif" alt="Five-frame local interaction: initial page, add House Blend, open the bag, add it again, then remove it." width="100%"><br>Local shopping-bag interaction</p>
 
 <details>
-  <summary>View the mobile layout and open bag state</summary>
-  <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-mobile.png' alt='Full-page mobile screenshot of the fictional Morrow Coffee storefront.' width='320'></p>
-  <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-bag-open.png' alt='Open bag with two House Blend items, a $36 subtotal, and a local-demo disclaimer.' width='100%'></p>
+  <summary>View the mobile layout and open-bag state</summary>
+  <p align="center"><img src="examples/coffee-storefront/shots/coffee-storefront-mobile.png" alt="Full-page mobile screenshot of the fictional Morrow Coffee storefront." width="320"></p>
+  <p align="center"><img src="examples/coffee-storefront/shots/coffee-storefront-bag-open.png" alt="Open bag with two House Blend items, a $36 subtotal, and a local-demo disclaimer." width="100%"></p>
 </details>
 
-Run the example from the repository root:
+Preview the example from the repository root:
 
 ~~~sh
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffee-storefront/) include the page, tokens, and asset provenance; [design notes](examples/coffee-storefront/design-notes.md) record the manual checks and their limits.
-
-> **Release status:** public source preview. A stable release remains **BLOCKED** by unresolved third-party rights, independent efficacy, host behavior, and browser-runtime dependency gates. See the [release gates](docs/RELEASE-GATES.md).
-
-## Task modes in the Skill
-
-| Task | Workflow |
-|---|---|
-| New standalone web preview | Select relevant references, build a page, and deliver `tokens.css`, `preview.html`, and `design-notes.md` |
-| Full restyle | Keep the existing app and token entrypoint; record decisions and before/after evidence |
-| Small UI edit | Preserve the current design system and check the affected area |
-| Review only | Return findings without editing files |
-
-## Routing and boundaries
-
-- References route by product type, domain or style pack, platform, and applicable stack. The core craft budget is at most three references; a style pack replaces a domain pack. Relevant guides and platform adapters may add reads.
-- For a new preview or full restyle, the instructions ask the agent to consider three distinct directions before building. This describes the workflow, not a measured quality result.
-- The default design language is Apple-inspired; the brief and existing design system take precedence, and glass is optional.
-- New previews use the three-file contract. Full restyles keep the existing app paths. Checks cover selected contrast pairs and static patterns; browser captures and probes require the relevant local tooling. They do not score overall design quality or certify full WCAG conformance.
-- Native apps, games, and mini-programs receive web previews unless a separate platform implementation has been built and tested. MCP registration is manual. See the status table and [installation notes](INSTALL.md) for host evidence.
-
-See [architecture notes](docs/ARCHITECTURE.md) for the product boundary, [provenance notes](PROVENANCE.md) and [third-party notices](THIRD_PARTY_NOTICES.md) for source and rights gaps.
+Then open http://127.0.0.1:8000/preview.html. The [example README](examples/coffee-storefront/README.md) and [design notes](examples/coffee-storefront/design-notes.md) describe its setup, decisions, checks, and limits.
 
 ## Install and try
 
-Clone the repository and preview installation into a disposable project. Replace `PATH_TO_PROJECT` with a path valid for your shell:
+Install into a disposable project first. Replace <code>PATH_TO_PROJECT</code> with that project's path:
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git
@@ -60,19 +52,19 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-Use `--host claude` for the Claude Code project directory. The installer copies files into `.agents/skills/glasspring` for Codex or `.claude/skills/glasspring` for Claude Code. These file-copy checks do not prove that a host discovers or follows the Skill. See [installation and host verification](INSTALL.md) for current evidence and backup/restore instructions.
+For Claude Code, use <code>--host claude</code>. The installer copies the skill into the project's <code>.agents/skills/glasspring</code> or <code>.claude/skills/glasspring</code> directory. File-copy checks do not prove that a host discovers or follows the Skill. See [installation and host verification](INSTALL.md) for evidence and backup/restore steps.
 
-Recorded project checks used Node.js 22 and Python 3.12. Browser probes require Chromium; the axe check also fetches axe-core from a CDN.
-
-Try this task in a coding-agent session after installing:
+After installing, try a task like this in a coding-agent session:
 
 ~~~text
-Use Glasspring to create a responsive storefront for fictional Morrow Coffee. Use warm cream (#f8f3eb), espresso text (#35221b), and terracotta actions (#93432d). Include a hero, three product cards, and a keyboard-operable local bag panel that adds and removes products and updates the subtotal; do not add checkout or payment. Use only assets already in the target project. If it has no product imagery, create simple CSS or inline SVG illustrations; do not download external assets. Deliver tokens.css, preview.html, and design-notes.md. Check the page at 390px and 1440px, and report any checks you cannot run.
+Use Glasspring to create a responsive storefront for fictional Morrow Coffee. Use warm cream (#f8f3eb), espresso text (#35221b), and terracotta actions (#93432d). Include a hero, three product cards, and a keyboard-operable local bag that adds and removes products and updates the subtotal; do not add checkout or payment. Use only assets already in the target project. If it has no product imagery, create simple CSS or inline SVG illustrations; do not download external assets. Deliver tokens.css, preview.html, and design-notes.md. Check 390px and 1440px layouts, and report checks you cannot run.
 ~~~
 
-## Checks and current evidence
+This is an example request, not a recorded Agent run or a recipe for reproducing the manual screenshots above.
 
-Run the helper and package checks from the repository root:
+## Checks and evidence
+
+Run repository checks from the root:
 
 ~~~sh
 python -m unittest discover -s tests -v
@@ -81,33 +73,17 @@ python skills/glasspring/scripts/verify_output.py --selftest
 python skills/glasspring/scripts/mcp_server.py --selftest
 ~~~
 
-For a new-preview run directory, check its output structure and selected static rules:
+These checks exercise repository code, not an Agent design task. The standalone-preview contract and browser checks apply only when their required inputs and tools are available. Browser probes need Chromium; the optional axe check also needs network access. The checks do not score overall design quality, establish a benefit from using the Skill, or certify complete WCAG conformance.
 
-~~~sh
-python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN" --skip-selftest
-~~~
+Current host evidence is limited: one fresh Codex session listed Skill metadata, but reading the installed file and task behavior remain **UNKNOWN**; Claude discovery and task behavior are **NOT_RUN**. Independent efficacy is **NOT_RUN**. The stable release remains **BLOCKED**. See [installation evidence](INSTALL.md), [evaluation and research](docs/EVALUATION.md), [release gates](docs/RELEASE-GATES.md), and [security notes](SECURITY.md).
 
-The package commands exercise selected helper logic; they do not run an agent task. The `doctor.py --skip-selftest` command runs a static scan and the new-preview output contract, so use it only for a standalone preview. The axe check in `probe_render.py` requires Chromium and network access to fetch axe-core; missing or skipped coverage is `UNKNOWN` unless another observed failure makes the result `FAIL`.
+## Project files and safety
 
-| Area | Recorded status |
-|---|---|
-| Published `main` snapshot CI (`2ce478c`) | **PASS** on Windows, macOS, and Ubuntu. It tests the repository checks, not an agent session. [Run details](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
-| Historical full audit suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP across 16 rows; exit code 1. The contrast finding remains open, and the sample inputs are private. |
-| Follow-up browser sample gate | **PASS, bounded** on 11 private sample directories at 390px and 1440px; 0 FAIL and 0 SKIP. Public replay is **INSUFFICIENT_EVIDENCE** because the inputs are not included. This does not close the historical contrast finding or establish design quality. |
-| Host behavior | **PARTIAL**: one Codex session listed Skill metadata (**PASS**); installed-file reading and task behavior remain **UNKNOWN**; Claude discovery and task behavior are **NOT_RUN**. |
-| Independent efficacy | **NOT_RUN**; the public pilot is not a holdout, and its referenced palette and component-library inputs are missing. See the [protocol](evals/protocol.json) and [evaluation notes](docs/EVALUATION.md). |
-| Privacy / third-party rights / browser runtime | **PARTIAL / BLOCKED / OPEN**, respectively. See [security notes](SECURITY.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [release gates](docs/RELEASE-GATES.md). |
+- [Installable Skill](skills/glasspring/): entrypoint, routed references, scripts, and templates.
+- [Coffee storefront example](examples/coffee-storefront/): a manual example, not benchmark evidence.
+- [Architecture](docs/ARCHITECTURE.md), [evaluation](docs/EVALUATION.md), and [release gates](docs/RELEASE-GATES.md): product boundary and evidence.
+- [Provenance](PROVENANCE.md), [third-party notices](THIRD_PARTY_NOTICES.md), [contributing](CONTRIBUTING.md), and [security](SECURITY.md).
 
-These results are limited to the cited runs; they do not establish broad host compatibility, independent design improvement, or full WCAG conformance. See the [evaluation notes](docs/EVALUATION.md) for the study plan and research context.
-
-## Safety and project files
-
-The tools run with the invoking user's permissions; they are not a sandbox. Browser probes may execute target-page code and retrieve axe-core at runtime. Run them only against trusted projects and review [SECURITY.md](SECURITY.md).
-
-- [Skill entrypoint and routed references](skills/glasspring/)
-- [Design workflow and boundaries](docs/ARCHITECTURE.md)
-- [Evaluation plan and benchmark context](docs/EVALUATION.md)
-- Source and asset review: [PROVENANCE.md](PROVENANCE.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
-- Installation, contribution, and security guidance: [INSTALL.md](INSTALL.md), [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md)
+Tools run with the invoking user's permissions; they are not a sandbox. Browser probes may execute target-page code and the optional axe check retrieves axe-core from a CDN. Run them only against trusted projects and review [SECURITY.md](SECURITY.md).
 
 The root [MIT license](LICENSE) covers only project-authored material that contributors have authority to license. It does not clear third-party text, code, or assets.
