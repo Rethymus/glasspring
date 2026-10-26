@@ -34,10 +34,10 @@ Open <http://127.0.0.1:8000/preview.html>. Browse the [preview source](examples/
 
 ## What the Skill guides
 
-- **New preview:** creates `tokens.css`, `preview.html`, `design-notes.md`, and desktop/mobile PNGs under `shots/`. The workflow asks for three distinct directions before implementation.
-- **Larger restyle:** works inside the existing app and records before/after evidence.
-- **Small UI edit:** follows the existing design system and limits review to the changed area.
-- **Read-only review:** reports findings without editing files.
+- **New preview:** guides the agent to deliver `tokens.css`, `preview.html`, `design-notes.md`, and desktop/mobile PNGs under `shots/`. The workflow asks for three distinct directions before implementation.
+- **Larger restyle:** guides changes inside the existing app and asks for before/after evidence.
+- **Small UI edit:** guides a proportional change that follows the existing design system, with checks limited to the changed area.
+- **Read-only review:** guides inspection and reporting without file edits.
 
 For new previews and larger restyles, guidance routes by product type, domain or style, platform, and technology stack. The repository includes selected-contrast calculations, heuristic style scans, an output-contract checker, browser screenshots and interaction probes, and an optional stdio MCP server. MCP setup is manual; production-host integration has not been verified.
 
