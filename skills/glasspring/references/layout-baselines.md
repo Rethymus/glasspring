@@ -1,8 +1,8 @@
 # layout-baselines.md — 落地页/营销页量化基线（构图/色彩/字型/动效/图像）
 
 > When to read: landing/marketing/portfolio 类页面的**构图阶段**（Step 4 落地页分支）。
-> 来源：Leonxlnx/taste-skill 五件参考（layout/colour/type/motion/imagery——247 站研究、114 个 7.3+ 高分站手工计数与逐像素测量，"约"计数）——2026-10-20 竞品研读采纳。
-> Last verified: 2026-10-20。
+> **部分来源核验（2026-10-26）：** Taste Skill 的量化资料固定在 [commit 6010f91](https://github.com/Leonxlnx/taste-skill/tree/6010f91a9935f1c167dfc500fb1a475681892e6b)，对应 [研究方法](https://github.com/Leonxlnx/taste-skill/blob/6010f91a9935f1c167dfc500fb1a475681892e6b/skills/taste-skill/references/research.md#L19-L39) 与 [布局观察](https://github.com/Leonxlnx/taste-skill/blob/6010f91a9935f1c167dfc500fb1a475681892e6b/skills/taste-skill/references/layout.md#L1-L35)。首组研究收集 248 个站点、247 个加载成功、246 个重新测量；21 名模型评审根据截图和页面测量评分，235 个样本可供评审。114 个 7.3+ 样本的“约”计数来自评审笔记。一次采样、画廊选样和模型评分带来明显边界；组间差异是描述性关联，不证明某个样式导致更高质量，也不代表真实访客偏好。
+> 10 月 Sites of the Day 观察是另一组研究，各分析使用的可用样本数可能不同；不要混用分母。此卡也引用其他来源；未逐项标明的出处、许可和改写仍待审，见仓库级第三方审查。下文的禁用项和风格偏好是 Glasspring 的项目规则，不是普遍设计定律。
 
 ## 强页的量化习惯（114 个 7.3+ 站手工计数）
 
@@ -137,4 +137,4 @@
 2. **同段式检查**：给每段的布局起一个词（split/list/full-bleed/grid/statement/index…）——**同一个词连用两次或全页三次 = 模板在showing**。
 3. **竞品+唯一活物**：把最近竞品的名字放到页面上——创意还成立吗？页面上访客能做的/每次来访不同的一件事是什么？两答皆弱 = 本轮第一问题，先于一切细节。
 
-附：**贫瘠不是克制**——灰形灰字单列、能被误认成未完成线框的页面是欠建（盲评中"带模板设备的丰富页"每次都赢"干净但薄的页"）；删设备后必须以实质回填（呼应 type.md §5a 去饰回填律）。
+附：**贫瘠不是克制**——删掉装饰后，检查页面是否仍有足够的真实内容、层次和视觉重心。这是对上游模型评审反馈的有限改写，不推出“丰富总胜过克制”；评审样本、模型评审和复用 brief 的限制见 [研究记录](https://github.com/Leonxlnx/taste-skill/blob/6010f91a9935f1c167dfc500fb1a475681892e6b/skills/taste-skill/references/research.md#L248-L273)。删去的装饰需由 brief 真正需要的内容或结构补位。
