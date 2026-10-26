@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring is a project-local Agent Skill for coding agents working on responsive web interfaces.** It routes each task to relevant curated design references and offers local checks for selected implementation details.
+**Glasspring is a project-local Agent Skill for coding agents working on responsive web interfaces.** It routes each task to relevant bundled design references and offers local checks for selected implementation details.
 
 The package follows the open [Agent Skills format](https://agentskills.io/specification): a `SKILL.md` with supporting references, scripts, and assets. That format does not establish host discovery or behavior. Glasspring does not automatically inspect live products or create new research cards.
 
@@ -15,7 +15,9 @@ The package follows the open [Agent Skills format](https://agentskills.io/specif
 - **Small UI edit:** keep the existing design system and check the affected area.
 - **Review only:** report findings without editing files.
 
-For new previews and restyles, references route by product type, domain or style pack, platform, and stack. The default design language is Apple-inspired; the brief and existing design system take priority, and glass is optional. MCP registration is optional and manual.
+For new previews and restyles, references route by product type, domain or style pack, platform, and stack. A new-preview workflow asks the agent to propose three distinct directions and select one before building; this is an instruction, not evidence of better results. The default design language is Apple-inspired; the brief and existing design system take priority, and glass is optional.
+
+Available checks include selected text-contrast calculations, a heuristic style-pattern scan, an output contract for new previews, and optional browser screenshots and interaction probes. An optional stdio MCP server exposes some checks; registration is manual, and production host integration has not been verified.
 
 The reference library and published example are web-first. Native apps, games, and mini-programs receive a web preview unless a separate platform implementation has been built and tested.
 
@@ -54,7 +56,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-For Claude Code, use <code>--host claude</code>. The installer copies the skill into the project's <code>.agents/skills/glasspring</code> or <code>.claude/skills/glasspring</code> directory. File-copy checks do not prove that a host discovers or follows the Skill. See [installation and host verification](INSTALL.md) for evidence and backup/restore steps.
+For Claude Code, use <code>--host claude</code>. The installer copies the skill into the project's <code>.agents/skills/glasspring</code> or <code>.claude/skills/glasspring</code> directory. File-copy checks do not prove that a host discovers or follows the Skill. See [installation and host verification](INSTALL.md) for evidence, backup/restore, and removal steps.
 
 After installing, try a task like this in a coding-agent session:
 
@@ -88,4 +90,4 @@ Current host evidence is limited: one fresh Codex session listed Skill metadata,
 
 Tools run with the invoking user's permissions; they are not a sandbox. Browser probes may execute target-page code and the optional axe check retrieves axe-core from a CDN. Run them only against trusted projects and review [SECURITY.md](SECURITY.md).
 
-The root [MIT license](LICENSE) covers only project-authored material that contributors have authority to license. It does not clear third-party text, code, or assets.
+The repository includes an [MIT license file](LICENSE). Rights review for retained third-party text, code, and assets remains unresolved; the license file does not establish that those materials are cleared. See the [third-party review](THIRD_PARTY_NOTICES.md).

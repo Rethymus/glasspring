@@ -10,6 +10,8 @@ The pilot is small. It can reveal large task specific effects and failure modes,
 
 The public protocol is also incomplete as a runnable task set: the coffee task refers to a supplied brand palette and the existing-project task refers to a supplied component library, but `evals/protocol.json` is the only tracked file under `evals/`. Those inputs are absent, and the protocol has no asset manifest or hashes to identify them. Keep the current protocol unchanged; recover and record the intended inputs, or revise and version the briefs before any generation. Until the inputs and control values are specified, reproducing those tasks is `INSUFFICIENT_EVIDENCE`; the current document is a study outline, not a reproducible preregistered experiment.
 
+The two-condition protocol compares the complete Skill with no Skill, so it cannot identify which part—reference routing, the three-direction prompt, or helper checks—causes an observed benefit or cost. **Inference:** component-specific claims would need a separately versioned ablation plan with matched task, host, time, and token budgets.
+
 ## What recent benchmarks contribute
 
 - [UI-Bench](https://arxiv.org/abs/2508.20410) compares ten tools across 30 prompts, producing 300 generated sites and more than 4,000 expert pairwise judgments with calibrated uncertainty. It does not use automated image proxies as its primary measure in that setting. This supports pairwise review as one useful measure of visual quality; its scale is much larger than the glasspring pilot.

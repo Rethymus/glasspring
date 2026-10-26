@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring 是一个项目级 Agent Skill，供编程 Agent 处理响应式网页界面。**它会按任务选择相关的精选设计参考，并提供用于检查部分实现细节的本地工具。
+**Glasspring 是一个项目级 Agent Skill，供编程 Agent 处理响应式网页界面。**它会按任务选择相关的内置设计参考，并提供用于检查部分实现细节的本地工具。
 
 该 Skill 遵循开放的 [Agent Skills 格式](https://agentskills.io/specification)：以 `SKILL.md` 为入口，并附带参考资料、脚本和素材。符合文件格式不代表宿主已发现或遵循该 Skill。Glasspring 不会自动检查线上产品或生成新研究卡片。
 
@@ -15,7 +15,9 @@
 - **局部 UI 修改：**保留现有设计系统，只检查改动区域。
 - **只读审查：**报告发现，不编辑文件。
 
-新建预览和整体改版会按产品类型、领域或风格包、平台及技术栈路由参考。默认设计语言受 Apple 风格启发；用户需求和既有设计系统优先，玻璃效果可选。MCP 注册是可选的手动配置。
+新建预览和整体改版会按产品类型、领域或风格包、平台及技术栈路由参考。新建预览流程要求 Agent 先提出三个不同方向，再选择一个实现；这是流程指令，不是效果提升的证据。默认设计语言受 Apple 风格启发；用户需求和既有设计系统优先，玻璃效果可选。
+
+现有检查包括选定文字配色的对比度计算、启发式样式扫描、新建预览的输出契约，以及可选的浏览器截图和交互探测。可选的 stdio MCP 服务器会暴露部分检查；需要手动配置，且尚未验证其与生产宿主的集成。
 
 参考资料库和公开示例以 Web 界面为主。原生 App、游戏和小程序默认得到网页预览；只有另有对应平台实现并完成测试，才会交付该平台的实现。
 
@@ -54,7 +56,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-安装到 Claude Code 项目时使用 <code>--host claude</code>。安装器会将 Skill 复制到项目内的 <code>.agents/skills/glasspring</code> 或 <code>.claude/skills/glasspring</code>。文件复制检查不能证明宿主会发现或遵循 Skill。证据和备份/恢复步骤见[安装与宿主验证](INSTALL.md)。
+安装到 Claude Code 项目时使用 <code>--host claude</code>。安装器会将 Skill 复制到项目内的 <code>.agents/skills/glasspring</code> 或 <code>.claude/skills/glasspring</code>。文件复制检查不能证明宿主会发现或遵循 Skill。证据、备份/恢复和移除步骤见[安装与宿主验证](INSTALL.md)。
 
 安装后，可在编程 Agent 会话中尝试以下任务：
 
@@ -88,4 +90,4 @@ python skills/glasspring/scripts/mcp_server.py --selftest
 
 工具以调用者权限运行，不是沙箱。浏览器探测可能执行目标页面代码；可选的 axe 检查会从 CDN 获取 axe-core。只对可信项目运行，并阅读[安全说明](SECURITY.md)。
 
-仓库根目录的 [MIT 许可证](LICENSE)仅适用于贡献者有权许可的项目原创内容，不代表第三方文本、代码或素材已获授权。
+仓库包含 [MIT 许可证文件](LICENSE)。保留的第三方文本、代码和素材仍未完成权利审查；许可证文件本身不代表这些内容已获授权。详见[第三方来源审查](THIRD_PARTY_NOTICES.md)。

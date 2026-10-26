@@ -13,6 +13,15 @@ The installer copies the checked-out source to the host's project-level director
 
 To restore a replacement, close the host, move the current `glasspring` folder aside, and rename the printed `glasspring.backup-…` sibling to `glasspring`. Retain the current folder until restoration is checked. Backups are local and are not uploaded.
 
+## Remove a project installation
+
+The installer has no uninstall command. Close the host first, then review and preserve any local changes made inside the installed folder. Remove only the matching `glasspring` directory:
+
+- Codex or generic Agent Skills install: `<PROJECT>/.agents/skills/glasspring`
+- Claude Code install: `<PROJECT>/.claude/skills/glasspring`
+
+Leave the parent `skills` directory in place because it may contain other skills. A replacement backup is a separate sibling named `glasspring.backup-…`; review and remove it separately only after you no longer need it for restoration.
+
 After installing, start a new host session in the project. Confirm the skill is listed, invoke it by name, and verify that it reads the intended installed file. Then run one small task and retain the output and transcript. Installation alone is not a discovery or triggering test.
 
 | Host / environment | File-copy test | Fresh-session discovery | Task behavior |
