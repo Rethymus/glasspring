@@ -41,7 +41,7 @@ Open <http://127.0.0.1:8000/preview.html>. Browse the [preview source](examples/
 
 For new previews and larger restyles, guidance routes by product type, domain or style, platform, and technology stack. The repository includes selected-contrast calculations, heuristic style scans, an output-contract checker, browser screenshots and interaction probes, and an optional stdio MCP server. MCP setup is manual; production-host integration has not been verified.
 
-The references are bundled guidance. Glasspring does not automatically turn observations of live products into new reference cards. Native apps, games, and mini-program code delivery are outside the validated scope.
+The references are bundled guidance for principles and patterns, not instructions to copy a product's UI or assets. Glasspring does not automatically turn observations of live products into new reference cards. Native apps, games, and mini-program code delivery are outside the validated scope.
 
 ## Install and try it
 
@@ -83,7 +83,7 @@ These check repository code; they do not evaluate an Agent's design output. The 
 | Privacy review | **PARTIAL**: heuristic text scan only; no dedicated secret scan or complete binary/history review. |
 | Codex host | Skill metadata listing **PASS**; reading the installed file and task behavior **UNKNOWN**. |
 | Claude Code host | Fresh-session discovery and task behavior **NOT_RUN**. |
-| Independent efficacy | **NOT_RUN**; the public pilot protocol is not a hidden holdout and lacks required source inputs. |
+| Independent efficacy | **NOT_RUN (DESIGNED_NOT_EXECUTED)**; the public pilot is not a hidden holdout, and its coffee task's supplied palette is absent from this repository. |
 | Browser dependency integrity | **OPEN**: axe-core is fetched from a CDN without a pinned integrity value or offline coverage policy. |
 | Stable release | **BLOCKED** until all open release gates are resolved. |
 

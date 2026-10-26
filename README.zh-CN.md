@@ -41,7 +41,7 @@ python -m http.server 8000 --directory examples/coffee-storefront
 
 新建预览和整体改版会按产品类型、领域或风格、平台及技术栈路由参考。仓库包含选定配色的对比度计算、启发式样式扫描、新建预览输出契约检查、浏览器截图和交互探测，以及可选的 stdio MCP 服务器。MCP 需手动配置，尚未验证其与生产宿主的集成。
 
-设计参考是随 Skill 打包的指导资料。Glasspring 不会自动把线上产品观察转成新的参考卡片。原生 App、游戏和小程序的代码交付不在已验证范围内。
+设计参考用于指导原则和模式，不是复制某个产品界面或素材的指令。Glasspring 不会自动把线上产品观察转成新的参考卡片。原生 App、游戏和小程序的代码交付不在已验证范围内。
 
 ## 安装与试用
 
@@ -83,7 +83,7 @@ python skills/glasspring/scripts/mcp_server.py --selftest
 | 隐私审查 | **PARTIAL**：目前只有启发式文本扫描；未执行专用密钥扫描，也未完整审查二进制文件和 Git 历史。 |
 | Codex 宿主 | Skill 元数据可见性 **PASS**；读取安装后的文件和任务行为 **UNKNOWN**。 |
 | Claude Code 宿主 | 全新会话发现和任务行为 **NOT_RUN**。 |
-| 独立效果评测 | **NOT_RUN**；公开试点协议不是隐藏留出集，且缺少所需来源输入。 |
+| 独立效果评测 | **NOT_RUN (DESIGNED_NOT_EXECUTED)**；公开试点不是隐藏留出集，咖啡任务提到的随附配色也未包含在仓库中。 |
 | 浏览器依赖完整性 | **OPEN**：axe-core 从 CDN 获取，尚无固定完整性校验值或离线覆盖策略。 |
 | 稳定版发布 | 仍有未解除的发布门槛，状态为 **BLOCKED**。 |
 
