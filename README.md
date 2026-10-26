@@ -28,7 +28,7 @@ Run the example from the repository root:
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffee-storefront/) include the page, tokens, design notes, and asset provenance.
+Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffee-storefront/) include the page, tokens, and asset provenance; [design notes](examples/coffee-storefront/design-notes.md) record the manual checks and their limits.
 
 ## What it does
 
@@ -81,7 +81,7 @@ For a generated run directory, check its output structure and selected static ru
 python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
 ~~~
 
-These commands validate selected helper logic and package behavior. They do not run an agent or establish that a host will discover and follow the skill. The axe check in `probe_render.py` needs Chromium and network access to fetch axe-core; a run without axe has reduced coverage.
+These commands validate selected helper logic and package behavior. They do not run an agent or establish that a host will discover and follow the skill. The axe check in `probe_render.py` needs Chromium and network access to fetch axe-core. If axe is unavailable or skipped, its coverage is recorded as unavailable and the overall verdict is `UNKNOWN` when no observed check fails (or `FAIL` if another check fails), never `PASS` on the basis of the omitted check.
 
 | Area | Recorded status |
 |---|---|

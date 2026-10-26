@@ -28,7 +28,7 @@
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-然后访问 http://127.0.0.1:8000/preview.html。[示例文件](examples/coffee-storefront/)包括页面、设计 tokens、设计说明和素材来源记录。
+然后访问 http://127.0.0.1:8000/preview.html。[示例文件](examples/coffee-storefront/)包括页面、tokens 和素材来源记录；[设计说明](examples/coffee-storefront/design-notes.md)记录了手动检查及其范围限制。
 
 ## Glasspring 的用途
 
@@ -81,7 +81,7 @@ python skills/glasspring/scripts/mcp_server.py --selftest
 python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
 ~~~
 
-这些命令验证部分辅助工具逻辑和打包行为；它们不会运行 Agent，也不能证明宿主会发现或遵循 Skill。`probe_render.py` 的 axe 检查需要 Chromium 和网络连接来获取 axe-core；跳过 axe 时覆盖范围会缩小。
+这些命令验证部分辅助工具逻辑和打包行为；它们不会运行 Agent，也不能证明宿主会发现或遵循 Skill。`probe_render.py` 的 axe 检查需要 Chromium 和网络连接来获取 axe-core。如果 axe 不可用或被跳过，该项覆盖会记录为不可用；在没有已观测失败项时，整体判定为 `UNKNOWN`（若其他检查失败则为 `FAIL`），不会因省略该项而判为 `PASS`。
 
 | 范围 | 已记录状态 |
 |---|---|
