@@ -28,7 +28,7 @@ focal element. Four passes, each a fresh page load:
                        still cover the motion contracts).
 
 Reuses preview_shot.py's stdlib CDP machinery (no playwright, no node).
-Exit codes: 0 pass (warnings allowed) / 1 fail / 2 no browser found.
+Exit codes: 0 pass (warnings allowed) / 1 fail / 2 no browser found or UNKNOWN (incomplete coverage).
 """
 from __future__ import annotations
 import argparse, base64, json, os, sys, tempfile, time, urllib.request
