@@ -6,17 +6,20 @@
 
 > 当前为公开源码预览，尚未达到稳定版发布条件。详见[当前证据与发布门槛](docs/RELEASE-GATES.md)。
 
-## 独立咖啡售卖页预览
+## 咖啡售卖页工作示例
 
-这个虚构页面是独立制作的视觉示例，与下方试用提示词和公开试点协议分开。它只展示本地购物袋状态，不会下单或收款；不是 Glasspring 运行产物或评测结果。
+这个虚构页面是**按 Glasspring 工作流手工整理的示例，对应下方同一条任务简报**。源码遵循三件交付约定：[`tokens.css`](examples/coffee-storefront/tokens.css)、[`preview.html`](examples/coffee-storefront/preview.html) 和 [`design-notes.md`](examples/coffee-storefront/design-notes.md)。它不是 Agent 宿主会话、独立效果评测，也不是尚不完整的公开试点协议重放。范围和证据见[示例说明](examples/coffee-storefront/README.md)。
 
-<p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>桌面页面</p>
+页面和商品信息均为虚构。购物袋只在本地更新商品数量和小计，不会下单或收款。
 
-<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='五帧本地交互：加入咖啡、打开购物袋、更新数量并移除商品。' width='100%'><br>独立示例的交互录制；不是 Glasspring 会话产物或评测结果。</p>
+<p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>1440px 桌面页面</p>
+
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='五帧本地交互：加入咖啡、打开购物袋、将数量增加到两件，再移除商品。' width='100%'><br>本地购物袋交互录制，用于展示页面行为，不证明 Agent 能发现或有效遵循 Skill。</p>
 
 <details>
-  <summary>查看移动端布局</summary>
-  <p align='center'><img src='examples/coffee-storefront/assets/preview-mobile.png' alt='虚构的 Morrow Coffee 售卖页移动端全页截图。' width='320'></p>
+  <summary>查看移动端布局和购物袋状态</summary>
+  <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-mobile.png' alt='虚构的 Morrow Coffee 售卖页移动端全页截图。' width='320'></p>
+  <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-bag-open.png' alt='已打开的购物袋，包含两件 House Blend、小计 36 美元和本地演示说明。' width='100%'></p>
 </details>
 
 在仓库根目录启动示例：
@@ -25,7 +28,7 @@
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-然后访问 http://127.0.0.1:8000/。页面源码见[index.html](examples/coffee-storefront/index.html)，虚构内容和素材来源见[示例说明](examples/coffee-storefront/README.md)。
+然后访问 http://127.0.0.1:8000/preview.html。[示例文件](examples/coffee-storefront/)包括预览页、设计 tokens、设计说明和素材来源记录。
 
 ## Skill 中的任务模式
 

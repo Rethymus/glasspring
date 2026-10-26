@@ -6,17 +6,20 @@
 
 > Public source preview; not ready for a stable release. See the [current evidence and release gates](docs/RELEASE-GATES.md).
 
-## Standalone coffee storefront preview
+## Coffee storefront worked example
 
-This fictional storefront is an independently authored visual demo, separate from the try prompt below and the public pilot protocol. It demonstrates local shopping-bag state only; it does not place orders or take payments. It is not a Glasspring run or evaluation result.
+This fictional page is a **manual, Glasspring-guided example of the same task brief below**. Its source delivers the three-file contract: [`tokens.css`](examples/coffee-storefront/tokens.css), [`preview.html`](examples/coffee-storefront/preview.html), and [`design-notes.md`](examples/coffee-storefront/design-notes.md). It is not an agent-host session, an independent efficacy result, or a replay of the incomplete public pilot protocol. See the [example notes](examples/coffee-storefront/README.md) for scope and evidence.
 
-<p align='center'><img src='examples/coffee-storefront/assets/preview-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page</p>
+The storefront and product details are fictional. Its bag updates local page state and subtotal only; it does not place orders or take payments.
 
-<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: add coffee to the bag, open it, update quantity, and remove the item.' width='100%'><br>Standalone example interaction; this browser capture is not a Glasspring session or evaluation.</p>
+<p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page at 1440px</p>
+
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: add coffee, open the bag, increase quantity to two, and remove the item.' width='100%'><br>Local shopping-bag interaction; it demonstrates the page behavior, not agent discovery or efficacy.</p>
 
 <details>
-  <summary>View the mobile layout</summary>
-  <p align='center'><img src='examples/coffee-storefront/assets/preview-mobile.png' alt='Full-page mobile screenshot of the fictional Morrow Coffee storefront.' width='320'></p>
+  <summary>View the mobile layout and open bag state</summary>
+  <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-mobile.png' alt='Full-page mobile screenshot of the fictional Morrow Coffee storefront.' width='320'></p>
+  <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-bag-open.png' alt='Open bag with two House Blend items, a $36 subtotal, and a local-demo disclaimer.' width='100%'></p>
 </details>
 
 Run the example from the repository root:
@@ -25,7 +28,7 @@ Run the example from the repository root:
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-Then open http://127.0.0.1:8000/. See the [page source](examples/coffee-storefront/index.html) and [example notes](examples/coffee-storefront/README.md) for its fictional content and asset provenance.
+Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffee-storefront/) include the preview, tokens, design notes, and image provenance.
 
 ## Task modes in the skill
 

@@ -1,13 +1,17 @@
-# Coffee storefront example
+# Coffee storefront worked example
 
-This fictional storefront is an independently authored visual demo that illustrates page layout and local bag interaction. It is separate from the coffee task in [`evals/protocol.json`](../../evals/protocol.json): that protocol refers to a supplied palette file that is absent from the public tree, so this page is not a replay of that task. The try prompt in the root README is a separate prompt, and this page was not generated from it. This demo is **not** a Glasspring agent output or evaluation result, and it does not show host discovery or adherence.
+This is a **manual, Glasspring-guided implementation of the same fictional task brief in the root README**. It follows the skill's three-file output contract: [`tokens.css`](tokens.css), [`preview.html`](preview.html), and [`design-notes.md`](design-notes.md). The skill version, route, decisions, checks, and limits are recorded in the design notes.
 
-The storefront, product names, prices, copy, and photography are fictional. The “Add to bag” buttons update local page state only; there is no checkout, payment, or order service. The hero, product, and botanical images were generated for this example with the built-in image generator on 2026-10-25. The desktop, mobile, and open-bag screenshots in `assets/preview-*.png` were captured from the local page in Chrome. `interaction.gif` is a five-frame capture made on 2026-10-25 with Playwright 1.53.0 / Chromium 138.0.7204.23, showing page load, adding one item, opening the bag, increasing the quantity to two, and removing the item. These are illustrative page captures, not a Glasspring sample run or evaluation result. The page uses no remote fonts, libraries, or image URLs.
+This page is not an Agent host session, an independent efficacy result, or a replay of [`evals/protocol.json`](../../evals/protocol.json). That public protocol still lacks referenced inputs, so a benchmark replay is not possible from this repository. The example demonstrates a page and its local behavior; it does not show host discovery or prove that the Skill improves design quality.
 
-To preview it locally from the repository root:
+The storefront, products, prices, and copy are fictional. The bag changes local page state and subtotal only. No order or payment service exists. Hero, product, and botanical images were generated for this example with the built-in image generator on 2026-10-25. There are no remote fonts, scripts, libraries, or image URLs.
+
+The desktop and mobile full-page captures were made locally on 2026-10-26 at 1440px and 390px. The open-bag capture is a 1440×900 viewport showing two House Blend items and a $36 subtotal. The five-frame interaction GIF was recaptured on the same date at 960×667, showing the initial page, adding one item, opening the bag, increasing the quantity to two, and removing the item. See the design notes for browser details and the limits of the checks.
+
+To preview it from the repository root:
 
 ```sh
 python -m http.server 8000 --directory examples/coffee-storefront
 ```
 
-Then open `http://127.0.0.1:8000/` in a browser.
+Then open `http://127.0.0.1:8000/preview.html`.
