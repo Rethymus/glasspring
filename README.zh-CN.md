@@ -1,20 +1,20 @@
 # glasspring
 
-[English](README.md) · [简体中文]
+[English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring 是一个可安装的 Agent Skill，用于创建、改版和审查响应式网页界面。**新建页面时，它会引导编码 Agent 交付 `tokens.css`、`preview.html` 和 `design-notes.md`。它按产品类型、行业领域、平台和技术栈路由随仓库分发的参考卡，并提供部分检查工具。参考卡是静态内容；仓库没有内置在线产品调研及将观察结果转为设计指导的流程。默认设计语言受 Apple 风格启发；用户需求和现有设计系统优先，玻璃质感可选。
+Glasspring 是一个可安装的 Agent Skill，用于响应式网页界面工作。它打包任务指引、静态参考卡和可选的本地检查，覆盖新建预览、整体改版、局部修改和只读审查。新建独立网页预览时，工作流要求交付 `tokens.css`、`preview.html` 和 `design-notes.md`。
 
-> 当前为公开源码预览，尚未达到稳定版发布条件。详见[当前证据与发布门槛](docs/RELEASE-GATES.md)。
+> 当前为公开源码预览；稳定版发布状态为 **BLOCKED**。详见[发布门槛](docs/RELEASE-GATES.md)。
 
-## 咖啡售卖页工作示例
+## 咖啡售卖页示例
 
-这个虚构页面是**按 Glasspring 工作流手工整理的示例，对应下方同一条任务简报**。源码遵循三件交付约定：[`tokens.css`](examples/coffee-storefront/tokens.css)、[`preview.html`](examples/coffee-storefront/preview.html) 和 [`design-notes.md`](examples/coffee-storefront/design-notes.md)。它不是 Agent 宿主会话、独立效果评测，也不是尚不完整的公开试点协议重放。范围和证据见[示例说明](examples/coffee-storefront/README.md)。
+这个虚构售卖页是**手工按照 Glasspring 的参考和检查流程整理的示例**，对应下方同一条任务简报，并遵循三件预览交付约定。它不是 Agent 宿主会话记录、独立效果评测，也不是尚不完整的公开试点协议重放。
 
-页面和商品信息均为虚构。购物袋只在本地更新商品数量和小计，不会下单或收款。
+页面和商品均为虚构。购物袋只在本地更新商品数量和小计，不会下单或收款。
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='虚构的 Morrow Coffee 售卖页桌面全页截图。' width='100%'><br>1440px 桌面页面</p>
 
-<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='五帧本地交互：加入咖啡、打开购物袋、将数量增加到两件，再移除商品。' width='100%'><br>本地购物袋交互录制，用于展示页面行为，不证明 Agent 能发现或有效遵循 Skill。</p>
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='五帧本地交互：加入咖啡、打开购物袋、将数量增加到两件，再移除商品。' width='100%'><br>本地购物袋交互演示，不代表 Agent 发现能力或评测效果。</p>
 
 <details>
   <summary>查看移动端布局和购物袋状态</summary>
@@ -28,38 +28,24 @@
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-然后访问 http://127.0.0.1:8000/preview.html。[示例文件](examples/coffee-storefront/)包括预览页、设计 tokens、设计说明和素材来源记录。
+然后访问 http://127.0.0.1:8000/preview.html。[示例文件](examples/coffee-storefront/)包括页面、设计 tokens、设计说明和素材来源记录。
 
-## Skill 中的任务模式
+## Glasspring 的用途
 
-| 请求类型 | 预期工作 |
+| 请求 | 预期工作流 |
 |---|---|
-| 新建网页 | 制作响应式预览，交付 tokens.css、preview.html 和 design-notes.md |
-| 整体改版 | 修改现有网页界面，检查改动状态并记录设计决策 |
+| 新建独立网页预览 | 选择相关参考，制作页面，并交付 `tokens.css`、`preview.html` 和 `design-notes.md` |
+| 整体改版 | 修改现有应用和 token 入口，并记录修改前后的证据 |
 | 局部 UI 修改 | 沿用现有设计系统，只检查受影响区域 |
-| 界面审查 | 报告发现，不修改文件 |
+| 只读审查 | 返回审查发现，不改文件 |
 
-对于原生 App、游戏和小程序，当前 Skill 会提供网页预览；除非另有经过实现和验证的平台版本。
+参考卡是静态资料。Glasspring 不会采集线上产品，也没有把调研观察自动转成设计指导的流程。默认材质和动效建议受 Apple 风格启发；用户需求和现有设计系统优先，玻璃效果可选。检查工具只覆盖选定规则与行为，不评定整体设计质量，也不认证完整符合 WCAG。
 
-## 工作流程
-
-Glasspring 由说明和工具引导，不是托管式生成器。Agent 根据任务选择相关参考卡和辅助命令；最终仍由人审查结果并决定是否交付。
-
-~~~mermaid
-flowchart LR
-    A['需求和现有设计系统'] --> B['选择相关参考卡']
-    B --> C['编码 Agent 构建、修改或审查界面']
-    C --> D['按需运行本地检查并截图']
-    D --> E['人工审查和交付']
-~~~
-
-可选的 stdio MCP 服务可提供部分辅助工具。宿主注册需要手动配置，当前尚未验证在生产宿主中的集成。
-
-这些检查只覆盖选定规则与行为，不会认证设计质量、所有交互或完整符合 WCAG。
+对于原生 App、游戏和小程序，当前工作流会提供网页预览；只有另有已实现并经过测试的平台版本时才会输出对应平台实现。可选的 stdio MCP 服务提供部分辅助工具；注册需要手动配置，生产宿主集成尚未验证。
 
 ## 安装与试用
 
-先克隆仓库，再安装到临时项目。在仓库根目录使用 --dry-run 预览文件复制操作：
+先克隆仓库并预览安装到临时项目。将 `PATH_TO_PROJECT` 替换为本机有效路径：
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git
@@ -68,11 +54,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-安装到 Claude Code 时使用 --host claude。将 PATH_TO_PROJECT 替换为本机项目目录。备份与恢复方式见[安装和宿主验证说明](INSTALL.md)。
-
-安装器和检查已在 Node.js 22、Python 3.12 环境运行过。浏览器探针还需要 Chromium 和网络连接，以便获取 axe-core。
-
-安装后启动新的 Agent 宿主会话，检查它是否列出 Glasspring，并让它执行一项小任务。记录它是否读取已安装文件并遵循说明。文件复制成功本身不能证明 Skill 已被发现或实际生效。
+安装到 Claude Code 项目目录时使用 `--host claude`。安装器只负责复制文件；文件复制成功不能证明宿主会发现或遵循 Skill。备份、恢复和宿主证据见[安装与宿主验证](INSTALL.md)。
 
 可以用以下任务试用 Glasspring：
 
@@ -91,28 +73,24 @@ python skills/glasspring/scripts/verify_output.py --selftest
 python skills/glasspring/scripts/mcp_server.py --selftest
 ~~~
 
-这些检查验证部分辅助工具逻辑和打包行为；它们不会运行模型，也不能证明 Agent 会遵循 Skill。
-
-如果已经有生成结果目录，也可以检查产物结构和部分静态规则：
+如果已有生成结果目录，也可检查产物结构和部分静态规则：
 
 ~~~sh
 python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
 ~~~
 
-该检查不评估设计质量，也不会验证所有交互。
+这些命令验证部分辅助工具逻辑和打包行为；它们不会运行 Agent，也不能证明宿主会发现或遵循 Skill。`probe_render.py` 的 axe 检查需要 Chromium 和网络连接来获取 axe-core；跳过 axe 时覆盖范围会缩小。
 
 | 范围 | 已记录状态 |
 |---|---|
-| 主分支 CI | 记录中的 Windows、macOS 和 Ubuntu 检查为 **PASS**；不包含 Agent 会话测试。[运行记录](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
-| 历史完整审计套件 | **FAIL**：12 项 PASS、1 项对比度 FAIL、1 条预期负向控制、2 项网络 SKIP；退出码为 1。对比度问题仍未解决。 |
-| 后续浏览器样本门禁 | **PASS（有限范围）**：从原工作区隔离副本中取 11 个样本目录，均通过 390px 和 1440px 检查；0 FAIL、0 SKIP，退出码为 0。运行的是提交 `add83a497f08793ffd1fc364417bd8dc4cdc9d82` 中的门禁；仍有 1 条 slop 警告。该门禁没有重跑历史对比度任务，也不能证明设计质量。样本输入未放入公开仓库，用户从新克隆仓库无法复现，因此公开重放状态仍为 **INSUFFICIENT_EVIDENCE**。 |
-| 宿主行为 | **PARTIAL**：一次 Codex 会话列出 Skill 元数据（**PASS**）；是否读取已安装文件及任务行为仍为 **UNKNOWN**；Claude 发现和任务行为为 **NOT_RUN**。 |
-| 独立效果评测 | **NOT_RUN**。公开[协议](evals/protocol.json)不完整，缺少提到的配色和组件库输入，也没有固定宿主、模型和预算值；重放为 **INSUFFICIENT_EVIDENCE**。 |
-| 隐私审查 | **PARTIAL**；详见[安全说明](SECURITY.md)。 |
-| 第三方权利 | 尚待逐文件核对来源、许可证与授权，状态为 **BLOCKED**；详见[第三方来源说明](THIRD_PARTY_NOTICES.md)。 |
-| 浏览器运行时依赖 | **OPEN**：浏览器探针从 CDN 获取 axe-core，未固定完整性校验值，也没有离线策略。 |
+| 公开 `main` CI | 记录中的 Windows、macOS 和 Ubuntu 检查为 **PASS**；不包含 Agent 会话测试。[运行记录](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
+| 历史完整审计套件 | **FAIL**：12 项 PASS、1 项对比度 FAIL、1 条预期负向控制、2 项网络 SKIP；共 16 行，退出码为 1。对比度问题仍未解决，样本输入未包含在仓库中。 |
+| 后续浏览器样本门禁 | **PASS（有限范围）**：11 个私有样本目录通过 390px 和 1440px 检查；0 FAIL、0 SKIP。由于样本未包含在仓库中，公开重放为 **INSUFFICIENT_EVIDENCE**；该结果没有解决历史对比度问题，也不能证明设计质量。 |
+| 宿主行为 | **PARTIAL**：一次 Codex 会话列出 Skill 元数据（**PASS**）；读取已安装文件及任务行为仍为 **UNKNOWN**；Claude 发现和任务行为为 **NOT_RUN**。 |
+| 独立效果评测 | **NOT_RUN**；公开重放为 **INSUFFICIENT_EVIDENCE**。公开试点缺少提及的配色与组件库输入、固定的宿主/模型/预算，以及留出任务集。详见[评测协议](evals/protocol.json)。 |
+| 隐私 / 第三方权利 / 浏览器运行时 | 分别为 **PARTIAL / BLOCKED / OPEN**。详见[安全说明](SECURITY.md)、[第三方来源说明](THIRD_PARTY_NOTICES.md)和[发布门槛](docs/RELEASE-GATES.md)。 |
 
-完整证据和发布门槛见[发布门槛](docs/RELEASE-GATES.md)、[评测说明](docs/EVALUATION.md)和[宿主验证](INSTALL.md)。
+这张表把工具检查、宿主行为和独立效果评测分开记录。当前证据不能证明设计质量提升、支持全部 Agent 或完整符合 WCAG。研究背景和评测计划见[评测说明](docs/EVALUATION.md)。
 
 ## 安全与仓库导航
 
@@ -120,8 +98,8 @@ python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
 
 - [Skill 入口与路由参考](skills/glasspring/)
 - [设计工作流和范围](docs/ARCHITECTURE.md)
-- [评测计划和基准研究](docs/EVALUATION.md)
+- [评测计划和研究背景](docs/EVALUATION.md)
 - 来源和素材审查：[PROVENANCE.md](PROVENANCE.md)、[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
-- 安装、贡献与安全指引：[INSTALL.md](INSTALL.md)、[CONTRIBUTING.md](CONTRIBUTING.md)、[SECURITY.md](SECURITY.md)
+- 安装、贡献和安全指引：[INSTALL.md](INSTALL.md)、[CONTRIBUTING.md](CONTRIBUTING.md)、[SECURITY.md](SECURITY.md)
 
 根目录的 [MIT 许可证](LICENSE)仅适用于贡献者有权授权的项目自有内容，不会清除第三方文本、代码或素材的权利问题。

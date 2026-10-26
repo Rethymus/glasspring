@@ -1,20 +1,20 @@
 # glasspring
 
-[English] · [简体中文](README.zh-CN.md)
+[English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring is an installable Agent Skill for creating, restyling, and reviewing responsive web interfaces.** For a new page, it guides a coding agent to produce `tokens.css`, `preview.html`, and `design-notes.md`. It routes bundled reference cards by product type, industry, platform, and stack, and provides helpers for selected checks. The cards are static; the repository has no built-in pipeline that studies live products and turns observations into design guidance. Its default design voice is Apple-inspired; the user's brief and existing design system take priority, and glass is optional.
+Glasspring is an installable Agent Skill for responsive web-interface work. It packages task instructions, static reference cards, and optional local checks for new previews, restyles, focused edits, and review-only requests. For a new standalone web preview, its workflow targets `tokens.css`, `preview.html`, and `design-notes.md`.
 
-> Public source preview; not ready for a stable release. See the [current evidence and release gates](docs/RELEASE-GATES.md).
+> Public source preview; a stable release is **BLOCKED**. See the [release gates](docs/RELEASE-GATES.md).
 
-## Coffee storefront worked example
+## Coffee storefront example
 
-This fictional page is a **manual, Glasspring-guided example of the same task brief below**. Its source delivers the three-file contract: [`tokens.css`](examples/coffee-storefront/tokens.css), [`preview.html`](examples/coffee-storefront/preview.html), and [`design-notes.md`](examples/coffee-storefront/design-notes.md). It is not an agent-host session, an independent efficacy result, or a replay of the incomplete public pilot protocol. See the [example notes](examples/coffee-storefront/README.md) for scope and evidence.
+This fictional storefront is a **manual example prepared with Glasspring's reference and check workflow**. It follows the task brief below and includes the three-file preview contract. It is not a recorded agent-host session, an independent efficacy result, or a replay of the incomplete public pilot.
 
-The storefront and product details are fictional. Its bag updates local page state and subtotal only; it does not place orders or take payments.
+The page and products are fictional. The bag changes local page state and subtotal only; it does not place orders or take payments.
 
 <p align='center'><img src='examples/coffee-storefront/shots/coffee-storefront-desktop.png' alt='Full-page desktop screenshot of the fictional Morrow Coffee storefront.' width='100%'><br>Desktop page at 1440px</p>
 
-<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: add coffee, open the bag, increase quantity to two, and remove the item.' width='100%'><br>Local shopping-bag interaction; it demonstrates the page behavior, not agent discovery or efficacy.</p>
+<p align='center'><img src='examples/coffee-storefront/interaction.gif' alt='Five-frame local interaction: add coffee, open the bag, increase quantity to two, and remove the item.' width='100%'><br>Local shopping-bag interaction, not evidence of agent discovery or efficacy.</p>
 
 <details>
   <summary>View the mobile layout and open bag state</summary>
@@ -28,38 +28,24 @@ Run the example from the repository root:
 python -m http.server 8000 --directory examples/coffee-storefront
 ~~~
 
-Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffee-storefront/) include the preview, tokens, design notes, and image provenance.
+Then open http://127.0.0.1:8000/preview.html. The [example files](examples/coffee-storefront/) include the page, tokens, design notes, and asset provenance.
 
-## Task modes in the skill
+## What it does
 
-| Request | Intended work |
+| Request | Intended workflow |
 |---|---|
-| New web page | Create a responsive preview with tokens.css, preview.html, and design-notes.md |
-| Full restyle | Change an existing web UI, then review the changed states and record decisions |
+| New standalone web preview | Select relevant references, build a page, and deliver `tokens.css`, `preview.html`, and `design-notes.md` |
+| Full restyle | Change the existing app and token entrypoint, then record before/after evidence |
 | Small UI edit | Preserve the current design system and check the affected area |
-| Review | Report findings without editing files |
+| Review only | Return findings without editing files |
 
-For native apps, games, and mini-programs, the current skill produces a web preview unless a separate platform implementation is available and tested.
+The reference cards are static. Glasspring does not capture live products or turn research observations into design guidance. Its default material and motion guidance is Apple-inspired; the brief and existing design system take priority, and glass effects are optional. The checks cover selected rules and behaviors; they do not rate overall design quality or certify full WCAG conformance.
 
-## Workflow
-
-Glasspring is instruction-led rather than a hosted generator. The agent selects relevant reference cards and helper commands for the task; a person still reviews the result and decides what to ship.
-
-~~~mermaid
-flowchart LR
-    A['Brief and current design system'] --> B['Select relevant reference cards']
-    B --> C['Coding agent builds, edits, or reviews the UI']
-    C --> D['Selected local checks and screenshots']
-    D --> E['Human review and delivery']
-~~~
-
-An optional stdio MCP server exposes some helper tools. Registration is manual, and integration inside a production host has not been verified.
-
-The checks cover selected rules and behaviors. They do not certify design quality, every interaction, or complete WCAG conformance.
+For native apps, games, and mini-programs, the current workflow produces a web preview unless a separate platform implementation is available and tested. An optional stdio MCP server exposes some helpers; registration is manual, and production-host integration is unverified.
 
 ## Install and try
 
-Clone the repository, then install into a disposable project. From the repository root, preview the copy operation with --dry-run:
+Clone the repository and preview the install into a disposable project. Replace `PATH_TO_PROJECT` with a path valid for your shell:
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git
@@ -68,11 +54,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-For Claude Code, use --host claude. Replace PATH_TO_PROJECT with a project directory on your machine. See [installation and host verification](INSTALL.md), including backup and restore behavior.
-
-The installer and checks have been run with Node.js 22 and Python 3.12. Browser probes also need Chromium and network access to fetch axe-core.
-
-Start a new host session after installation. Check whether it lists Glasspring, ask it to use the skill for one small task, and record whether it reads the installed file and follows the instructions. A successful file copy alone does not prove discovery or task behavior.
+Use `--host claude` for the Claude Code project directory. The installer copies files; that alone does not prove a host discovered or followed the skill. See [installation and host verification](INSTALL.md) for backup, restore, and host evidence.
 
 Try Glasspring with this task:
 
@@ -91,28 +73,24 @@ python skills/glasspring/scripts/verify_output.py --selftest
 python skills/glasspring/scripts/mcp_server.py --selftest
 ~~~
 
-These validate selected helper logic and package behavior; they do not run a model or establish that an agent will follow the skill.
-
-For a generated run directory, you can also check the output structure and selected static rules:
+For a generated run directory, check its output structure and selected static rules:
 
 ~~~sh
 python skills/glasspring/scripts/doctor.py --target "PATH_TO_RUN"
 ~~~
 
-This check does not measure design quality or verify every interaction.
+These commands validate selected helper logic and package behavior. They do not run an agent or establish that a host will discover and follow the skill. The axe check in `probe_render.py` needs Chromium and network access to fetch axe-core; a run without axe has reduced coverage.
 
 | Area | Recorded status |
 |---|---|
-| Main CI | **PASS** for the recorded Windows, macOS, and Ubuntu checks; this does not test an agent session. [Run details](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
-| Historical full audit suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP; exit code 1. This remains an unresolved contrast finding. |
-| Follow-up browser sample gate | **PASS, bounded**: 11 sample directories from an isolated copy of the original workspace all passed at 390px and 1440px; 0 FAIL, 0 SKIP, exit code 0, using the gate at commit `add83a497f08793ffd1fc364417bd8dc4cdc9d82`. One existing slop warning remains. This gate does not rerun the historical contrast task or establish design quality. The sample inputs are not in the public repository, so a fresh clone cannot reproduce it (**INSUFFICIENT_EVIDENCE** for public replay). |
-| Host behavior | **PARTIAL**: one Codex session listed skill metadata (**PASS**); reading the installed skill and task behavior remain **UNKNOWN**; Claude discovery and task behavior are **NOT_RUN**. |
-| Independent efficacy | **NOT_RUN**. The public [protocol](evals/protocol.json) is incomplete and lacks referenced palette/component-library inputs and fixed host/model/budget values; replay is **INSUFFICIENT_EVIDENCE**. |
-| Privacy review | **PARTIAL**; see [security notes](SECURITY.md). |
-| Third-party rights | **BLOCKED** pending file-level source, license, and authority review; see [third-party notices](THIRD_PARTY_NOTICES.md). |
-| Browser runtime dependency | **OPEN**: a probe fetches axe-core from a CDN without a pinned integrity value or offline policy. |
+| Public `main` CI | **PASS** for recorded Windows, macOS, and Ubuntu checks; it does not test an agent session. [Run details](https://github.com/Rethymus/glasspring/actions/runs/40198893762) |
+| Historical full audit suite | **FAIL**: 12 PASS, 1 contrast FAIL, 1 expected negative-control row, and 2 network SKIP across 16 rows; exit code 1. The contrast finding remains open, and the sample inputs are not in this repository. |
+| Follow-up browser sample gate | **PASS, bounded** on 11 private sample directories at 390px and 1440px; 0 FAIL and 0 SKIP. A public replay is **INSUFFICIENT_EVIDENCE** because the inputs are not included. It does not close the historical contrast finding or establish design quality. |
+| Host behavior | **PARTIAL**: one Codex session listed skill metadata (**PASS**); installed-file reading and task behavior remain **UNKNOWN**; Claude discovery and task behavior are **NOT_RUN**. |
+| Independent efficacy | **NOT_RUN**; public replay is **INSUFFICIENT_EVIDENCE**. The public pilot lacks referenced palette/component-library inputs, fixed host/model/budget values, and a holdout task set. See the [protocol](evals/protocol.json). |
+| Privacy / third-party rights / browser runtime | **PARTIAL / BLOCKED / OPEN**, respectively. See [security notes](SECURITY.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [release gates](docs/RELEASE-GATES.md). |
 
-The full evidence and release criteria are in [release gates](docs/RELEASE-GATES.md), [evaluation notes](docs/EVALUATION.md), and [host verification](INSTALL.md).
+The evidence table distinguishes tool checks from host behavior and independent efficacy. Do not infer improved design quality, support for every agent, or full WCAG conformance from these results. See [evaluation notes](docs/EVALUATION.md) for the study plan and research context.
 
 ## Safety and project files
 
