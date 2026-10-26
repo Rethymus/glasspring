@@ -2,15 +2,15 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring 是一个有明确设计立场的项目级 Agent Skill，面向响应式网页界面工作。**它引导编程 Agent 新建预览、整体改版、局部 UI 修改或只读审查，并按任务路由到随附的设计参考和选定的本地检查。默认指导采用受 Apple 风格启发的起点；用户需求和既有设计系统优先，玻璃效果可选。
+**Glasspring 是一个面向响应式网页界面的项目级 Agent Skill。**它引导编程 Agent 新建预览、整体改版、局部 UI 修改或只读审查。对于新预览或整体改版，它会按产品类型、领域或风格、平台和技术栈路由到相关参考，再指导设计方向、令牌、实现、视口检查和定向验证。默认材质与动效指导受 Apple 启发；用户 brief 和现有设计系统优先，玻璃效果可选。
 
-本仓库遵循开放的 [Agent Skills 格式](https://agentskills.io/specification)；格式符合规范本身不能证明宿主会发现或遵循该 Skill。
+仓库遵循开放的 [Agent Skills 格式](https://agentskills.io/specification)。该格式规定宿主激活 Skill 时会加载完整的 `SKILL.md`；之后 Glasspring 才要求 Agent 阅读不超过三份核心设计参考，具体任务指南和平台适配文件可能增加阅读量。这是路由要求，不代表已经测得 token 节省或效果提升；不同宿主的加载行为尚未全面验证。参考内容是静态文件；Glasspring 不会浏览真实产品并自动生成参考卡片。原生 App、游戏和小程序的代码交付不在已验证范围内。
 
-> **公开源码预览 · 稳定版 BLOCKED。** 保留的第三方材料尚未完成再分发权利审查。详见[发布门槛](docs/RELEASE-GATES.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。
+> **公开源码预览 · 稳定版 BLOCKED。** 保留的第三方材料尚未完成来源与再分发权利审查。再次分发源码或安装副本前，请阅读[发布门槛](docs/RELEASE-GATES.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。
 
 ## 咖啡售卖页示例
 
-这是一个按 Glasspring 指导手工整理的示例，不是全新 Agent 宿主会话的运行结果，也不能证明 Skill 会提升效果。商品均为虚构；购物袋只在页面内更新状态，不支持结账或支付。[设计说明](examples/coffee-storefront/design-notes.md)记录了已检查和仍未验证的内容。
+这是人工整理的示例，展示响应式页面和仅在本地生效的购物袋交互。示例 brief 指定了奶油色、浓咖啡色和陶土色；当前页面选择了分栏主视觉和三张商品卡。它不是全新 Agent 宿主会话的运行结果，也不能证明 Glasspring 会提升设计效果。[设计说明](examples/coffee-storefront/design-notes.md)记录了路由选择和检查结果。
 
 <p align="center"><img src="examples/coffee-storefront/shots/coffee-storefront-desktop.png" alt="虚构的 Morrow Coffee 售卖页桌面全页截图。" width="100%"><br>1440px 桌面页面</p>
 
@@ -22,7 +22,7 @@
   <p align="center"><img src="examples/coffee-storefront/shots/coffee-storefront-bag-open.png" alt="已打开的购物袋，包含两件 House Blend、小计 36 美元和本地演示说明。" width="100%"></p>
 </details>
 
-示例包含 **390px 和 1440px** 两种视口截图。记录显示：输出契约 **6/6 PASS**、样式扫描 **0 条发现**、选定对比度 **7 组 PASS**、Playwright 交互冒烟检查 **PASS**。禁用 axe 的渲染探测结果为 **UNKNOWN**（退出码 2）；自动化 axe 检查为 **NOT_RUN**。这些结果只适用于此示例。
+仅针对这个示例：输出契约 **6/6 条款 PASS**、**7 组指定对比度 PASS**、Playwright 购物袋交互冒烟检查 **PASS**、样式扫描 **0 条发现**。渲染探测为 **UNKNOWN**（退出码 2）；axe 覆盖为 **NOT_RUN**。这些结果不能证明完全符合 WCAG、整体视觉质量或 Skill 的效果提升。
 
 在仓库根目录启动页面：
 
@@ -32,22 +32,9 @@ python -m http.server 8000 --directory examples/coffee-storefront
 
 访问 <http://127.0.0.1:8000/preview.html>。可查看[预览源码](examples/coffee-storefront/preview.html)、[设计令牌](examples/coffee-storefront/tokens.css)和[完整检查记录](examples/coffee-storefront/design-notes.md)。
 
-## Skill 可以指导哪些工作
+## 安装和试用
 
-- **新建预览：**引导 Agent 交付 `tokens.css`、`preview.html`、`design-notes.md`，并在 `shots/` 下保存桌面和移动端 PNG。工作流要求实现前先提出三个不同方向。
-- **整体改版：**引导 Agent 在现有应用中修改，并记录修改前后的证据。
-- **局部 UI 修改：**引导 Agent 按比例做出符合现有设计系统的改动，只检查改动区域。
-- **只读审查：**引导 Agent 检查并报告，不编辑文件。
-
-新建预览和整体改版会按产品类型、领域或风格、平台及技术栈路由参考。仓库包含选定配色的对比度计算、启发式样式扫描、新建预览输出契约检查、浏览器截图和交互探测，以及可选的 stdio MCP 服务器。MCP 需手动配置，尚未验证其与生产宿主的集成。
-
-设计参考用于指导原则和模式，不是复制某个产品界面或素材的指令。Glasspring 不会自动把线上产品观察转成新的参考卡片。原生 App、游戏和小程序的代码交付不在已验证范围内。
-
-## 安装与试用
-
-请先安装到一次性项目。将 `PATH_TO_PROJECT` 替换为项目路径。记录中的检查使用 Node.js 22.14 和 Python 3.12；这不代表最低版本要求。
-
-安装器会复制完整 Skill，包括参考文件。安装不会授予再分发保留第三方材料的权利；分享已安装副本前，请阅读[第三方声明](THIRD_PARTY_NOTICES.md)。
+请克隆仓库，并先安装到一次性项目。安装器使用 Node.js，辅助工具使用 Python。记录中的检查使用 Node.js 22.14 和 Python 3.12；这两者是已测试版本，不是声明的最低版本要求。
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git
@@ -56,7 +43,7 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host codex
 ~~~
 
-安装到 Claude Code 项目时使用 `--host claude`。安装器会将 Skill 复制到 `.agents/skills/glasspring` 或 `.claude/skills/glasspring`。文件复制检查不能证明宿主会发现或执行 Skill。安装限制、备份和移除方法见[安装与宿主验证](INSTALL.md)。
+请将 `PATH_TO_PROJECT` 替换为当前终端可用的路径。安装到 Claude Code 项目时使用 `--host claude`。安装器会将 Skill 和参考文件复制到 `.agents/skills/glasspring` 或 `.claude/skills/glasspring`；文件复制成功不能证明宿主会发现或遵循 Skill。备份、移除和当前宿主证据见[安装与宿主验证](INSTALL.md)。
 
 安装后，在新的编程 Agent 会话中试试：
 
@@ -66,9 +53,20 @@ node skills/glasspring/scripts/install.mjs --target "PATH_TO_PROJECT" --host cod
 
 这是一条示例请求，不是已记录的宿主运行或基准评测结果。
 
-## 检查与当前证据
+## 任务模式和工具
 
-在仓库根目录运行本地检查：
+| 任务 | Skill 会如何指导 |
+|---|---|
+| 新建预览 | 提出三个设计方向，创建语义化令牌、独立页面、设计说明和窄屏/桌面截图；新预览输出契约只适用于此模式。 |
+| 整体改版 | 在现有应用和令牌系统内修改，并记录修改前后的证据。 |
+| 局部 UI 修改 | 保留现有系统，并按改动范围做相称检查。 |
+| 只读审查 | 检查并报告，不编辑项目文件。 |
+
+仓库包含 `SKILL.md` 工作流、静态参考、辅助脚本和可选的 stdio MCP 服务器。参考内容用于指导，不是复制特定产品界面或素材的指令。MCP 需要手动配置，尚未验证生产宿主集成。浏览器探针需要 Chromium；可选 axe 检查会从 CDN 获取 axe-core 4.10.2。工具以调用者权限运行，不是沙箱；浏览器检查可能执行目标页面代码。详见[安全说明](SECURITY.md)。
+
+## 当前证据与限制
+
+证据快照日期：**2026-10-26**。仓库自检用于检查包和辅助工具，不评定 Agent 生成的设计。
 
 ~~~sh
 python -m unittest discover -s tests -v
@@ -77,29 +75,24 @@ python skills/glasspring/scripts/verify_output.py --selftest
 python skills/glasspring/scripts/mcp_server.py --selftest
 ~~~
 
-这些命令检查仓库代码，不评定 Agent 生成的设计。现有项目证据仍有明确边界：
-
-| 范围 | 状态 |
+| 范围 | 已记录状态 |
 |---|---|
-| 历史完整审计 | **FAIL / INCOMPLETE**：12 项 PASS、1 项真实对比度失败、1 项预期负向对照、2 项 SKIP；对比度问题仍未解决。 |
-| 隐私审查 | **PARTIAL**：目前只有启发式文本扫描；未执行专用密钥扫描，也未完整审查二进制文件和 Git 历史。 |
+| 安装器文件复制 | Windows、macOS、Linux CI 中 **PASS**；宿主发现和任务行为需要单独验证。 |
 | Codex 宿主 | Skill 元数据可见性 **PASS**；读取安装后的文件和任务行为 **UNKNOWN**。 |
-| Claude Code 宿主 | 全新会话发现和任务行为 **NOT_RUN**。 |
-| 独立效果评测 | **NOT_RUN (DESIGNED_NOT_EXECUTED)**；公开试点不是隐藏留出集，两个任务所需输入缺失，评分也未单独衡量视觉差异度或记录 token 成本和 Skill 使用覆盖。详见[评测说明](docs/EVALUATION.md)。 |
+| Claude Code 宿主 | 全新会话发现和任务行为 **NOT_RUN**；其他宿主 **NOT_RUN**。 |
+| 历史完整样本审计 | **FAIL / INCOMPLETE**：12 项 `PASS`、1 项真实对比度 `FAIL`、1 项预期负向对照、2 项 `SKIP`；历史输入未包含在本仓库中。 |
+| 独立效果比较 | **NOT_RUN**。公开试点不是隐藏留出集；缺少两个任务输入，也没有分别衡量视觉差异度、token 成本或 Skill 使用覆盖。 |
+| 隐私审查 | **PARTIAL**：仅完成启发式文本扫描；未运行专用密钥扫描，也未完整检查二进制文件和 Git 历史。 |
 | 浏览器依赖完整性 | **OPEN**：axe-core 从 CDN 获取，尚无固定完整性校验值或离线覆盖策略。 |
-| 稳定版发布 | 仍有未解除的发布门槛，状态为 **BLOCKED**。 |
+| 来源与第三方权利 | **BLOCKED**，直至完成保留材料的来源和再分发义务审查。 |
 
-证据和解除条件见[发布门槛](docs/RELEASE-GATES.md)、[评测说明](docs/EVALUATION.md)、[公开试点评测协议](evals/protocol.json)、[来源说明](PROVENANCE.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。目前不宣称该 Skill 能提升设计质量、兼容所有 Agent 宿主或完全符合 WCAG。
+详细证据和解除条件见[发布门槛](docs/RELEASE-GATES.md)、[评测说明](docs/EVALUATION.md)、[公开试点评测协议](evals/protocol.json)、[来源说明](PROVENANCE.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。目前没有证据证明 Glasspring 提升整体设计质量、适用于所有 Agent 宿主或完全符合 WCAG。
 
-## 安全与许可证
+## 许可证和项目结构
 
-工具以调用者权限运行，不是沙箱。浏览器探测可能执行目标网页代码；可选的 axe 检查会从 CDN 下载 axe-core。请仅在可信项目中运行，并阅读[安全说明](SECURITY.md)。
+仓库包含 [MIT 许可证](LICENSE)，但该许可证不授予贡献者无权授权的第三方材料。请查看[第三方声明](THIRD_PARTY_NOTICES.md)；权利门槛解除前，稳定版仍为 **BLOCKED**。“受 Apple 启发”仅说明一种视觉起点，不代表与 Apple 存在关联。
 
-仓库包含 [MIT 许可证](LICENSE)，但保留的第三方文本、代码和素材仍需完成权利审查。仓库许可证不会自动解决这些来源义务。
-
-## 项目导航
-
-- [可安装的 Skill](skills/glasspring/)：入口说明、路由参考、脚本和模板。
-- [咖啡售卖页](examples/coffee-storefront/)：手工示例和检查记录。
-- [架构](docs/ARCHITECTURE.md)、[评测](docs/EVALUATION.md)和[发布门槛](docs/RELEASE-GATES.md)：产品范围与证据。
+- [可安装的 Skill](skills/glasspring/)：工作流、路由参考、脚本和模板。
+- [咖啡售卖页](examples/coffee-storefront/)：人工整理的示例及其证据记录。
+- [架构](docs/ARCHITECTURE.md)、[评测](docs/EVALUATION.md)和[发布门槛](docs/RELEASE-GATES.md)。
 - [贡献指南](CONTRIBUTING.md)、[安全说明](SECURITY.md)、[来源说明](PROVENANCE.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。
