@@ -6,7 +6,7 @@
 
 本仓库遵循开放的 [Agent Skills 格式](https://agentskills.io/specification)；格式符合规范本身不能证明宿主会发现或遵循该 Skill。
 
-> **公开源码预览 · 稳定版 BLOCKED。** 第三方内容权利审查仍未完成。详见[发布门槛](docs/RELEASE-GATES.md)。
+> **公开源码预览 · 稳定版 BLOCKED。** 保留的第三方材料尚未完成再分发权利审查。详见[发布门槛](docs/RELEASE-GATES.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。
 
 ## 咖啡售卖页示例
 
@@ -46,6 +46,8 @@ python -m http.server 8000 --directory examples/coffee-storefront
 ## 安装与试用
 
 请先安装到一次性项目。将 `PATH_TO_PROJECT` 替换为项目路径。记录中的检查使用 Node.js 22.14 和 Python 3.12；这不代表最低版本要求。
+
+安装器会复制完整 Skill，包括参考文件。安装不会授予再分发保留第三方材料的权利；分享已安装副本前，请阅读[第三方声明](THIRD_PARTY_NOTICES.md)。
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git

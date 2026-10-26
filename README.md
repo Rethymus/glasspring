@@ -6,7 +6,7 @@
 
 The package follows the open [Agent Skills format](https://agentskills.io/specification); format compliance alone does not prove that a host discovers or follows the Skill.
 
-> **Public source preview · stable release BLOCKED.** Third-party rights review is still open. See [release gates](docs/RELEASE-GATES.md).
+> **Public source preview · stable release BLOCKED.** Redistribution rights for retained third-party material are not cleared. See the [release gates](docs/RELEASE-GATES.md) and [third-party notices](THIRD_PARTY_NOTICES.md).
 
 ## Coffee storefront example
 
@@ -46,6 +46,8 @@ The references are bundled guidance for principles and patterns, not instruction
 ## Install and try it
 
 Start in a disposable project. Replace `PATH_TO_PROJECT` with its path. Node.js 22.14 and Python 3.12 are the versions used in the recorded checks; they are not declared minimums.
+
+The installer copies the standalone Skill, including its references. Installing does not grant rights to redistribute retained third-party material; review [third-party notices](THIRD_PARTY_NOTICES.md) before sharing an installed copy.
 
 ~~~sh
 git clone https://github.com/Rethymus/glasspring.git
