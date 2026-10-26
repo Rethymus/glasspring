@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring is a project-level Agent Skill for responsive web-interface work.** Its instructions guide an agent to choose among the bundled static references by product type, domain, and platform, and to use stack-specific guidance where a matching guide exists. It then selects optional local or browser checks. A new standalone preview uses the three-file contract: `tokens.css`, `preview.html`, and `design-notes.md`.
+**Glasspring is a project-level Agent Skill for designing, restyling, or reviewing responsive web interfaces.** It routes work to bundled static references by product type, domain, style, and platform; reads stack-specific guidance when applicable; and runs task-appropriate local checks plus browser checks when available. A new standalone preview uses the three-file contract: `tokens.css`, `preview.html`, and `design-notes.md`.
 
 > Public source preview. A stable release is **BLOCKED** while third-party rights, independent efficacy, host behavior, and browser-runtime dependency controls remain unresolved. See the [release gates](docs/RELEASE-GATES.md).
 

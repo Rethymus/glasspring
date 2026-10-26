@@ -2,7 +2,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-**Glasspring 是一个安装到项目中的 Agent Skill，面向响应式网页界面工作。**它指引 Agent 按产品类型、业务领域和平台，从仓库现有的静态参考中选择内容；有匹配资料时再使用技术栈专属指南，然后按需运行本地或浏览器检查。新建独立预览时，交付 `tokens.css`、`preview.html` 和 `design-notes.md` 三个文件。
+**Glasspring 是一个安装到项目中的 Agent Skill，用于设计、改版或审查响应式网页界面。**它会按产品类型、领域、风格和平台路由到仓库的静态参考，按需读取技术栈专属指南，并运行适合任务的本地检查；浏览器工具可用时再执行浏览器检查。新建独立预览时，交付 `tokens.css`、`preview.html` 和 `design-notes.md` 三个文件。
 
 > 当前为公开源码预览。第三方权利、独立效果评测、宿主行为和浏览器运行时依赖尚未解决，稳定版发布状态为 **BLOCKED**。详见[发布门槛](docs/RELEASE-GATES.md)。
 
