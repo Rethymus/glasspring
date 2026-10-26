@@ -5,7 +5,7 @@
 
 ## 0. The three questions (answer before animating)
 
-1. **Does this interaction happen frequently?** (scroll, typing, list updates) → **no animation.** Apple: "avoid adding motion to UI interactions that occur frequently." **频带量化**（emilkowalski/skills 49.3k★ animate 深读 2026-10-24，与 HIG 定性规则互证）：**100+ 次/日**（快捷键/命令面板）→ 永不动画；**数十次/日**（hover、列表导航）→ 仅近不可觉的快而小；**偶发**（模态/抽屉/toast）→ 标准动画；**罕见/首次**（onboarding/庆祝）→ 愉悦预算所在。**键盘触发的动作是硬性否决，不是判断题**。
+1. **Does this interaction happen frequently?** (scroll, typing, list updates) → default to no motion. Apple advises generally avoiding custom motion in frequently repeated app interactions ([HIG Motion](https://developer.apple.com/design/human-interface-guidelines/motion)). The bands below are project heuristics adapted from [Emil Kowalski's `animate` Skill at a pinned revision](https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md#L31-L37), not measured user thresholds: **100+ times/day** (keyboard shortcuts/command palette) → no animation; **tens/day** (hover/list navigation) → near-imperceptible and fast, or none; **occasional** (modal/drawer/toast) → standard motion; **rare/first-time** (onboarding/celebration) → use sparingly. Keyboard-initiated actions are this project's default no-motion rule, not a platform requirement.
 2. **Is it a data update?** Chart refresh, log line arrival, score tick → **replace in place, no animation.** Animating data changes causes misreading (devtools/BI/security consensus).
 3. **Is motion the only signal?** Then add a text/state signal too — "Make motion optional" + `prefers-reduced-motion` must render the end state.
 
@@ -26,13 +26,13 @@ Bounce scale: 0 = critically damped, 1 = undamped oscillation, −1 = max overda
 - Use CSS `linear()` for: state transitions, entrances, toggles — anything with a fixed start and end.
 - Use a JS spring integrator (Motion library or ~20 lines of semi-implicit Euler) for: drag releases, swipe cards, pull-to-refresh — anything that must continue the gesture's velocity.
 - Never fake a gesture with CSS: a drag-release that restarts from zero reads as broken.
-- **Gesture-direction consistency (HIG Motion, confirmed 2026-10-18)**: motion must mirror the gesture that caused it — "if someone reveals a view by sliding it down from the top, they don't expect to dismiss the view by sliding to the side". Dismissal springs follow the opening gesture's axis, not a convenient default.
-- **Supplement channels (HIG Motion)**: visual feedback should be paired with haptics (native packs) or audio where the platform supports it — "avoid using motion as the only way to communicate important information" applies doubly when the visual is transient.
+- **Gesture-direction consistency**: keep dismissal motion consistent with the opening gesture when that helps preserve spatial expectations (a paraphrase of [Apple HIG Motion](https://developer.apple.com/design/human-interface-guidelines/motion)).
+- **Do not rely on motion alone for important information**: keep a visible or textual state cue; add haptics or audio only when useful and available for the target platform ([Apple HIG Motion](https://developer.apple.com/design/human-interface-guidelines/motion)).
 
 ## 3. Duration guidance (NN/g; Apple gives parameter-based, not fixed-duration, guidance)
 
 - Feedback: ~100ms. Small state changes: 150–250ms. Large panels/regions: 300ms. 500ms absolute ceiling.
-- **Per-component bands**（emilkowalski/skills 49.3k★ animate SKILL.md 深读 2026-10-24，与 NN/g 分带互证细化）：button press 100–160ms / tooltip·小 popover 125–200ms / dropdown·select 150–250ms / modal·drawer 200–500ms / **stagger 30–80ms 间隔**；UI 动画一律 <300ms（模态上限 500）。
+- **Per-component duration references** (adapted from the pinned [animate Skill](https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/animate/SKILL.md#L101-L110), not universal or user-study thresholds): button press 100–160ms, tooltip/small popover 125–200ms, dropdown/select 150–250ms, and modal/drawer 200–500ms. The source gives a general <300ms UI recommendation while listing 200–500ms for modals/drawers; treat the longer timings as case-specific. Use a short stagger only when it supports reading order, and never block interaction; no fixed stagger band is claimed here.
 - Entrances slightly longer than exits (300 in / 200–250 out). Fast start, gentle settle — spring curves do this naturally.
 - "150ms micro-interaction" style folklore attributed to Apple is unverified — cite springs, not magic durations.
 - **缓动方向按情境**（同源 2026-10-24）：入/出场 ease-out；屏上移动/形变 ease-in-out；hover/颜色变化 `ease`（即时跟随）；匀速运动（marquee/进度）linear；**ease-in 永不用于 UI 入场**——它推迟用户正注视的时刻（弹簧曲线自带此性质，勿再叠加 easing）。非弹簧过渡的参考曲线：`cubic-bezier(0.23, 1, 0.32, 1)`（自定义 ease-out——内置关键字曲线偏弱）。
