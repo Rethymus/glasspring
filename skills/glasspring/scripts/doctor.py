@@ -23,7 +23,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = ["check_contrast.py", "spring_convert.py", "slop_scan.py", "verify_output.py",
            "probe_render.py", "deal_direction.py", "token_emit.py", "run_init.py",
            "notes_draft.py", "visual_diff.py", "mcp_server.py",
-           "divergence_report.py"]
+           "divergence_report.py", "observe_follow.py"]
 
 
 def run(cmd: list[str]) -> tuple[int, str, float]:
