@@ -13,6 +13,7 @@
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, lstatSync, renameSync, realpathSync } from "node:fs";
 import { basename, dirname, join, resolve, relative, isAbsolute } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execSync } from "node:child_process";
 import { tmpdir } from "node:os";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
@@ -54,6 +55,18 @@ function canonicalizeAllowingMissingTail(path) {
       tail.unshift(basename(probe));
       probe = parent;
     }
+  }
+}
+
+function sourceRevision() {
+  // Skill copies drift from their source (Skill Constellations finding:
+  // copied skills rarely track upstream). Printing the source commit makes
+  // an install reproducible and auditable.
+  try {
+    return execSync("git rev-parse HEAD", { cwd: skillRoot, stdio: ["ignore", "pipe", "ignore"] })
+      .toString().trim();
+  } catch {
+    return "not-a-git-checkout";
   }
 }
 
@@ -99,6 +112,7 @@ function install(targetDir, dryRun, host = "codex", replace = false) {
     if (existsSync(dest)) { renameSync(dest, backup); backedUp = true; }
     renameSync(staging, dest);
     console.log(`installed: ${files.length} files, ${refs} references verified for ${host}; restart the host and verify discovery separately`);
+    console.log(`source revision: ${sourceRevision()} — record it with this install for reproducibility`);
     if (backedUp) console.log(`backup: ${backup}`);
     return { dest, count: files.length, backup: backedUp ? backup : null };
   } catch (e) {
