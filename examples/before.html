@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- ⚠️ 本文件是【故意的】反面教材：逐条具象化 glasspring SKILL.md §3 anti-slop 清单的典型 AI 默认款。
+     对照 examples/after.html（同一 brief、全门禁通过）。不要把这里的写法当推荐。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — 开发者分析平台</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Inter, sans-serif; color: #0F172A; }
+.hero { min-height: 100vh; background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 55%, #4c1d95 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px; }
+.hero h1 { font-family: "Space Grotesk", sans-serif; font-size: 56px; color: #fff; letter-spacing: -0.05em; }
+.hero .eyebrow { text-transform: uppercase; letter-spacing: 0.3em; color: rgba(255,255,255,.75); font-size: 12px; margin-bottom: 16px; }
+.hero p { color: rgba(255,255,255,.8); font-size: 18px; max-width: 560px; margin-top: 20px; }
+.cta { margin-top: 32px; background: #fff; color: #6d28d9; border: none; padding: 14px 36px; border-radius: 999px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.cta2 { margin-top: 12px; background: transparent; color: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.4); padding: 14px 36px; border-radius: 999px; font-size: 16px; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+.card { background: #fff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+.card .icon { font-size: 32px; }
+.card h3 { font-size: 18px; margin: 16px 0 8px; }
+.card p { font-size: 14px; color: #94A3B8; line-height: 1.6; }
+.meta { text-align: center; color: #94A3B8; font-size: 13px; padding: 16px; }
+.links { display: flex; gap: 24px; justify-content: center; padding: 24px; }
+.links a { color: #6d28d9; text-decoration: none; font-size: 15px; }
+.nav { position: sticky; top: 0; z-index: 9999; display: flex; justify-content: space-between; padding: 16px 24px; background: rgba(255,255,255,.7); backdrop-filter: blur(12px); }
+.nav .logo { font-family: "Space Grotesk", sans-serif; font-weight: 700; }
+@media (max-width: 768px) { .features { grid-template-columns: 1fr; } .hero h1 { font-size: 36px; } }
+</style>
+</head>
+<body>
+<nav class="nav"><span class="logo">⚡ Pulse</span><span style="color:#6d28d9">登录</span></nav>
+<header class="hero">
+  <div class="eyebrow">Developer Analytics</div>
+  <h1>洞察你的产品增长</h1>
+  <p>Pulse 为现代团队提供实时产品分析 — 强大 — 易用 — 开箱即用</p>
+  <button class="cta">免费开始</button>
+  <button class="cta2">预约演示 →</button>
+</header>
+<section class="features">
+  <div class="card"><div class="icon">📊</div><h3>实时仪表盘</h3><p>毫秒级延迟的数据流，让你的每一次发布都有数据回响</p></div>
+  <div class="card"><div class="icon">🔒</div><h3>企业级安全</h3><p>SOC2 合规，端到端加密，权限管理一丝不苟</p></div>
+  <div class="card"><div class="icon">🚀</div><h3>极速接入</h3><p>一行代码完成埋点，五分钟看到第一份报告</p></div>
+</section>
+<div class="meta">Design · Analytics · Insights · 5 min read ·</div>
+<div class="links"><a href="#">了解定价 →</a><a href="#">查看文档 →</a><a href="#">加入社区 →</a></div>
+</body>
+</html>
