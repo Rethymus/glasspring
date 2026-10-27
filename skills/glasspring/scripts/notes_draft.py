@@ -91,8 +91,14 @@ def ref_anchor(ref: str) -> tuple[str, str]:
             head = f.read(2000)
     except OSError:
         return path, "（无法读取文件头）"
+    return path, _anchor_note(head)
+
+def _anchor_note(head: str) -> str:
+    """§8 anchor note for a reference-file header. A dated Last-verified line
+    is extracted when present; a missing stamp is an honest prompt to open
+    and confirm, never a fabricated date."""
     m = re.search(r"Last verified:\s*(\d{4}-\d{2}-\d{2})", head)
-    return path, (f"Last verified {m.group(1)}" if m else "（文件头未标 Last-verified——打开确认）")
+    return f"Last verified {m.group(1)}" if m else "（文件头未标 Last-verified——打开确认）"
 
 
 def build_draft(run_dir: str, pairs: list[dict], skipped: list[str],
@@ -193,11 +199,17 @@ def selftest() -> int:
         draft = build_draft(td, pairs, skipped, slop, ["tokens.md", "motion.md"], None, "selftest")
         secs = re.findall(r"^## §(\d)", draft, re.M)
         check(secs == [str(i) for i in range(9)], f"draft: §0-§8 ordered ({secs})")
-        check("机械生成" in draft and "cream_hex" in draft and "Last verified" in draft,
-              "draft: measured §4 + live §6 + dated §8 all present")
+        check("机械生成" in draft and "cream_hex" in draft
+              and ("Last verified" in draft or "文件头未标" in draft),
+              "draft: measured §4 + live §6 + §8 anchors present (dated or honest fallback)")
         check("待填" in draft, "draft: judgment slots present")
+        check(_anchor_note("> Last verified: 2026-10-25") == "Last verified 2026-10-25",
+              "anchor: dated header extracted")
+        check(_anchor_note("# motion.md — no stamp") == "（文件头未标 Last-verified——打开确认）",
+              "anchor: missing stamp falls back to honest prompt")
         path, note = ref_anchor("motion.md")
-        check(path and note.startswith("Last verified"), f"anchor: motion.md → {note}")
+        check(path and (note.startswith("Last verified") or "未标" in note),
+              f"anchor: repo motion.md dated or honest fallback ({note[:40]})")
     print("notes_draft selftest:", "ALL PASS" if ok else "FAILED")
     return 0 if ok else 1
 
