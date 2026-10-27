@@ -65,6 +65,7 @@
 - **三击升级律**（Cursor 2.0 生产纪律 2026-10-23，按错误粒度细化三轮循环）：同一文件同一错误**最多修三次**——三次未果即停下换路线或问用户，禁第四次盲目重试（Cursor 原文："DO NOT loop more than 3 times on fixing linter errors on the same file. On the third time, you should stop and ask the user"）；重试前**重读文件**（用户可能已改动——漂移感知的文件级投影）
 - **截图-文档同步三查**（XIAS screenshot_docs.mjs 深读 2026-10-24）：README 引用图与磁盘双向对账——**声明缺失**（脚本声明但磁盘无）/**悬空引用**（README 引用但图不存在）/**孤儿图**（磁盘有但无 README 行展示它）三 FAIL；命名=描述性 kebab-case+theme 后缀（dashboard-dark.png）；**确定性拍摄**（固定视口+显式 data-theme+reduce 模拟+**鼠标停泊 2,2 防悬停泄漏**）；--check 只证集合完整不证新鲜度——视觉变更后重拍，"Now LOOK at them before committing"
 - **目检带意图**（agent-vision-toolkit 1.2k★ 深读 2026-10-24）：看截图前先写下**这次要看什么**（意图提取→焦点提示）——「检查对比度」的目检与「泛看一眼」产出天差；目检问题清单化（对齐/密度/层级/断点各一问）
+- **成本可观测**（效率即失败面，Agent Skills Can Be Harmful 2026-10 复核）：记录本轮**耗时**（doctor 末行 elapsed 自动给出）与**token 成本量级**（会话消耗或估算）——过度验证是 skill 的已知失败类别（307 例中 182 例效率回归），每轮门禁开销须可见可审计；此行由 notes_draft 不可代填，**终稿必填**
 - **终检复跑律**（unlazy 4.1k★ --reverify 纪律 2026-10-22）：交付前在**最终工件上全部门禁重跑一遍**——早期 pass 声明不继承（修复过程中门禁状态会漂移）；design-notes 里引用的每个数字来自最后一轮运行
 - **对抗式目检律**（XIAS v2.10 /critique 机制 2026-10-22）：**"过门禁永远不是品味的证据"**——目检由未见 maker 推理的批评者执行（分身/子代理只看截图，立场=论证拒绝该交付）；批评者的**召回率用播种缺陷校准**（在过全部门禁的页面里埋已知缺陷，抓不到即批评者失格）。有 visual-judge 类代理时用它替代自评 rubric，无则至少换视角自问"这套页面里哪三处最像模板"
 

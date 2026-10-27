@@ -17,18 +17,21 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = ["check_contrast.py", "spring_convert.py", "slop_scan.py", "verify_output.py",
            "probe_render.py", "deal_direction.py", "token_emit.py", "run_init.py",
-           "notes_draft.py", "visual_diff.py", "mcp_server.py"]
+           "notes_draft.py", "visual_diff.py", "mcp_server.py",
+           "divergence_report.py"]
 
 
-def run(cmd: list[str]) -> tuple[int, str]:
+def run(cmd: list[str]) -> tuple[int, str, float]:
+    t0 = time.monotonic()
     p = subprocess.run([sys.executable, *cmd], capture_output=True, text=True,
                        encoding="utf-8", errors="ignore", timeout=180)
     tail = "\n".join((p.stdout + p.stderr).strip().splitlines()[-2:])
-    return p.returncode, tail
+    return p.returncode, tail, time.monotonic() - t0
 
 
 def main() -> int:
@@ -44,18 +47,21 @@ def main() -> int:
     a = ap.parse_args()
 
     failures = 0
+    elapsed = 0.0
     print("== glasspring doctor ==")
 
     print("-- tool selftests --")
     if not a.skip_selftest or a.selftest:
         for s in SCRIPTS:
-            rc, tail = run([os.path.join(HERE, s), "--selftest"])
+            rc, tail, dt = run([os.path.join(HERE, s), "--selftest"])
+            elapsed += dt
             print(f"  [{'OK' if rc == 0 else 'FAIL'}] {s}: {tail}")
             failures += rc != 0
         ps = [os.path.join(HERE, "preview_shot.py"), "--selftest"]
         if not a.live:
             ps.append("--no-live")
-        rc, tail = run(ps)
+        rc, tail, dt = run(ps)
+        elapsed += dt
         print(f"  [{'OK' if rc == 0 else 'FAIL'}] preview_shot.py ({'live' if a.live else 'offline'}): {tail}")
         failures += rc != 0
     else:
@@ -73,16 +79,19 @@ def main() -> int:
               "Pass --target <run-dir> for a meaningful verdict.")
 
     print(f"-- slop scan: {a.target} --")
-    rc, tail = run([os.path.join(HERE, "slop_scan.py"), a.target])
+    rc, tail, dt = run([os.path.join(HERE, "slop_scan.py"), a.target])
+    elapsed += dt
     print(f"  [{'OK' if rc == 0 else 'FAIL'}] {tail}")
     failures += rc != 0
 
     print(f"-- output contract: {a.target} --")
-    rc, tail = run([os.path.join(HERE, "verify_output.py"), a.target])
+    rc, tail, dt = run([os.path.join(HERE, "verify_output.py"), a.target])
+    elapsed += dt
     print(tail)
     failures += rc != 0
 
     print(f"== doctor mechanical checks: {'PASS' if failures == 0 else f'{failures} incomplete or failing check(s)'} ==")
+    print(f"elapsed: {elapsed:.1f}s — record this and the run's token cost in design-notes §6 (cost observability)")
     print("This does not certify screenshot freshness, usability, WCAG conformance, or independent design improvement.")
     return 1 if failures else 0
 
