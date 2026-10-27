@@ -3,7 +3,7 @@
 
 Catches a bug class where content VISIBILITY is gated behind
 an animation completing. A slow device or a fast capture engine sees an empty
-focal element. Four passes, each a fresh page load:
+focal element. Render passes, each a fresh page load:
 
   A  natural state   — inject `animation:none` everywhere. Every text-bearing
                        element must be visible. FAIL = the §4a gatekeeper rule
@@ -26,6 +26,12 @@ focal element. Four passes, each a fresh page load:
                        2.x A/AA tags. critical/serious → FAIL; moderate/minor
                        → WARN. CDN unreachable or integrity mismatch → honest SKIP (passes A-C
                        still cover the motion contracts).
+  F  screen economy  — render-time economy signals (flat-spacing monotony,
+                       one-sided accent borders). WARN-level data.
+  G  horizontal overflow — documentElement.scrollWidth vs clientWidth at the
+                       probed width, 1px tolerance, widest offenders named
+                       (XIAS verify_overflow semantics). FAIL: content must
+                       not be wider than the viewport.
 
 Reuses preview_shot.py's stdlib CDP machinery (no playwright, no node).
 Exit codes: 0 pass (warnings allowed) / 1 fail / 2 no browser found or UNKNOWN (incomplete coverage).
@@ -410,6 +416,58 @@ def run_economy(cdp, sid, url, settle):
         return None
 
 
+OVERFLOW_JS = r"""
+(function () {
+  function sel(el) {
+    var parts = [], e = el, depth = 0;
+    while (e && e.nodeType === 1 && e.tagName !== 'BODY' && depth < 4) {
+      var p = e.tagName.toLowerCase();
+      if (e.id) { parts.unshift(p + '#' + e.id); break; }
+      if (e.classList && e.classList.length) p += '.' + e.classList[0];
+      var k = 1, s = e;
+      while ((s = s.previousElementSibling)) k++;
+      parts.unshift(p + ':nth-of-type(' + k + ')');
+      e = e.parentElement; depth++;
+    }
+    return parts.join('>');
+  }
+  var de = document.documentElement, vw = de.clientWidth;
+  var pageOver = de.scrollWidth - vw;
+  var offenders = [];
+  if (pageOver > 1) {
+    var els = document.querySelectorAll('body *');
+    for (var i = 0; i < els.length && offenders.length < 8; i++) {
+      var el = els[i];
+      var cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) === 0) continue;
+      var r = el.getBoundingClientRect();
+      if (r.width < 2 && r.height < 2) continue;
+      var oh = Math.round(Math.max(r.right - vw, -r.left));
+      if (oh > 1) offenders.push({sel: sel(el), over: oh,
+                                  text: (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 24)});
+    }
+    offenders.sort(function (a, b) { return b.over - a.over; });
+  }
+  return {pageOver: pageOver, viewport: vw, offenders: offenders};
+})()
+"""
+
+
+def run_overflow(cdp, sid, url, settle):
+    """Pass G: horizontal overflow at the probed width (XIAS verify_overflow
+    semantics: 1px tolerance, widest offenders named). FAIL-level: content
+    must not be wider than the viewport."""
+    try:
+        cdp.call("Page.navigate", {"url": url}, session=sid)
+        cdp.wait_event("Page.domContentEventFired", timeout=20, session=sid)
+        time.sleep(settle)
+        r = cdp.call("Runtime.evaluate", {"expression": OVERFLOW_JS, "returnByValue": True},
+                     timeout=15, session=sid)
+        return r["result"]["result"].get("value")
+    except Exception:
+        return None
+
+
 def classify(natural: list[dict], frozen: list[dict], reduced: list[dict],
              reduce_anim_count: int) -> tuple[list, list, list, int]:
     """A failures are hard (§4a gatekeeper); B is informational (diff vs the
@@ -489,10 +547,14 @@ def probe(url: str, settle: float = 0.8, with_axe: bool = True,
             vac = None
         vacuous = is_vacuous_render(vac)
         e_fail = None
-        eco = None
+        eco = run_economy(cdp, sid, url, settle)  # pass F: render-based, axe-independent
+        ov = run_overflow(cdp, sid, url, settle)  # pass G: horizontal overflow at this width
+        if eco is None:
+            eco = {}
+        if ov is not None:
+            eco["overflow"] = ov
         if with_axe:  # Pass E rides the same session after D
             e_fail = run_click_fingerprint(cdp, sid, url, settle)
-            eco = run_economy(cdp, sid, url, settle)
         a_ser = a_min = None
         if with_axe:
             # run_axe returns None on honest skip (CDN unreachable / axe not
@@ -608,10 +670,26 @@ def main() -> int:
             print(f"  [F-WARN flat-spacing] {eco['flatSpacing']} boxes share one padding signature")
         for s in eco.get("oneSidedAccent", [])[:8]:
             print(f"  [F-WARN one-sided-accent] {s}")
+    ov = eco.get("overflow") if isinstance(eco, dict) else None
+    g_fail = False
+    if ov is None:
+        print("  [G-UNKNOWN] overflow observation unavailable at this width")
+    elif ov.get("pageOver", 0) > 1:
+        g_fail = True
+        print(f"  [G-FAIL horizontal-overflow] document is {ov['pageOver']}px wider than the {ov.get('viewport', '?')}px viewport")
+        for off in (ov.get("offenders") or [])[:5]:
+            print(f"         +{off['over']}px  {off['sel']}" + (f"  «{off['text']}»" if off.get("text") else ""))
+    else:
+        print("  [G-PASS] no horizontal overflow at the probed width")
     print(f"summary: A {len(a_fail)} fail, B {len(b_warn)} time-gated, C {len(c_fail) + (1 if rac else 0)} fail, "
           f"D {len(a_ser or [])} fail + {len(a_min or [])} warn, E {len(e_fail or [])} click-fail"
           + ("  — see motion.md §4a (动画永不作为内容守门员)" if len(a_fail) + len(c_fail) else ""))
     status = coverage_verdict(a_fail, c_fail, rac, a_ser, e_fail, vacuous, a.axe)
+    if g_fail:
+        status = dict(status, verdict="FAIL",
+                      overflow="content wider than the viewport at the probed width")
+    elif ov is not None:
+        status = dict(status, overflow="no horizontal overflow at the probed width")
     print("coverage: " + json.dumps(status))
     return {"PASS": 0, "FAIL": 1, "UNKNOWN": 2}[status["verdict"]]
 
@@ -699,6 +777,11 @@ PAGE_A11Y_BROKEN = """<!DOCTYPE html><html lang="en"><head><title>a11y broken</t
 </body></html>"""
 
 
+PAGE_OVERFLOW = """<!DOCTYPE html><html lang="en"><head><title>overflow page</title></head><body style="margin:0">
+<div style="width:2400px;height:40px;background:#ddd">wide trailing box</div>
+</body></html>"""
+
+
 def selftest() -> int:
     fails = []
 
@@ -711,6 +794,7 @@ def selftest() -> int:
     check("NATURAL_CSS kills animations", "animation:none" in NATURAL_CSS)
     check("PAUSED_CSS freezes clock", "animation-play-state:paused" in PAUSED_CSS)
     check("AUDIT_JS balanced braces", AUDIT_JS.count("{") == AUDIT_JS.count("}"))
+    check("OVERFLOW_JS balanced braces", OVERFLOW_JS.count("{") == OVERFLOW_JS.count("}"))
 
     if not find_browser():
         print("SKIP (no Chromium-family browser found) — offline anchors still green")
@@ -729,6 +813,9 @@ def selftest() -> int:
         check("OK page: pass C clean (reduce handled)", len(red) == 0 and rac == 0,
               f"hidden={red} animating={rac}")
         check("OK page: pass D clean (no serious axe violations)", a_ser == [], str(a_ser))
+        ov_ok = (eco or {}).get("overflow")
+        check("OK page: pass G clean (no horizontal overflow)",
+              ov_ok is not None and ov_ok["pageOver"] <= 1, str(ov_ok))
     except Exception as e:
         check("OK page probe", False, f"{type(e).__name__}: {e}")
 
@@ -749,6 +836,16 @@ def selftest() -> int:
               rac >= 1, f"animating under reduce: {rac}")
     except Exception as e:
         check("RM-BROKEN page probe", False, f"{type(e).__name__}: {e}")
+
+    try:
+        nat, froz, red, rac, a_ser, a_min, e_fail, vacuous, eco = run(PAGE_OVERFLOW, "overflow")
+        ov = (eco or {}).get("overflow")
+        check("OVERFLOW page: pass G catches page wider than viewport",
+              ov is not None and ov["pageOver"] > 1, str(ov))
+        check("OVERFLOW page: pass G ranks the widest offender",
+              ov is not None and (ov["offenders"] or [{}])[0].get("over", 0) >= 900, str(ov))
+    except Exception as e:
+        check("OVERFLOW page probe", False, f"{type(e).__name__}: {e}")
 
     try:
         nat, froz, red, rac, a_ser, a_min, e_fail, vacuous, eco = run(PAGE_A11Y_BROKEN, "a11y")
