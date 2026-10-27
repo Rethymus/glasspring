@@ -22,7 +22,7 @@
 
 | id | item | status | exit criteria |
 |---|---|---|---|
-| P0-1 | Rights review of retained third-party material | BLOCKED → triage list below | every inventory row ends CLOSED (rights cleared) or REMOVED (material gone) |
+| P0-1 | Rights review of retained third-party material | TRIAGED 2026-10-27: 7/9 rows CLOSED with 6-gram diff evidence (docs/P0-1-TRIAGE-2026-10-27.md); 1 optional (pin XIAS upstream license); 1 narrow open (Apple HIG verbatim spot-check — developer.apple.com unreachable) | remaining: Apple spot-check, XIAS license pin, human sign-off on the triage record |
 | P0-2 | Runtime dependency integrity | CLOSED for axe-core | re-audit whenever any new runtime fetch is added |
 
 ### P0-1 rights inventory and triage
