@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- Pulse 定价页 · 同一 brief 的 glasspring 全流程交付。
+     对照 examples/before.html（默认 AI 款）。本文件通过：对比度 --pairs 全表 PASS、slop_scan 0 hard/warn、双视口截图。 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse 定价，为开发者团队的分析平台</title>
+<style>
+:root {
+  /* tokens · 从品牌种子（墨 #22252B + 琥珀 oklch(0.55 0.11 70)）推导；定价页=信任区，全实底 */
+  --bg: #FAF9F6; --surface: #FFFFFF; --ink: #22252B; --ink-2: #565B66; --ink-3: #6C727C;
+  --line: #E5E2DB; --accent: #9A5B12; --accent-ink: #7A4708; --cta: #22252B; --cta-text: #FAF9F6;
+  --good: #1E6B45;
+  --font-sans: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Consolas, "JetBrains Mono", monospace;
+  --z-sticky: 40;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 16px; --sp-4: 24px; --sp-5: 40px; --sp-6: 64px; --sp-7: 96px;
+  --radius: 10px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--bg); color: var(--ink); line-height: 1.7; font-size: 16px; }
+.nav { position: sticky; top: 0; z-index: var(--z-sticky); display: flex; justify-content: space-between; align-items: center;
+  padding: var(--sp-3) var(--sp-4); background: var(--bg); border-bottom: 1px solid var(--line); }
+.logo { font-weight: 700; letter-spacing: -0.02em; }
+.logo svg { vertical-align: -3px; margin-right: 6px; }
+.nav a.signin { color: var(--ink-2); text-decoration: none; padding: var(--sp-2) var(--sp-3); border-radius: var(--radius); }
+main { max-width: 1080px; margin: 0 auto; padding: 0 var(--sp-4); }
+.hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--sp-6); align-items: end; padding: var(--sp-7) 0 var(--sp-6); }
+h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.2; letter-spacing: -0.02em; text-wrap: balance; }
+.hero .kicker { color: var(--accent-ink); font-size: 14px; font-weight: 600; margin-bottom: var(--sp-3); }
+.hero .sub { color: var(--ink-2); margin-top: var(--sp-3); max-width: 44ch; }
+.billing { display: flex; align-items: center; gap: var(--sp-2); font-size: 14px; color: var(--ink-2); justify-self: end; padding-bottom: var(--sp-2); }
+.billing button { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--radius); cursor: pointer; min-height: 36px; transition: border-color 150ms var(--ease-out), color 150ms var(--ease-out); }
+.billing button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); font-weight: 600; }
+.tiers { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: var(--sp-4); align-items: stretch; padding-bottom: var(--sp-6); }
+.tier { border-radius: var(--radius); padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-3); }
+.tier-side { background: transparent; border: 1px solid var(--line); }
+.tier-hot { background: var(--ink); color: var(--cta-text); }
+.tier h2 { font-size: 17px; font-weight: 600; }
+.tier .for { font-size: 13px; color: var(--ink-3); }
+.tier-hot .for { color: #B9BEC7; }
+.price { font-family: var(--font-mono); font-size: 40px; letter-spacing: -0.02em; line-height: 1.1; }
+.price small { font-size: 14px; font-family: var(--font-sans); color: var(--ink-3); letter-spacing: 0; }
+.tier-hot .price small { color: #B9BEC7; }
+.tier ul { list-style: none; display: grid; gap: var(--sp-2); font-size: 14px; color: var(--ink-2); }
+.tier-hot ul { color: #D6D9DF; }
+.tier li { display: flex; gap: var(--sp-2); align-items: baseline; }
+.tier li svg { flex: none; translate: 0 2px; }
+.tier .cta-btn { margin-top: auto; text-align: center; text-decoration: none; font-weight: 600; font-size: 15px;
+  padding: var(--sp-3); border-radius: var(--radius); min-height: 44px; display: grid; place-items: center;
+  border: 1px solid var(--ink); color: var(--ink); transition: background-color 150ms var(--ease-out); }
+.tier .cta-btn:hover { background: #EFEBE2; }
+.tier-hot .cta-btn { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tier-hot .cta-btn:hover { background: var(--accent-ink); border-color: var(--accent-ink); }
+.compare { padding-bottom: var(--sp-6); }
+.compare h2 { font-size: 22px; margin-bottom: var(--sp-4); text-wrap: balance; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+th, td { text-align: left; padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--line); }
+td.num, th.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+th { font-size: 13px; color: var(--ink-2); font-weight: 600; background: #F4F2EC; }
+tr:last-child td { border-bottom: none; }
+.faq { padding-bottom: var(--sp-7); max-width: 720px; }
+.faq h2 { font-size: 22px; margin-bottom: var(--sp-4); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; padding: var(--sp-3) 0; font-weight: 600; font-size: 15px; min-height: 44px; display: flex; align-items: center; }
+.faq p { padding: 0 0 var(--sp-3); color: var(--ink-2); font-size: 14px; }
+footer { border-top: 1px solid var(--line); padding: var(--sp-4); display: flex; justify-content: space-between; color: var(--ink-3); font-size: 13px; flex-wrap: wrap; gap: var(--sp-2); }
+footer a { color: var(--ink-2); text-decoration: none; }
+:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; border-radius: 4px; }
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: var(--sp-4); padding: var(--sp-6) 0; }
+  .billing { justify-self: start; }
+  .tiers { grid-template-columns: 1fr; }
+  .tier-hot { order: -1; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <span class="logo"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 12 L5 6 L8 9 L12 3 L15 7" stroke="#22252B" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Pulse</span>
+  <a class="signin" href="#">登录</a>
+</nav>
+<main>
+  <header class="hero">
+    <div>
+      <p class="kicker">定价</p>
+      <h1>按团队规模付费，不按事件量罚款</h1>
+      <p class="sub">所有档位含全部功能。差别只在事件量与协作席位。升级原因永远透明。</p>
+    </div>
+    <div class="billing" role="group" aria-label="计费周期">
+      <button aria-pressed="true">按月</button>
+      <button aria-pressed="false">按年 −20%</button>
+    </div>
+  </header>
+
+  <section class="tiers" aria-label="价格档位">
+    <div class="tier tier-side">
+      <h2>Starter</h2><p class="for">个人与 side project</p>
+      <p class="price">¥0<small> /月</small></p>
+      <ul>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#1E6B45" stroke-width="2" fill="none" stroke-linecap="round"/></svg>10 万事件/月</li>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#1E6B45" stroke-width="2" fill="none" stroke-linecap="round"/></svg>3 个仪表盘</li>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#1E6B45" stroke-width="2" fill="none" stroke-linecap="round"/></svg>社区支持</li>
+      </ul>
+      <a class="cta-btn" href="#">免费开始</a>
+    </div>
+    <div class="tier tier-hot">
+      <h2>Team</h2><p class="for">成长中的产品团队</p>
+      <p class="price">¥399<small> /月 · 含 10 席位</small></p>
+      <ul>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#8FD4AE" stroke-width="2" fill="none" stroke-linecap="round"/></svg>500 万事件/月，超出部分单价公开</li>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#8FD4AE" stroke-width="2" fill="none" stroke-linecap="round"/></svg>无限仪表盘与漏斗</li>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#8FD4AE" stroke-width="2" fill="none" stroke-linecap="round"/></svg>Slack / 飞书告警</li>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#8FD4AE" stroke-width="2" fill="none" stroke-linecap="round"/></svg>数据保留 24 个月</li>
+      </ul>
+      <a class="cta-btn" href="#">开始 14 天试用</a>
+    </div>
+    <div class="tier tier-side">
+      <h2>Enterprise</h2><p class="for">合规与规模需求</p>
+      <p class="price">定制<small> 年度合同</small></p>
+      <ul>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#1E6B45" stroke-width="2" fill="none" stroke-linecap="round"/></svg>私有化部署 / 专属 VPC</li>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#1E6B45" stroke-width="2" fill="none" stroke-linecap="round"/></svg>SSO / SCIM / 审计日志</li>
+        <li><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6 L5 9 L10 3" stroke="#1E6B45" stroke-width="2" fill="none" stroke-linecap="round"/></svg>专属解决方案工程师</li>
+      </ul>
+      <a class="cta-btn" href="#">联系销售</a>
+    </div>
+  </section>
+
+  <section class="compare">
+    <h2>三个档位，一张表说清</h2>
+    <table>
+      <thead><tr><th scope="col">能力</th><th scope="col" class="num">Starter</th><th scope="col" class="num">Team</th><th scope="col" class="num">Enterprise</th></tr></thead>
+      <tbody>
+        <tr><td>月事件量</td><td class="num">10 万</td><td class="num">500 万</td><td class="num">不限</td></tr>
+        <tr><td>协作席位</td><td class="num">1</td><td class="num">10（可加购）</td><td class="num">不限</td></tr>
+        <tr><td>数据保留</td><td class="num">3 个月</td><td class="num">24 个月</td><td class="num">自定义</td></tr>
+        <tr><td>告警渠道</td><td class="num">邮件</td><td class="num">邮件 + IM</td><td class="num">全渠道 + webhook</td></tr>
+        <tr><td>部署方式</td><td class="num">SaaS</td><td class="num">SaaS</td><td class="num">SaaS / 私有化</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="faq">
+    <h2>常见问题</h2>
+    <details><summary>超出事件量会怎样？</summary><p>不会停服、不自动扣费。当月按公开单价出账，次月可随时改档。账单里逐条列出超量明细。</p></details>
+    <details><summary>可以随时取消吗？</summary><p>可以。按月档随时取消，按年档未使用月份按比例退款，不需要联系客服。</p></details>
+    <details><summary>免费档限制多吗？</summary><p>功能全开，只有事件量与席位上限。个人项目通常用不到升级。</p></details>
+  </section>
+</main>
+<footer>
+  <span>© 2026 Pulse Analytics</span>
+  <span style="display:flex; gap:16px;"><a href="#">服务条款</a><a href="#">隐私政策</a><a href="#">数据处理协议</a></span>
+</footer>
+<script>
+document.querySelectorAll('.billing button[aria-pressed]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('.billing button[aria-pressed]').forEach(function (o) {
+      o.setAttribute('aria-pressed', 'false');
+    });
+    b.setAttribute('aria-pressed', 'true');
+  });
+});
+</script>
+</body>
+</html>
