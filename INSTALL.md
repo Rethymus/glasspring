@@ -26,6 +26,15 @@ Leave the parent `skills` directory in place because it may contain other skills
 
 After installing, start a new host session in the project. Confirm the skill is listed, invoke it by name, and verify that it reads the intended installed file. Then run one small task and retain the output and transcript. Installation alone is not a discovery or triggering test.
 
+Fresh-session evidence recorded 2026-10-27 (transcripts and artifacts retained in
+`docs/HOSTTEST-2026-10-27.md` of the working archive; summarized here):
+
+| Host / environment | Discovery | Invocation / following / boundary |
+|---|---|---|
+| Claude Code 2.1.39, fresh `claude -p` sessions, skill installed at `.claude/skills/` | **PASS** — session listed exactly `glassspring` | **PASS** — routed via the Skill tool; read SKILL.md + tokens.md + one domain pack (3-file budget held); skipped `glass.md` per its own gate; downgraded scope for a tokens-only task; helper execution permission-blocked, disclosed, and worked around with manual contrast math (spot-checked 4/4 pairs AA/AAA by `check_contrast.py`) |
+| Claude Code, skill present only in `.agents/skills/` | listed by one session | task session did not auto-load it — it expects `.claude/skills/`; use `--host claude` when installing for Claude Code |
+| Codex CLI 0.153.4, fresh `codex exec` sessions | positive indicator (skills context budget warning shows skills were scanned) | **BLOCKED at account level** — every model returned `model_not_found` ("not supported when using Codex with a ChatGPT account"); remains `UNKNOWN`, not a skill defect |
+
 | Host / environment | File-copy test | Fresh-session discovery | Task behavior |
 |---|---|---|---|
 | Codex project, Windows, one isolated fresh session | Passed | `PASS`: skill metadata appeared in the host list | `UNKNOWN`: a local execution policy blocked reading the installed skill file; no task output was produced |

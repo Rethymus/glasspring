@@ -46,7 +46,7 @@ against the pinned source, then either keep with the pinned notice or remove.
 
 | id | item | status | exit criteria |
 |---|---|---|---|
-| P1-1 | Fresh-session host tests: discovery, invocation, following, boundary — separately per host | Claude NOT_RUN; Codex task UNKNOWN | one recorded session per host with transcript + task output retained |
+| P1-1 | Fresh-session host tests: discovery, invocation, following, boundary — separately per host | **Claude PASS** (2026-10-27: discovery + invocation + following + boundary, incl. 3-file routing budget held and honest disclosure of a permission-blocked helper; see docs/HOSTTEST-2026-10-27.md). Codex discovery indicator positive; task behavior account-blocked (`model_not_found` for ChatGPT-account Codex) — UNKNOWN | one recorded session per host with transcript + task output retained; Codex task run still owed once model access works |
 | P1-2 | Confirmatory comparison on unseen holdout briefs (6×2×3, blind pairwise, distinctiveness scored separately, token/time recorded, all failures published) | NOT_RUN | results published per host/model with uncertainty; follow the seven implementation requirements in `docs/EVALUATION.md` |
 | P1-3 | Cost observability (elapsed time and cost line in design notes §6) | NOT_RUN | template updated and used in the next generated run |
 
